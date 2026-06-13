@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HomeViewComponent } from './components/home-view-component/home-view-component';
-import { CreateSurveyComponent } from './components/create-survey-component/create-survey-component';
+import { Surveys } from './services/surveys';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CreateSurveyComponent, HomeViewComponent],
+  imports: [RouterOutlet, HomeViewComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

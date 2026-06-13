@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Surveys } from '../../services/surveys';
+
 
 @Component({
   selector: 'app-home-view-component',
@@ -6,4 +8,6 @@ import { Component } from '@angular/core';
   templateUrl: './home-view-component.html',
   styleUrl: './home-view-component.scss',
 })
-export class HomeViewComponent {}
+export class HomeViewComponent {
+  surveysData = inject(Surveys);
+}

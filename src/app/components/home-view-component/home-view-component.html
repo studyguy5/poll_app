@@ -1,2 +1,40 @@
-<p>home-view-component works!</p>
-<h2>Hello world</h2>
+<!-- <p>home-view-component works!</p>
+<h2>Hello world</h2> -->
+<section class="main-section">
+    <img src="/assets/poll_appLogo.svg">
+    <div class="textInfoImgDiv">
+        <div class="leftSideText">
+            <h4>Collect Feedback, <br>
+                Unlock Ideas
+            </h4>
+            <p>Create and share surveys in minutes – from team events to workplace culture. Collect opinions, engage your audience, and turn feedback into action.</p>
+            <button>New survey</button>
+        </div>
+        <div class="rightSideImg">
+            <img src="/assets/smartphone_logo.svg">
+        </div>
+    </div>
+    <div class="survey-section">
+        <div class="headline">Your Surveys</div>
+        <div class="middle">Ending soon surveys</div>
+        <div class="surveys">
+            @if(surveysData){
+                @for (item of surveysData.surveys(); track item) {
+                    <div class="survey-card">
+                        <p>{{ item.title }}</p>
+                        <p>{{ item.description }}</p>
+                        <p>{{ item.deadline }}</p>
+                    </div>
+                }
+            }
+            <div class="filterArea">
+                <div class="activePastButtonArea">
+                    <button>Active survey</button>
+                    <button>past survey</button>
+                </div>
+                <div class="sort"></div>
+            </div>
+            
+        </div>
+    </div>
+</section>
