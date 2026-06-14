@@ -8,7 +8,7 @@
                 Unlock Ideas
             </h4>
             <p>Create and share surveys in minutes – from team events to workplace culture. Collect opinions, engage your audience, and turn feedback into action.</p>
-            <button>New survey</button>
+            <button [routerLink]="['newSurvey']">New survey</button>
         </div>
         <div class="rightSideImg">
             <img src="/assets/smartphone_logo.svg">
@@ -27,14 +27,31 @@
                     </div>
                 }
             }
+            
+        </div>
+        <div class="allSurveysArea">
             <div class="filterArea">
                 <div class="activePastButtonArea">
                     <button>Active survey</button>
                     <button>past survey</button>
                 </div>
-                <div class="sort"></div>
+                <div class="sortArea">
+                    <button class="sortedBy">Sort by categories
+                        <img src="/assets/arrow_drop_down.svg">
+                    </button>
+                </div>
             </div>
-            
+            <div class="listingSurveys">
+                @if(surveysData){
+                @for (item of surveysData.surveys(); track item) {
+                    <div class="survey-card">
+                        <p class="allTitle">{{ item.title }}</p>
+                        <p class="allDescription">{{ item.description }}</p>
+                        <p class="allDeadline">{{ item.deadline }}</p>
+                    </div>
+                }
+            }
+            </div>
         </div>
     </div>
 </section>

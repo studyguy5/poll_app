@@ -1,0 +1,179 @@
+
+body{
+    display:flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    margin: 0 auto;
+    height: unset;
+    // margin: 39px 111px 92px 111px;
+}
+
+.newSurveyWrapper{
+    display:flex;
+    flex-direction: column;
+    margin: 0 auto;
+    padding: 40px 54px;
+    max-width:1166px;
+    width:100%;
+    max-height:844px;
+    height:100%;
+    background-color: brown;
+    border-top-right-radius: 100px;
+    border-top-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+
+    >.firstPTag{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        padding: 3px 12px 3px 8px;
+        background-color:rgb(255, 183, 112);
+        border-top-right-radius:14px;
+        border-top-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+        border-bottom-left-radius: 0px;
+        font-family: 'Mulish', sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        color: rgb(0, 0, 0);
+        width:59px;
+        height: 26px;
+    }
+}
+
+.newSurveyForm{
+    display:flex;
+    width:1052px;
+    height:549px;
+    background-color: rgb(67,50,73);
+    padding: 33px 40px;
+    gap:64px;
+}
+
+.headlineButtonAria{
+    display:flex;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    >.headline{
+        font-family: 'Nerko One', sans-serif;
+        font-size: 56px;
+        color: rgb(255, 183, 112);
+        margin:0px;
+    }
+    >.cancelButton{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        width:108px;
+        height:40px;
+        gap:10px;
+        background-color:rgb(113,82,74);
+        border: 1px solid rgb(113,82,74);
+        border-radius: 10px;
+        color:white;
+        cursor: pointer;
+    }
+}
+
+.publishButton{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    align-self:flex-end;
+    width:99px;
+    height:48px;
+    padding: 12px 16px;
+    border: 1px solid rgb(255, 183, 112);
+    border-radius: 10px;
+    background-color: rgb(255, 183, 112);
+    cursor: pointer;
+}
+
+.mainDataOfSurvey{
+    display:flex;
+    // width:429px;
+    gap:64px;
+    >.nameDateAria{
+        display:block;
+        height:134px;    
+    }
+    >.SureName{
+        margin:0px;
+        width:429px;
+    }
+    >.setEndDate{
+        margin:0px;
+    }
+}
+
+.sureNameAria{
+    >p{
+        color:white;
+    }
+    width:100%;
+    // height:124px;
+    >.sureNameInputAndImg{
+        display:flex;
+        width:429px;
+        >.sureNameInput{
+            background-color:white;
+            width:439px;
+            border-radius: 5px 12px 5px 5px;
+            padding:0px 5px;
+            >input{
+                border:none;
+            }
+            >input:focus{
+                outline: none;
+            }
+        }
+    }
+    >img{
+        height:20px;
+        align-self:end;
+    }
+}
+.setEndDateArea{   
+    >p{
+        color:white;
+    } 
+    >img{
+        height:20px;
+        align-self:end;
+    }
+    >.sureNameInput{
+        background-color:white;
+    }
+    
+    >.setEndDateInputAndImg{
+        display:flex;
+    }
+}
+
+
+.descriptionAria{
+    width:452px;
+    height:134px;
+    >p{
+        margin:10px;
+        color:white;
+    }
+    >.textareaAndImg{
+        display:flex;
+        align-items: flex-start;
+        gap:8px;  
+        >.descriptionInput{
+            width:418px;
+            height:108px;
+            >textarea{
+                width:100%;
+                height:100%;
+                border-radius:5px 20px 5px 5px;
+            }
+            >textarea:focus{
+                outline: none;
+            }
+    }
+    }
+}

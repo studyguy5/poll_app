@@ -1,53 +1,56 @@
-
-body{
-    display:flex;
-    flex-direction:column;
-    box-sizing:border-box;
+body.home-body {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
     margin: 0 auto;
-    height:100vh;
-    margin:39px 111px 92px 111px;
-    
+    height: 100vh;
+    margin: 39px 111px 92px 111px;
+
 
 }
 
-.main-section{
-    margin-top:92px;
+.main-section {
+    margin-top: 92px;
     // width:100%;
-    max-width:1440px;
-    height:100%;
-    min-height:1032px;
-    display:flex;
-    flex-direction:column;
+    max-width: 1440px;
+    height: 100%;
+    min-height: 1032px;
+    display: flex;
+    flex-direction: column;
     margin: 0 auto;
-    >img{
-        width:119px;
-        height:46px;
+
+    >img {
+        width: 119px;
+        height: 46px;
     }
 }
 
-.textInfoImgDiv{
-    display:flex;
+.textInfoImgDiv {
+    display: flex;
 }
 
-.leftSideText{
-    width:60%;
-    margin-bottom:90px;
-    >h4{
-        font-size:100px;
+.leftSideText {
+    width: 60%;
+    margin-bottom: 90px;
+
+    >h4 {
+        font-size: 100px;
         font-family: 'Nerko One', sans-serif;
-        color:rgb(255,183,112);
-        margin:0px;
-        padding:0px;
-        margin-bottom:32px;
+        color: rgb(255, 183, 112);
+        margin: 0px;
+        padding: 0px;
+        margin-bottom: 32px;
     }
-    >p{
-        font-size:24px;
-        color:white;
+
+    >p {
+        font-size: 24px;
+        color: white;
         font-family: 'Mulish', sans-serif;
     }
-    >button{
+
+    >button {
         font-family: 'Nokora', sans-serif;
-        background-color:rgba(255, 207, 161, 1);
+        background-color: rgba(255, 207, 161, 1);
         padding: 12px 16px;
         border: 1px solid black;
         border-radius: 10px;
@@ -55,97 +58,211 @@ body{
     }
 }
 
-.rightSideImg{
-    width:40%;
-    display:flex;
-    justify-content:center;
-    align-items:start;
-    transition:all 0.5s ease-in-out;
-    >img{
-        
-        animation:changeback 0.5s ease-in-out forwards;
+.rightSideImg {
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    transition: all 0.5s ease-in-out;
+
+    >img {
+        animation: changeback 0.5s ease-in-out forwards;
     }
-    >img:hover{
-        animation:change 0.5s ease-in-out forwards;
-        // content:url('/assets/smartphone_logoHover.svg')
+
+    >img:hover {
+        animation: change 0.5s ease-in-out forwards;
     }
 }
 
 @keyframes change {
-    0%{
-        content:url('/assets/smartphone_logo.svg')
+    0% {
+        content: url('/assets/smartphone_logo.svg')
     }
-    100%{
-        content:url('/assets/smartphone_logoHover.svg')
+
+    100% {
+        content: url('/assets/smartphone_logoHover.svg')
     }
 }
 
 @keyframes changeback {
-    0%{
-        content:url('/assets/smartphone_logoHover.svg')
+    0% {
+        content: url('/assets/smartphone_logoHover.svg')
     }
-    100%{
-        content:url('/assets/smartphone_logo.svg')
+
+    100% {
+        content: url('/assets/smartphone_logo.svg')
     }
 }
 
-.survey-section{
-    display:flex;
-    flex-direction:column;
-    max-width:1440px;
-    align-items:center;
-    >.headline{
-        font-family:'Nerko One', sans-serif;
-        font-size:100px;
-        color:rgb(255,183,112);
+.survey-section {
+    display: flex;
+    flex-direction: column;
+    max-width:calc(1042px + 14px);
+    align-items: center;
+
+    >.headline {
+        font-family: 'Nerko One', sans-serif;
+        font-size: 100px;
+        color: rgb(255, 183, 112);
         margin-bottom: 56px;
     }
-    >.middle{
-        align-self:flex-start;
+
+    >.middle {
+        align-self: flex-start;
         font-family: 'Mulish', sans-serif;
-        font-size:32px;
-        color:white;
+        font-size: 32px;
+        color: white;
         margin-bottom: 32px;
     }
-    }
+}
 
-    .surveys{
-        display:flex;
-        flex-direction:row;
-        flex-wrap:wrap;
-        justify-content:space-between;
-        gap: 32px;
-        >.survey-card{
-            padding: 40px 44px 60px 44px;
-            background-color:white;
-            color:black;
-            width:321px;
-            height:310px;
-            font-family: 'Mulish', sans-serif;
-            font-size:24px;
-            margin-bottom: 40px;
+.surveys {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 32px;
+    max-height:310px;
+    overflow-y: hidden;
+    margin-bottom: 40px;
+
+    >.survey-card {
+        box-sizing: border-box;
+        padding: 40px 44px 60px 44px;
+        background-color: white;
+        color: black;
+        width: 321px;
+        height: 310px;
+        font-family: 'Mulish', sans-serif;
+        font-size: 24px;
+        cursor: pointer;
+        border: 1px solid black;
+        border-top-right-radius: 80px;
+    }
+}
+
+.filterArea {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1440px;
+    height: 25px;
+    margin-bottom:40px;
+
+    >.activePastButtonArea {
+        display: flex;
+        width: 249px;
+        gap: 24px;
+
+        >button {
             cursor: pointer;
-            border: 1px solid black;
-            border-top-right-radius: 80px;
+            padding: 2px 10px;
+            border-radius: 20px;
+        }
+
+        >button:first-child {
+            background-color: rgb(255, 183, 112);
+        }
+
+        >button:nth-child(2) {
+            background-color: rgba(255, 207, 161, 1);
         }
     }
 
-    .filterArea{
-        max-width:1440px;
-        height:25px;
-        >.activePastButtonArea{
-            display:flex;
-            width:249px;
-            gap:24px;
-            >button{
-                padding: 2px 10px;
-                border-radius:20px;
+    >.sortArea {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+
+        >.sortedBy {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: unset;
+            color: white;
+            background-color: transparent;
+            font-family: 'Mulish', sans-serif;
+            &:hover {
+                background-color: rgb(75, 71, 67);
+                border-radius: 6px;
             }
-            >button:first-child{
-                background-color:rgb(255,183,112);
-            }
-            >button:nth-child(2){
-                background-color:rgba(255, 207, 161, 1);
+            &:hover img {
+                content: url('/assets/arrow_drop_downYellow.svg');
             }
         }
     }
+}
+
+.allSurveysArea{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    max-width: calc(1042px + 14px);
+    width: 100%;
+}
+
+.listingSurveys::-webkit-scrollbar-track {
+    color: rgb(255, 183, 112);
+}
+
+.listingSurveys::-webkit-scrollbar {
+  width: 6px;
+}
+
+.listingSurveys{
+    display: grid;
+    justify-content: space-between;
+    grid-template-columns: repeat(2, 1fr);
+    max-height:413px;
+    max-width:calc(1042px + 14px);
+    scrollbar-width: thin;
+    scrollbar-color: rgb(255, 183, 112) transparent;   
+    padding: 0px 5px 0px 0px;
+    box-sizing:border-box;
+    gap:16px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    >.survey-card {
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        padding: 12px 20px;
+        background-color: rgb(66,52,70);
+        color: white;
+        width: 513px;
+        height: 127px;
+        font-family: 'Mulish', sans-serif;
+        font-size: 24px;
+        // margin-bottom: 40px;
+        cursor: pointer;
+        border: 1px rgb(66,52,70);
+        border-top-right-radius: 50px;
+        border-top-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+        >p{
+            margin: 0px;
+        }
+
+        >.allTitle{
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: rgba(255, 207, 161, 1);
+        }
+        >.allDescription{
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 4px;
+            color:white;
+        }
+        >.allDeadline{
+            align-self: flex-end;
+            font-size: 12px;
+            font-weight: 400;
+            background-color: rgb(255, 183, 112);
+            border: 1px solid rgb(14, 13, 12);
+        }
+    }
+}
