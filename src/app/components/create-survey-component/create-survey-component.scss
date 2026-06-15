@@ -1,6 +1,5 @@
-
-body{
-    display:flex;
+body {
+    display: flex;
     flex-direction: column;
     box-sizing: border-box;
     margin: 0 auto;
@@ -8,28 +7,29 @@ body{
     // margin: 39px 111px 92px 111px;
 }
 
-.newSurveyWrapper{
-    display:flex;
+.newSurveyWrapper {
+    display: grid;
     flex-direction: column;
     margin: 0 auto;
     padding: 40px 54px;
-    max-width:1166px;
-    width:100%;
-    max-height:844px;
-    height:100%;
-    background-color: brown;
+    max-width: 1135px;
+    width: 100%;
+    max-height: 844px;
+    height: 100%;
+    border: 1px solid rgb(238, 238, 238);
+    background-color: rgb(53,38,58);
     border-top-right-radius: 100px;
     border-top-left-radius: 5px;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
 
-    >.firstPTag{
-        display:flex;
+    >.firstPTag {
+        display: flex;
         justify-content: center;
         align-items: center;
         padding: 3px 12px 3px 8px;
-        background-color:rgb(255, 183, 112);
-        border-top-right-radius:14px;
+        background-color: rgb(255, 183, 112);
+        border-top-right-radius: 14px;
         border-top-left-radius: 0px;
         border-bottom-right-radius: 0px;
         border-bottom-left-radius: 0px;
@@ -37,143 +37,364 @@ body{
         font-size: 16px;
         font-weight: 700;
         color: rgb(0, 0, 0);
-        width:59px;
+        width: 59px;
         height: 26px;
     }
 }
 
-.newSurveyForm{
-    display:flex;
-    width:1052px;
-    height:549px;
-    background-color: rgb(67,50,73);
+.newSurveyForm {
+    display: flex;
+    width: 1052px;
+    height: 549px;
+    background-color: rgb(67, 50, 73);
+    border-top-right-radius: 100px;
     padding: 33px 40px;
-    gap:64px;
+    gap: 64px;
 }
 
-.headlineButtonAria{
-    display:flex;
+.headlineButtonAria {
+    display: flex;
     justify-content: space-between;
     margin-bottom: 32px;
-    >.headline{
+
+    >.headline {
         font-family: 'Nerko One', sans-serif;
         font-size: 56px;
         color: rgb(255, 183, 112);
-        margin:0px;
+        margin: 0px;
     }
-    >.cancelButton{
-        display:flex;
+
+    >.cancelButton {
+        display: flex;
         justify-content: center;
         align-items: center;
-        width:108px;
-        height:40px;
-        gap:10px;
-        background-color:rgb(113,82,74);
-        border: 1px solid rgb(113,82,74);
+        width: 108px;
+        height: 40px;
+        gap: 10px;
+        background-color: rgb(113, 82, 74);
+        border: 1px solid rgb(113, 82, 74);
         border-radius: 10px;
-        color:white;
+        color: white;
         cursor: pointer;
     }
 }
 
-.publishButton{
-    display:flex;
+.publishButton {
+    display: flex;
     justify-content: center;
     align-items: center;
-    align-self:flex-end;
-    width:99px;
-    height:48px;
+    justify-self: flex-end;
+    width: 99px;
+    height: 48px;
     padding: 12px 16px;
+    margin-top:28px;
     border: 1px solid rgb(255, 183, 112);
     border-radius: 10px;
     background-color: rgb(255, 183, 112);
     cursor: pointer;
 }
 
-.mainDataOfSurvey{
-    display:flex;
-    // width:429px;
-    gap:64px;
-    >.nameDateAria{
-        display:block;
-        height:134px;    
+.mainDataOfSurvey {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 64px;
+    height:545px;
+    >.nameDateAria {
+        display: block;
+        height: 134px;
+        width:463px;
     }
-    >.SureName{
-        margin:0px;
-        width:429px;
+
+    >.SureName {
+        margin: 0px;
+        width: 429px;
     }
-    >.setEndDate{
-        margin:0px;
+
+    >.setEndDate {
+        margin: 0px;
     }
 }
 
-.sureNameAria{
-    >p{
-        color:white;
+.sureNameAria {
+    >p {
+        color: white;
     }
     width:100%;
-    // height:124px;
-    >.sureNameInputAndImg{
-        display:flex;
-        width:429px;
-        >.sureNameInput{
-            background-color:white;
-            width:439px;
+
+    >.sureNameInputAndImg {
+        display: flex;
+        width: 463px;
+        gap: 8px;
+
+        >.sureNameInput {
+            background-color: white;
+            width: 439px;
+            height: 38px;
             border-radius: 5px 12px 5px 5px;
-            padding:0px 5px;
-            >input{
-                border:none;
+            padding: 0px 5px;
+
+            >input {
+                border: none;
             }
-            >input:focus{
+
+            >input:focus {
                 outline: none;
             }
         }
     }
-    >img{
-        height:20px;
-        align-self:end;
-    }
-}
-.setEndDateArea{   
-    >p{
-        color:white;
-    } 
-    >img{
-        height:20px;
-        align-self:end;
-    }
-    >.sureNameInput{
-        background-color:white;
-    }
-    
-    >.setEndDateInputAndImg{
-        display:flex;
+
+    >img {
+        height: 20px;
+        align-self: end;
     }
 }
 
-
-.descriptionAria{
-    width:452px;
-    height:134px;
-    >p{
-        margin:10px;
-        color:white;
+.setEndDateArea {
+    display: flex;
+    & img {
+        width: 24px;
+        height: 24px;
     }
-    >.textareaAndImg{
-        display:flex;
-        align-items: flex-start;
-        gap:8px;  
-        >.descriptionInput{
-            width:418px;
-            height:108px;
-            >textarea{
-                width:100%;
-                height:100%;
-                border-radius:5px 20px 5px 5px;
+}
+
+.dropdownMenuSite:has(.open) {
+    >button {
+        > img{
+            transition: all 0.5s ease-in-out;
+            transform: rotateZ(180deg);
+        }
+    }
+}
+.dropdownMenuSite {
+    display: block;
+    padding-top: 15px;
+    >button {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        padding: 4px 6px 4px 10px;
+        border-radius: 6px;
+        border-color: transparent;
+        height: 32px;
+        width: 206px;
+        color: white;
+        background-color: transparent;
+        cursor: pointer;
+        >img {
+            transition: all 0.5s ease-in-out;
+            transform: rotateZ(0deg);
+        }
+        &:hover {
+            background-color: rgba(73, 59, 77, 1);
+
+            >img {
+                content: url('/assets/arrow_drop_downYellow.svg');
             }
-            >textarea:focus{
+        }
+
+    }
+
+    >.dropDownList {
+        height: 0px;
+        width: 206px;
+        opacity: 0;
+        background-color: rgb(180, 145, 69);
+        transition:all 0.5s ease-in-out;
+        cursor: pointer;
+        &.open {
+            position:relative;
+            height:300px;
+            opacity:1;
+            z-index: 2;
+            transition:all 0.5s ease-in-out;
+        }
+    }
+}
+
+.inputFieldSite {
+    >p {
+        color: white;
+        align-self: center;
+    }
+
+    >img {
+        height: 20px;
+        align-self: end;
+    }
+
+    >.setEndDateInputAndImg {
+        display: flex;
+        align-items: center;
+        width: 222px;
+        gap: 8px;
+
+        >.setEndDateInput {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            width: 222px;
+            height: 37px;
+            border-radius: 5px 20px 5px 5px;
+
+            & input {
+                border: none;
+            }
+
+            & input:focus {
                 outline: none;
             }
+
+            & input::-webkit-datetime-edit {
+                color: white;
+            }
+        }
+
     }
+}
+
+
+.descriptionAria {
+    width: 452px;
+    height: 178px;
+
+    >p {
+        margin: 10px;
+        color: white;
+    }
+
+    >.textareaAndImg {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+
+        >.descriptionInput {
+            width: 418px;
+            height: 132px;
+
+            >textarea {
+                width: 100%;
+                height: 100%;
+                border-radius: 5px 20px 5px 5px;
+            }
+
+            >textarea:focus {
+                outline: none;
+            }
+        }
+    }
+}
+
+.headlineAndImg{
+    display:flex;
+    justify-content: space-between;
+    width:429px;
+    >.question{
+        font-family: 'Mulish', sans-serif;
+        font-size: 18px;
+        color:white;
+    }
+}
+
+.questionInput{
+    width: 429px;
+    height: 38px;
+    border-radius: 5px 12px 5px 5px;
+    padding: 0px 5px;
+    background-color:white;
+    box-sizing: border-box;
+    >input{
+        border: none;
+    }
+    >input:focus{
+        outline: none;
+    }
+}
+
+.answerHeadlineAndSetting{
+    display:flex;
+    width:429px;
+    >p{
+        color:white;
+        font-family: 'Mulish', sans-serif;
+        font-size: 18px;
+    }
+}
+
+.checkboxAndPtag{
+    display:flex;
+    justify-content: end;
+    align-items: center;
+    width:429px;
+    >p{
+        color:white;
+        font-family: 'Mulish', sans-serif;
+        font-size: 12px;
+    }
+}
+
+.answerBox{
+    display:flex;
+    width:425px;
+    margin-bottom:8px;
+    >.count{
+        display:flex;
+        align-items: center;
+        font-size:18px;
+        font-family: 'Mulish', sans-serif;
+        color:white;
+        margin-right:3.5px;
+    }
+    >.answerInput{
+        width:400px;
+        height: 38px;
+        border-radius: 5px 12px 5px 5px;
+        padding: 0px 5px;
+        background-color:white;
+        box-sizing: border-box;
+        margin-right:6px;
+        >input{
+            border: none;
+        }
+        >input:focus{
+            outline: none;
+        }
+    }
+    >.answerInput:nth-child(2){
+        margin-bottom:16px;
+    }
+}
+
+.addLink{
+    margin-left:30px;
+    text-decoration-line: underline;
+    text-decoration-color: white;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 5px;
+    color:white;
+    font-family: 'Mulish', sans-serif;
+    font-size: 16px;
+    border-bottom: 2px solid white;
+    cursor: pointer;
+    
+}
+
+.addQuestionButton{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    gap:8px;
+    width:195px;
+    height:40px;
+    border-radius: 10px;
+    background-color: rgb(123,90,84);
+    border: 1px solid rgb(123,90,84);
+    color:white;
+    font-family: 'Mulish', sans-serif;
+    font-size: 16px;
+    padding: 8px 12px;
+    cursor: pointer;
+    &:hover{
+        background-color: rgb(150, 117, 112);
     }
 }
