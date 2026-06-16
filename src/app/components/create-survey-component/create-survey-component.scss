@@ -1,8 +1,8 @@
-body {
+body.survey-body {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    margin: 0 auto;
+    margin: 0px;
     height: unset;
     // margin: 39px 111px 92px 111px;
 }
@@ -45,11 +45,28 @@ body {
 .newSurveyForm {
     display: flex;
     width: 1052px;
-    height: 549px;
+    height: 558px;
     background-color: rgb(67, 50, 73);
     border-top-right-radius: 100px;
     padding: 33px 40px;
     gap: 64px;
+    overflow-y: auto;
+}
+
+.newSurveyForm::-webkit-scrollbar {
+    width: 6px;
+}
+
+.newSurveyForm::-webkit-scrollbar-track {
+    background-color: rgb(67, 50, 73);
+    border-top-right-radius: 100px;
+    border-top-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.newSurveyForm::-webkit-scrollbar-thumb {
+    background-color: rgb(255, 183, 112);
 }
 
 .headlineButtonAria {
@@ -76,6 +93,9 @@ body {
         border-radius: 10px;
         color: white;
         cursor: pointer;
+        &:hover{
+            background-color: rgb(150, 117, 112);
+        }
     }
 }
 
@@ -84,20 +104,36 @@ body {
     justify-content: center;
     align-items: center;
     justify-self: flex-end;
-    width: 99px;
+    width: 79px;
     height: 48px;
-    padding: 12px 16px;
+    gap:8px;
+    padding: 12px 16px 12px 40px;
     margin-top:28px;
     border: 1px solid rgb(255, 183, 112);
     border-radius: 10px;
     background-color: rgb(255, 183, 112);
     cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    > img{
+        transition: all 0.3s ease-in-out;
+        opacity:0;
+    }
+    &:hover img{
+        transition: all 0.3s ease-in-out;
+        opacity:1;
+    }
+    &:hover{
+        transition: all 0.3s ease-in-out;
+        width:99px;
+        padding: 12px 16px 12px 20px;
+    }
 }
 
 .mainDataOfSurvey {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 64px;
+    column-gap: 64px;
+    row-gap: 32px;
     height:545px;
     >.nameDateAria {
         display: block;
@@ -105,7 +141,7 @@ body {
         width:463px;
     }
 
-    >.SureName {
+    >.SurveyName {
         margin: 0px;
         width: 429px;
     }
@@ -115,18 +151,24 @@ body {
     }
 }
 
-.sureNameAria {
+.surveyNameAria {
     >p {
         color: white;
     }
     width:100%;
 
-    >.sureNameInputAndImg {
+    >.surveyNameInputAndImg {
         display: flex;
         width: 463px;
         gap: 8px;
 
-        >.sureNameInput {
+        > img:hover{
+            cursor: pointer;
+            content:url('/assets/icons/deleteIcon_hover.svg');
+        }
+        >.surveyNameInput {
+            display: flex;
+            align-items: center;
             background-color: white;
             width: 439px;
             height: 38px;
@@ -135,6 +177,7 @@ body {
 
             >input {
                 border: none;
+                font-size: 18px;
             }
 
             >input:focus {
@@ -228,6 +271,11 @@ body {
         width: 222px;
         gap: 8px;
 
+        > img:hover{
+            cursor: pointer;
+            content:url('/assets/icons/deleteIcon_hover.svg');
+        }
+
         >.setEndDateInput {
             display: flex;
             justify-content: center;
@@ -266,7 +314,12 @@ body {
     >.textareaAndImg {
         display: flex;
         align-items: flex-start;
-        gap: 8px;
+        gap: 10px;
+
+        > img:hover{
+            cursor: pointer;
+            content:url('/assets/icons/deleteIcon_hover.svg');
+        }
 
         >.descriptionInput {
             width: 418px;
@@ -276,6 +329,7 @@ body {
                 width: 100%;
                 height: 100%;
                 border-radius: 5px 20px 5px 5px;
+                font-size:18px;
             }
 
             >textarea:focus {
@@ -289,6 +343,11 @@ body {
     display:flex;
     justify-content: space-between;
     width:429px;
+
+    > img:hover{
+        cursor: pointer;
+        content:url('/assets/icons/deleteIcon_hover.svg');
+    }
     >.question{
         font-family: 'Mulish', sans-serif;
         font-size: 18px;
@@ -297,6 +356,8 @@ body {
 }
 
 .questionInput{
+    display:flex;
+    align-items: center;
     width: 429px;
     height: 38px;
     border-radius: 5px 12px 5px 5px;
@@ -305,6 +366,8 @@ body {
     box-sizing: border-box;
     >input{
         border: none;
+        font-size:18px;
+        color:black;
     }
     >input:focus{
         outline: none;
@@ -337,6 +400,11 @@ body {
     display:flex;
     width:425px;
     margin-bottom:8px;
+
+    > img:hover {
+        cursor: pointer;
+        content:url('/assets/icons/deleteIcon_hover.svg');
+    }
     >.count{
         display:flex;
         align-items: center;
@@ -346,6 +414,8 @@ body {
         margin-right:3.5px;
     }
     >.answerInput{
+        display:flex;
+        align-items: center;
         width:400px;
         height: 38px;
         border-radius: 5px 12px 5px 5px;
@@ -355,18 +425,19 @@ body {
         margin-right:6px;
         >input{
             border: none;
+            font-size:18px;
+            color:black;
         }
         >input:focus{
             outline: none;
         }
     }
-    >.answerInput:nth-child(2){
-        margin-bottom:16px;
-    }
 }
+
 
 .addLink{
     margin-left:30px;
+    margin-top:10px;
     text-decoration-line: underline;
     text-decoration-color: white;
     text-decoration-thickness: 1px;
@@ -376,7 +447,8 @@ body {
     font-size: 16px;
     border-bottom: 2px solid white;
     cursor: pointer;
-    
+    background-color: transparent;
+    border:none;
 }
 
 .addQuestionButton{
