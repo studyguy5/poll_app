@@ -11,7 +11,10 @@
                     <p class="SurveyName">Survey name</p>
                     <div class="surveyNameInputAndImg">
                         <div class="surveyNameInput">
-                            <input type="text" id="surveyName" [formControl]="surveyName" >
+                            <input type="text" id="surveyName" [formControl]="surveyName">
+                            @if(surveyName.invalid && surveyName.touched){
+                                <p class="surveyNameError">Survey name is required</p>
+                            }
                         </div>
                         <img src="/assets/icons/Delete.svg" (click)="surveyName.setValue('')">
                     </div>
@@ -43,14 +46,17 @@
                 </div>
             </div>
             @if (questions.length > 0) {
-                @for (questionGroup of questions.controls; track $index){
+                @for (questionGroup of questions.controls; track $index; let qIndex = $index){
             <div class="questionArea">
                 <div class="headlineAndImg">
                     <p class="question">1. Questions</p>
                     <img src="/assets/icons/Delete.svg" (click)="questions.removeAt($index)">
                 </div>
                 <div class="questionInput">
-                    <input type="text">
+                    <input type="text" [formControl]="questions.at($index).get('question')">
+                    @if(questionGroup.hasError('required') && questionGroup.touched){
+                        <p>Question is required</p>
+                    }
                 </div>
                 <div class="answerHeadlineAndSetting">
                     <p>Answers</p>
@@ -60,13 +66,16 @@
                     </div>
                 </div>
                 
-                    @for(answer of getAnswers($index).controls; track $index; let aIndex = $index){
+                    @for(answer of getAnswers($index).controls; track answer; let aIndex = $index){
                         <div class="answerBox">
                             <div class="count">{{ letter[$index] }}.</div>
                             <div class="answerInput">
                                 <input type="text">
+                                @if(answer.invalid && answer.touched){
+                                    <p>Answer is required</p>
+                                }
                             </div>
-                            <img src="/assets/icons/Delete.svg" (click)="(answer)['value']">
+                            <img src="/assets/icons/Delete.svg" (click)="deleteAnswer(qIndex, aIndex)">
                         </div>
                     }
                 
