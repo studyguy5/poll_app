@@ -1,5 +1,6 @@
 import { Component, inject, Inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AbstractControl} from '@angular/forms';
 import { DOCUMENT, CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 
@@ -27,7 +28,7 @@ export class CreateSurveyComponent {
     this.endDate = new FormControl('', Validators.required);
     this.category = new FormControl('');
     this.description = new FormControl<string>('', {validators: [Validators.required, Validators.minLength(3)]});
-    this.questions = new FormArray([this.createQuestion()], {validators: [Validators.required, Validators.minLength(3)]}) as FormArray<FormGroup>;
+    this.questions = new FormArray([this.createQuestion()], ) as FormArray<FormGroup>;
  
   }
   ngOnInit() {
@@ -53,7 +54,8 @@ export class CreateSurveyComponent {
   deleteAnswer(questionIndex: number, answerIndex: number) {
     const answers = this.getAnswers(questionIndex);
     if (answerIndex >= 0 && answerIndex < answers.length) {
-      answers.removeAt(answerIndex);
+      // answers.removeAt(answerIndex);
+      answers.reset();
     }
   }
   
@@ -67,12 +69,12 @@ toggleDropDown() {
 
 
   createAnswer(): FormControl<string | null> {
-  return new FormControl<string>('');
+  return new FormControl<string>('', {validators: [Validators.required, Validators.minLength(3)]});
 }
 
 createQuestion(): FormGroup {
   return new FormGroup({
-    question: new FormControl<string>(''),
+    question: new FormControl<string>('', {validators: [Validators.required, Validators.minLength(3)]}),
     allowMultipleAnswers: new FormControl<boolean>(false),
     answers: new FormArray<FormControl<string | null>>([
       this.createAnswer(),
@@ -81,5 +83,15 @@ createQuestion(): FormGroup {
   });
 }
 
+
+asFormControl(control: AbstractControl | null): FormControl {
+  return control as FormControl;
+}
+
+
+categoryArray: string[] = ['health-Care', 'business', 'lifestyle', 'education', 'population', 'money', 'Environment', 'Work'];
   
+categorySelected(category: string) {
+  this.category.setValue(category);
+}
 }

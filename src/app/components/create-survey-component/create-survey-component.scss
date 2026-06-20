@@ -155,8 +155,13 @@ body.survey-body {
     >p {
         color: white;
     }
+    margin-bottom: 5px;
     width:100%;
-
+    >.surveyNameError{
+        margin:15px 0px 0px 0px;
+        min-height:20px;
+        color:red;
+    }
     >.surveyNameInputAndImg {
         display: flex;
         width: 463px;
@@ -174,10 +179,10 @@ body.survey-body {
             height: 38px;
             border-radius: 5px 12px 5px 5px;
             padding: 0px 5px;
-
             >input {
                 border: none;
                 font-size: 18px;
+                width: 100%;
             }
 
             >input:focus {
@@ -237,20 +242,46 @@ body.survey-body {
 
     }
 
+    .dropDownItem{
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        padding: 4px 6px 4px 6px;
+        border-radius: 6px;
+        border-color: transparent;
+        height: 28px;
+        width: 195px;
+        color: white;
+        background-color: transparent;
+        cursor: pointer;
+        &:hover{
+            background-color: rgba(73, 59, 77, 1);
+        }
+    }
+
     >.dropDownList {
         height: 0px;
         width: 206px;
         opacity: 0;
         background-color: rgb(180, 145, 69);
-        transition:all 0.5s ease-in-out;
+        transition:all 0.3s ease-in-out;
         cursor: pointer;
         &.open {
             position:relative;
             height:300px;
-            opacity:1;
+            // opacity:1;
             z-index: 2;
             transition:all 0.5s ease-in-out;
+            animation: animatOpacity 1s ease-in-out 0s forwards;
         }
+    }
+}
+@keyframes animatOpacity {
+    0%{
+        opacity:0;
+    }
+    100%{
+        opacity:1;
     }
 }
 
@@ -258,6 +289,7 @@ body.survey-body {
     >p {
         color: white;
         align-self: center;
+        margin-top:2px;
     }
 
     >img {
@@ -294,7 +326,7 @@ body.survey-body {
             }
 
             & input::-webkit-datetime-edit {
-                color: white;
+                color: rgb(15, 10, 10);
             }
         }
 
@@ -324,7 +356,11 @@ body.survey-body {
         >.descriptionInput {
             width: 418px;
             height: 132px;
-
+            >.descriptionError {
+                margin: 5px 0px 0px 5px;
+                width: 80%;
+                color: red;
+            }
             >textarea {
                 width: 100%;
                 height: 100%;
@@ -354,6 +390,13 @@ body.survey-body {
         color:white;
     }
 }
+.questionArea{
+    > .questionError{
+        min-height:20px;
+        margin:8px 0px 0px 0px;
+        width:80%;
+    }
+}
 
 .questionInput{
     display:flex;
@@ -368,6 +411,7 @@ body.survey-body {
         border: none;
         font-size:18px;
         color:black;
+        width:100%;
     }
     >input:focus{
         outline: none;
@@ -381,6 +425,7 @@ body.survey-body {
         color:white;
         font-family: 'Mulish', sans-serif;
         font-size: 18px;
+        margin-top:8px;
     }
 }
 
@@ -432,6 +477,13 @@ body.survey-body {
             outline: none;
         }
     }
+}
+
+.answerError{
+    margin:5px 0px 5px 30px;
+    min-height:20px;
+    width:80%;
+    color:red;
 }
 
 
