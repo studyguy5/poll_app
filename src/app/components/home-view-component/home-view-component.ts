@@ -13,14 +13,22 @@ import { DOCUMENT } from '@angular/common'
 export class HomeViewComponent {
   surveysData = inject(Surveys);
   document;
-  constructor(@Inject(DOCUMENT) document: Document) {
-    this.document = document
-  }
-  ngOnInit() {
-    this.document.body.classList.add('home-body');
-  }
+  today = new Date();
+  in30Days = new Date();
+  deadline!: number;
+  isWithinNext30Days!: boolean;
   
-  ngOnDestroy() {
-    this.document.body.classList.remove('home-body');
-  }
+constructor(@Inject(DOCUMENT) document: Document) {
+  this.document = document
+  // this.deadline = new Date(this.surveysData.surveys()[0].deadline);
+  // this.isWithinNext30Days = this.deadline >= this.today && this.deadline <= this.in30Days;
+}
+ngOnInit() {
+  this.document.body.classList.add('home-body');
+}
+
+ngOnDestroy() {
+  this.document.body.classList.remove('home-body');
+}
+
 }

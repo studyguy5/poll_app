@@ -26,7 +26,7 @@
                         <p class="setEndDate">Set end date (optional)</p>
                         <div class="setEndDateInputAndImg">
                             <div class="setEndDateInput">
-                                <input type="date" [formControl]="endDate">
+                                <input type="date" id="date" [formControl]="endDate">
                             </div>
                             <img src="assets/icons/Delete.svg" (click)="endDate.setValue('tt/mm/jjjj')">
                         </div>
@@ -46,7 +46,7 @@
                 <p class="description">Description Text (optional)</p>
                 <div class="textareaAndImg">
                     <div class="descriptionInput">
-                        <textarea type="text" [formControl]="description"></textarea>
+                        <textarea type="text" id="description" [formControl]="description"></textarea>
                         @if(description.invalid && description.touched){
                             <p class="descriptionError">Description is required</p>
                         }
@@ -62,7 +62,7 @@
                     <img src="assets/icons/Delete.svg" (click)="questions.removeAt($index)">
                 </div>
                 <div class="questionInput">
-                    <input type="text" [formControl]="asFormControl(questionGroup.get('question'))">
+                    <input type="text" id="question" [formControl]="asFormControl(questionGroup.get('question'))">
                 </div>
                 @if(questionGroup.get('question')?.invalid && questionGroup.get('question')?.touched){
                     <p class="questionError">Question is required</p>
@@ -72,16 +72,16 @@
                 <div class="answerHeadlineAndSetting">
                     <p>Answers</p>
                     <div class="checkboxAndPtag">
-                        <input type="checkbox" name="setting" id="">
+                        <input [formControl]="asFormControl(questionGroup.get('allowMultipleAnswers'))" type="checkbox" name="setting" id="checkbox">
                         <p class="settingDetail">allow multiple answers</p>
                     </div>
                 </div>
                 
                     @for(answer of getAnswers(qIndex).controls; track answer; let aIndex = $index){
                         <div class="answerBox">
-                            <div class="count">{{ letter[qIndex] }}.</div>
+                            <div class="count">{{ letter[aIndex] }}.</div>
                             <div class="answerInput">
-                                <input type="text" [formControl]="answer">
+                                <input type="text" id="answer" [formControl]="answer">
                             </div>
                             <img src="assets/icons/Delete.svg" (click)="deleteAnswer(qIndex, aIndex)">
                         </div>
@@ -95,10 +95,11 @@
             
                 
                 <button (click)="addAnswer($index)" class="addLink" type="button">Add answer <img src="assets/icons/add_circle.svg"></button>
+                <button (click)="prefill()" class="addLink" type="button" >prefill</button>
             </div>
         }}
         <button (click)="addQuestion()" type="button" class="addQuestionButton">Add question <img src="assets/icons/add_circle.svg"></button>
         </div>
     </div>
-    <button class="publishButton">Publish<img src="assets/icons/publish_check.svg"></button>
+    <button class="publishButton" type="submit" (click)="submit()">Publish<img src="assets/icons/publish_check.svg"></button>
 </div>
