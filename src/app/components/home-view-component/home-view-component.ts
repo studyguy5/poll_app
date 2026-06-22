@@ -1,4 +1,4 @@
-import { Component, Inject, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, Inject, inject} from '@angular/core';
 import { Surveys } from '../../services/surveys';
 import { RouterLink } from '@angular/router';
 import { DOCUMENT } from '@angular/common'
@@ -31,4 +31,14 @@ ngOnDestroy() {
   this.document.body.classList.remove('home-body');
 }
 
+filterSurveys(){
+  this.in30Days.setDate(this.today.getDate() + 30);
+  if(this.surveysData){
+    return this.surveysData.surveys().filter((survey) => {
+      const deadline = new Date(survey.deadline);
+      return deadline >= this.today && deadline <= this.in30Days;
+    });
+  }
+  return this.surveysData;
+}
 }

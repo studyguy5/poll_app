@@ -1,0 +1,31 @@
+
+body.show-body{
+    background-color:white;
+    margin:0px;
+    padding:0px;
+    // height:100vh;
+}
+
+.mainWrapper{
+    max-width:1280px;
+    margin:47px auto 50px auto;
+    // height:calc(100% - 47px - 50px);
+    display:flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+.headLogoButtonArea{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    > img{
+        width:150px;
+        height:50px;
+    }
+    >button{
+        cursor: pointer;
+        padding: 10px 25px;
+        border-radius: 10px;
+        background-color: rgb(255, 183, 112);
+    }
+}

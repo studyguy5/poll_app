@@ -15,7 +15,7 @@ export class Surveys {
   
   constructor() {
     this.surveys.set([
-      {
+      { "id": 0,
         "title": "erster Title",
         "description": "Erste Beschreibung",
         "deadline": "2023-12-31",

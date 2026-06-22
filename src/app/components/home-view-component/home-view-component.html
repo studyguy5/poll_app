@@ -19,8 +19,8 @@
         <div class="middle">Ending soon surveys</div>
         <div class="surveys">
             @if(surveysData){
-                @for (item of surveysData.surveys(); track item) {
-                    <div class="survey-card">
+                @for (item of filterSurveys(); track item) {
+                    <div [routerLink]="[`activeSurvey/${item.id}`]" class="survey-card">
                         <p>{{ item.title }}</p>
                         <p>{{ item.description }}</p>
                         <p>{{ item.deadline }}</p>
