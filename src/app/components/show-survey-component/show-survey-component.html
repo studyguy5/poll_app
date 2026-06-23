@@ -3,4 +3,37 @@
         <img src="assets/poll_appLogoDark.svg">
         <button class="createButton" [routerLink]="['newSurvey']">New Survey</button>
     </div>
+    <div class="surveyStatisticWrapper">
+        <div class="surveyWrapperLeftSide">
+            <p class="statusOfSurvey">Published</p>
+            <div class="mainSurvey">
+                @if(survey) {
+                <div class="deadlineCategoryWrapper">
+                    <p class="deadlineOfSurvey">Deadline: {{ survey.deadline }}</p>
+                    <p class="categoryOfSurvey">Category: {{ survey.category }}</p>
+                </div>
+                <div class="mainSurveyHeadline">{{ survey.title }}</div>
+                <div class="mainSurveyDescription">{{ survey.description }}</div>
+                <div class="questionAnswerWrapper">
+                    @for (question of surveysData.questions(); track question; let i = $index) {
+                        <div class="questionWrapper">
+                            <div class="question">
+                                <p>{{ i + 1 }}. {{ question.question }}</p>
+                            </div>
+                            <div class="answer">
+                                @for (answer of question.answers; track answer) {
+                                    <p>{{ answer }}</p>
+                                    
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+                }
+            </div>
+        </div>
+        <div class="statisticsWrapperRightSide">
+
+        </div>
+    </div>
 </section>

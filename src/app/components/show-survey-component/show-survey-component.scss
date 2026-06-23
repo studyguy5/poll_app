@@ -9,7 +9,6 @@ body.show-body{
 .mainWrapper{
     max-width:1280px;
     margin:47px auto 50px auto;
-    // height:calc(100% - 47px - 50px);
     display:flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -28,4 +27,55 @@ body.show-body{
         border-radius: 10px;
         background-color: rgb(255, 183, 112);
     }
+}
+
+.surveyStatisticWrapper{
+    display:flex;
+    max-width:1280px;
+    margin-top:37px;
+    width:100%;
+    height:855px;
+    background-color:rgb(255, 183, 112);
+}
+
+.surveyWrapperLeftSide{
+    display:flex;
+    padding: 40px 40px 40px 40px;
+    box-sizing: border-box;
+    flex-direction: column;
+    width:100%;
+    max-width:702px;
+    height:855px;
+    border-top-right-radius: 160px;
+    background-color: rgb(243,239,245);
+    >.statusOfSurvey{
+        display:flex;
+        justify-content:center;
+        align-items: center;
+        width:94px;
+        height:26px;
+        padding: 10px 30px 10px 30px;
+        box-sizing: border-box;
+        margin:0px;
+        background-color: rgb(255, 183, 112);
+    }
+}
+
+.deadlineCategoryWrapper{
+    display:flex;
+    justify-content: space-between;
+}
+
+.mainSurveyHeadline{
+    font-size:56px;
+    font-family: 'Nerko One', sans-serif;
+    color: rgb(196, 177, 6);
+    margin:0px;
+}
+
+.mainSurveyDescription{
+    font-size:16px;
+    font-family: 'Mulish', sans-serif;
+    color:rgba(53, 39, 58, 1);
+    margin:0px;
 }

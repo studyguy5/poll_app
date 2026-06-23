@@ -41,4 +41,8 @@ filterSurveys(){
   }
   return this.surveysData;
 }
+
+loadQuestions(id: number) {
+    this.surveysData.getRelatedQuestions(id);
+  }
 }

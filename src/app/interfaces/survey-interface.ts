@@ -3,5 +3,12 @@ export interface Survey {
   title: string;
   description: string;
   deadline: string;
+  category: string;
 
+}
+
+export interface Question {
+  question: string;
+  allowMultipleAnswers: boolean;
+  answers: string[];
 }
