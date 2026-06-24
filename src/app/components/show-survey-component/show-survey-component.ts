@@ -35,6 +35,9 @@ export class ShowSurveyComponent {
     return this.surveysData.surveys().find((survey) => survey.id === id);
   }
 
+  getAnswers(){
+    const data = this.surveysData.getRelatedAnswers(this.survey!.id);
+  }
   
   
 

@@ -8,6 +8,7 @@ export interface Survey {
 }
 
 export interface Question {
+  id: number;
   question: string;
   allowMultipleAnswers: boolean;
   answers: string[];

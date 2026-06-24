@@ -50,6 +50,27 @@ export class Surveys {
     this.questions.set(data)
     console.log(data)
   }
+
+  // async getRelatedAnswers(id: number): Promise<void> {
+  //   const {data, error} = await this.supabase
+  //   .from('answerDetail')
+  //   .select('*')
+  //   .eq('id', id)
+  //   if(error || !data) return
+  //   console.log(data)
+  // }
+
+  async getRelatedAnswers(id: number): Promise<void> {
+    let { data, error } = await this.supabase
+      .from('questionDetail')
+      .select(`
+        some_column,
+        other_table (
+          foreign_key
+        )
+      `)
+  }
+          
 }
 
 

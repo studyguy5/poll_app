@@ -21,7 +21,7 @@
                                 <p>{{ i + 1 }}. {{ question.question }}</p>
                             </div>
                             <div class="answer">
-                                @for (answer of question.answers; track answer) {
+                                @for (answer of [surveysData.getRelatedAnswers(question.id)]; track answer) {
                                     <p>{{ answer }}</p>
                                     
                                 }
