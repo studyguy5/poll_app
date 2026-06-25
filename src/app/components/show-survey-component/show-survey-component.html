@@ -15,19 +15,17 @@
                 <div class="mainSurveyHeadline">{{ survey.title }}</div>
                 <div class="mainSurveyDescription">{{ survey.description }}</div>
                 <div class="questionAnswerWrapper">
-                    @for (question of surveysData.questions(); track question; let i = $index) {
+                
                         <div class="questionWrapper">
                             <div class="question">
-                                <p>{{ i + 1 }}. {{ question.question }}</p>
+                                <p>{{ 1 }}. {{ questions }}</p>
                             </div>
-                            <div class="answer">
-                                @for (answer of [surveysData.getRelatedAnswers(question.id)]; track answer) {
-                                    <p>{{ answer }}</p>
-                                    
-                                }
+                            <div class="answer">    
+                                    <p>{{ answers }}</p>
+                                
                             </div>
                         </div>
-                    }
+                    
                 </div>
                 }
             </div>

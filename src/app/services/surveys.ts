@@ -40,15 +40,19 @@ export class Surveys {
     this.surveys.set(data)
     console.log(data)
   }
+  answerId = 0;
 
-  async getRelatedQuestions(id: number): Promise<void> {
+  async getRelatedQuestions(id: number){
     const {data, error} = await this.supabase
     .from('questionDetail')
     .select('*')
-    .eq('id', id)
+    .eq('survey', id)
     if(error || !data) return
     this.questions.set(data)
     console.log(data)
+    this.answerId = data[0].id
+    console.log(this.answerId) 
+    return data
   }
 
   // async getRelatedAnswers(id: number): Promise<void> {
@@ -60,15 +64,14 @@ export class Surveys {
   //   console.log(data)
   // }
 
-  async getRelatedAnswers(id: number): Promise<void> {
+  async getRelatedAnswers(answerId: number): Promise<any> {
+    console.log(answerId)
     let { data, error } = await this.supabase
-      .from('questionDetail')
-      .select(`
-        some_column,
-        other_table (
-          foreign_key
-        )
-      `)
+      .from('answerDetail')
+      .select('*')
+      .eq('question', answerId)
+    if (error || !data) return
+    return data as any | null
   }
           
 }

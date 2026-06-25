@@ -45,4 +45,11 @@ filterSurveys(){
 loadQuestions(id: number) {
     this.surveysData.getRelatedQuestions(id);
   }
+
+answers: object[] = [];
+  async getAnswers(answerId: number): Promise<object[]> {
+    this.answers = await this.surveysData.getRelatedAnswers(answerId);
+    console.log(this.answers)
+    return this.answers
+  }
 }
