@@ -1,7 +1,7 @@
-import { Component, Inject, inject} from '@angular/core';
-import { Surveys } from '../../services/surveys';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { DOCUMENT } from '@angular/common'
+import { Surveys } from '../../services/surveys';
 
 
 @Component({
@@ -17,39 +17,39 @@ export class HomeViewComponent {
   in30Days = new Date();
   deadline!: number;
   isWithinNext30Days!: boolean;
-  
-constructor(@Inject(DOCUMENT) document: Document) {
-  this.document = document
-  // this.deadline = new Date(this.surveysData.surveys()[0].deadline);
-  // this.isWithinNext30Days = this.deadline >= this.today && this.deadline <= this.in30Days;
-}
-ngOnInit() {
-  this.document.body.classList.add('home-body');
-}
 
-ngOnDestroy() {
-  this.document.body.classList.remove('home-body');
-}
-
-filterSurveys(){
-  this.in30Days.setDate(this.today.getDate() + 30);
-  if(this.surveysData){
-    return this.surveysData.surveys().filter((survey) => {
-      const deadline = new Date(survey.deadline);
-      return deadline >= this.today && deadline <= this.in30Days;
-    });
+  constructor(@Inject(DOCUMENT) document: Document) {
+    this.document = document
+    // this.deadline = new Date(this.surveysData.surveys()[0].deadline);
+    // this.isWithinNext30Days = this.deadline >= this.today && this.deadline <= this.in30Days;
   }
-  return this.surveysData;
-}
-
-loadQuestions(id: number) {
-    this.surveysData.getRelatedQuestions(id);
+  ngOnInit() {
+    this.document.body.classList.add('home-body');
   }
 
-answers: object[] = [];
-  async getAnswers(answerId: number): Promise<object[]> {
-    this.answers = await this.surveysData.getRelatedAnswers(answerId);
-    console.log(this.answers)
-    return this.answers
+  ngOnDestroy() {
+    this.document.body.classList.remove('home-body');
   }
+
+  filterSurveys() {
+    this.in30Days.setDate(this.today.getDate() + 30);
+    if (this.surveysData) {
+      return this.surveysData.surveys().filter((survey) => {
+        const deadline = new Date(survey.deadline);
+        return deadline >= this.today && deadline <= this.in30Days;
+      });
+    }
+    return this.surveysData;
+  }
+
+  loadQuestions(id: number) {
+    this.surveysData.setRelatedQuestions(id);
+  }
+
+  answers: object[] = [];
+  // async getAnswers(answerId: number): Promise<object[]> {
+  //   this.answers = await this.surveysData.getRelatedAnswers(answerId);
+  //   console.log(this.answers)
+  //   return this.answers
+  // }
 }
