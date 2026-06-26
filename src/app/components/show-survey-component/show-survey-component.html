@@ -15,17 +15,17 @@
                 <div class="mainSurveyHeadline">{{ survey.title }}</div>
                 <div class="mainSurveyDescription">{{ survey.description }}</div>
                 <div class="questionAnswerWrapper">
-                
+
                         <div class="questionWrapper">
                             <div class="question">
                                 <p>{{ 1 }}. {{ questions }}</p>
                             </div>
-                            <div class="answer">    
-                                    <p>{{ answers }}</p>
-                                
+                            <div class="answer">
+                                    <p>{{ answers | json }}</p>
+
                             </div>
                         </div>
-                    
+
                 </div>
                 }
             </div>

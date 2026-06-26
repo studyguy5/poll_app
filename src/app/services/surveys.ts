@@ -1,21 +1,17 @@
-import { Injectable } from '@angular/core';
-import { signal } from '@angular/core';
-import { Survey } from '../interfaces/survey-interface';
+import { Injectable, signal } from '@angular/core';
 import { createClient } from '@supabase/supabase-js';
-import { Question } from '../interfaces/survey-interface';
+import { Question, Survey } from '../interfaces/survey-interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Surveys {
-  
-  supabase = createClient("https://cejvxxwyidgknkfbpvgp.supabase.co", "sb_publishable_PCQYT5KWUFY1hpKYJZM1XQ_2ej6CAmT")
-  
-  surveys = signal<Survey[]>([]);
 
-  questions = signal<Question[] | null>([]);
-  
-  
+  supabase = createClient("https://cejvxxwyidgknkfbpvgp.supabase.co", "sb_publishable_PCQYT5KWUFY1hpKYJZM1XQ_2ej6CAmT")
+  surveys = signal<Survey[]>([]);
+  relatedQuestions = signal<Question[]>([]);
+
+
   constructor() {
     this.surveys.set([
       { "id": 0,
@@ -25,13 +21,13 @@ export class Surveys {
         "category": "erste Kategorie"
       }
     ])
-    this.getSurveys()
+    this.setSurveys()
   }
 
-  
-  
 
-  async getSurveys(){
+
+
+  async setSurveys(){
     const { data, error } = await this.supabase
       .from('surveyDetail')
       .select('*')
@@ -42,38 +38,25 @@ export class Surveys {
   }
   answerId = 0;
 
-  async getRelatedQuestions(id: number){
+  async setRelatedQuestions(surveyId: number){
     const {data, error} = await this.supabase
     .from('questionDetail')
     .select('*')
-    .eq('survey', id)
-    if(error || !data) return
-    this.questions.set(data)
-    console.log(data)
-    this.answerId = data[0].id
-    console.log(this.answerId) 
-    return data
+    .eq('survey', surveyId)
+    // we swallow the error
+    if(error || !data)  this.relatedQuestions.set([]);
+    this.relatedQuestions.set(data as Question[]);
   }
 
-  // async getRelatedAnswers(id: number): Promise<void> {
-  //   const {data, error} = await this.supabase
-  //   .from('answerDetail')
-  //   .select('*')
-  //   .eq('id', id)
-  //   if(error || !data) return
-  //   console.log(data)
-  // }
-
-  async getRelatedAnswers(answerId: number): Promise<any> {
-    console.log(answerId)
+  async getRelatedAnswers(answerIds: number[]): Promise<Object[]> {
     let { data, error } = await this.supabase
       .from('answerDetail')
       .select('*')
-      .eq('question', answerId)
-    if (error || !data) return
-    return data as any | null
+      .in('question', answerIds)
+    if (error || !data) return [];
+    return data as Object[];
   }
-          
+
 }
 
 
