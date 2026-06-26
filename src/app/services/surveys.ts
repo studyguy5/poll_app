@@ -13,7 +13,7 @@ export class Surveys {
   
   surveys = signal<Survey[]>([]);
 
-  questions = signal<Question[] | null>([]);
+  questions = signal<Question[]>([]);
   
   
   constructor() {
@@ -26,6 +26,7 @@ export class Surveys {
       }
     ])
     this.getSurveys()
+    this.collectAnswerId(2)
   }
 
   
@@ -40,19 +41,29 @@ export class Surveys {
     this.surveys.set(data)
     console.log(data)
   }
-  answerId = 0;
+  answerId: number = 1
 
-  async getRelatedQuestions(id: number){
+  async setRelatedQuestions(id: number) {
     const {data, error} = await this.supabase
     .from('questionDetail')
     .select('*')
     .eq('survey', id)
-    if(error || !data) return
-    this.questions.set(data)
+    // .eq('id', this.answerId)
+    this.questions.set(data ?? [])
     console.log(data)
-    this.answerId = data[0].id
-    console.log(this.answerId) 
+    // console.log(this.answerId) 
     return data
+  }
+
+  async collectAnswerId(id: number) {
+    this.surveys().find((survey) => survey.id === id);
+    // const idParam = this.route.snapshot.paramMap.get('id');
+    const answer = await this.setRelatedQuestions(id)
+    console.log(answer)
+    if(answer)
+    answer.map((answer: number) => {
+      this.answerId = answer
+    })
   }
 
   // async getRelatedAnswers(id: number): Promise<void> {
@@ -64,13 +75,12 @@ export class Surveys {
   //   console.log(data)
   // }
 
-  async getRelatedAnswers(answerId: number): Promise<any> {
+  async getRelatedAnswers(answerId: number): Promise<object[]> {
     console.log(answerId)
     let { data, error } = await this.supabase
       .from('answerDetail')
       .select('*')
       .eq('question', answerId)
-    if (error || !data) return
     return data as any | null
   }
           

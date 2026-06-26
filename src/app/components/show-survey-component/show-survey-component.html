@@ -15,17 +15,18 @@
                 <div class="mainSurveyHeadline">{{ survey.title }}</div>
                 <div class="mainSurveyDescription">{{ survey.description }}</div>
                 <div class="questionAnswerWrapper">
-                
+                @for (question of questions; track question.id) {
                         <div class="questionWrapper">
                             <div class="question">
-                                <p>{{ 1 }}. {{ questions }}</p>
+                                <p>{{ 1 }}. {{ question.question }}</p>
                             </div>
+                            <!-- @for (answer of question.answers; track answer) {}
                             <div class="answer">    
-                                    <p>{{ answers }}</p>
-                                
-                            </div>
+                                    <p>{{ question.answers }}</p>
+                            
+                            </div> -->
                         </div>
-                    
+                }
                 </div>
                 }
             </div>

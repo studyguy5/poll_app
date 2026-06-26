@@ -42,9 +42,9 @@ filterSurveys(){
   return this.surveysData;
 }
 
-loadQuestions(id: number) {
-    this.surveysData.getRelatedQuestions(id);
-  }
+// loadQuestions(id: number) {
+//     this.surveysData.getRelatedQuestions(id);
+//   }
 
 answers: object[] = [];
   async getAnswers(answerId: number): Promise<object[]> {
