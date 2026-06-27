@@ -44,29 +44,32 @@ export class ShowSurveyComponent {
     return this.surveysData.questions()
   }
 
-  answers: object  = {};
-  // getAnswers(answerId: number): Object[]  {
-  //   this.answers = this.surveysData.getRelatedAnswers(answerId);
-  //   // console.log(this.answers)
-  //   return this.answers
-  // }
+  questionId: number[] = [];
   
   
-
   
-  ngOnInit() {
+  
+  
+  async ngOnInit() {
     this.document.body.classList.add('show-body');
     const survey = this.survey;
     if (!survey) {
       return;
     }
-    this.id = survey.id
-    this.surveysData.setRelatedQuestions(this.id)
-    const questionId: any = this.questions.map((question) => {
-      this.surveysData.getRelatedAnswers(question.id)
-      return question.id
-    })
-    this.surveysData.getRelatedAnswers(questionId)
+    this.id = survey.id;
+    await this.surveysData.setRelatedQuestions(this.id) // holt sich die related questions anhand der id
+    this.questionId = this.questions.map((question) => {console.log(question.id);
+      return question.id})
+      await this.getAnswers()
+    }
+    answers  = {}
+    
+    async getAnswers(){
+    for (const id of this.questionId) {
+      this.answers = await this.surveysData.getRelatedAnswers(id)
+      
+    }
+      
     
   }
 
