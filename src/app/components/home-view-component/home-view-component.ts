@@ -9,6 +9,7 @@ import { DOCUMENT } from '@angular/common'
   imports: [RouterLink],
   templateUrl: './home-view-component.html',
   styleUrl: './home-view-component.scss',
+  // providers: [Surveys]
 })
 export class HomeViewComponent {
   surveysData = inject(Surveys);

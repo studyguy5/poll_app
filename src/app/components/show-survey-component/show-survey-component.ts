@@ -11,6 +11,7 @@ import { Survey } from '../../interfaces/survey-interface';
   imports: [RouterLink],
   templateUrl: './show-survey-component.html',
   styleUrl: './show-survey-component.scss',
+  // providers: [Surveys]
 })
 export class ShowSurveyComponent {
   surveysData = inject(Surveys);
