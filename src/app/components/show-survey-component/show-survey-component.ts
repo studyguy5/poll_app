@@ -3,7 +3,7 @@ import { Inject, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Surveys } from '../../services/surveys';
-import { Survey } from '../../interfaces/survey-interface';
+import { Answer, Survey } from '../../interfaces/survey-interface';
 
 
 @Component({
@@ -25,16 +25,16 @@ export class ShowSurveyComponent {
     if (idParam === null) {
       return undefined;
     }
-
     const id = Number(idParam);
     if (Number.isNaN(id)) {
       return undefined;
     }
       this.surveysData.surveys().find((survey) => survey.id === id);
       this.idForQuestions = id
-    
     return this.surveysData.surveys().find((survey) => survey.id === id);
   }
+
+
 
   idForQuestions: number = 1 
 
@@ -63,16 +63,25 @@ export class ShowSurveyComponent {
       return question.id})
       await this.getAnswers()
     }
-    answers  = {}
+    answerArray: Answer[]  = []
     
     async getAnswers(){
-    for (const id of this.questionId) {
-      this.answers = await this.surveysData.getRelatedAnswers(id)
+      let answerArray: Answer[]  = []
+      console.log(this.questionId)
+    for (let id of this.questionId) {
       
+      answerArray = await this.surveysData.getRelatedAnswers(id) as Answer[]
+      this.surveysData.questions().set(answerArray)
+      // this.answerArray.push(answerArray[0])
+      console.log(this.surveysData.questions()[0].answers)
     }
       
     
   }
+
+  // get answers() {
+  //   return this.answerArray;
+  // }
 
   ngOnDestroy() {
     this.document.body.classList.remove('show-body');

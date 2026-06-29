@@ -20,12 +20,12 @@
                             <div class="question">
                                 <p>{{ 1 }}. {{ question.question }}</p>
                             </div>
-                            @for (answer of [this.answers]; track $index) {
+                            @for (item of question.answers; track $index) {
                             <div class="answer">    
-                                    <p>{{ answer }}</p>
+                                    <p> {{ question.answers[$index].answer }}</p>
                             
                             </div>
-                            }
+                        }
                         </div>
                 }
                 </div>

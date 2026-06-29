@@ -11,5 +11,11 @@ export interface Question {
   id: number;
   question: string;
   allowMultipleAnswers: boolean;
-  answers: string[];
+  answers:Answer[];
+}
+
+export interface Answer {
+  id: number;
+  answer: string;
+  question: number;
 }
