@@ -81,6 +81,7 @@ export class Surveys {
       .from('answerDetail')
       .select('*')
       .eq('question', answerId)
+      console.log(data)
     return data as any | null
   }
           

@@ -1,14 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, WritableSignal } from '@angular/core';
 import { Inject, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Surveys } from '../../services/surveys';
 import { Answer, Survey } from '../../interfaces/survey-interface';
+import { Question } from '../../interfaces/survey-interface';
+import { JsonPipe } from '@angular/common';
 
 
 @Component({
   selector: 'app-show-survey-component',
-  imports: [RouterLink],
+  imports: [RouterLink, JsonPipe],
   templateUrl: './show-survey-component.html',
   styleUrl: './show-survey-component.scss',
   // providers: [Surveys]
@@ -66,19 +68,25 @@ export class ShowSurveyComponent {
     answerArray: Answer[]  = []
     
     async getAnswers(){
-      let answerArray: Answer[]  = []
+      let answerArray: Answer[] = [] 
       console.log(this.questionId)
     for (let id of this.questionId) {
       
       answerArray = await this.surveysData.getRelatedAnswers(id) as Answer[]
-      this.surveysData.questions().set(answerArray)
-      // this.answerArray.push(answerArray[0])
-      console.log(this.surveysData.questions()[0].answers)
+      this.surveysData.questions.update((questions) =>
+        questions.map((question) =>
+          question.id === id ? { ...question, answers: answerArray } : question
+        )
+      )
+    
     }
-      
     
   }
 
+  // updateAnswers() {
+  //   this.surveysData.questions.map((question) => {return question.id === id ?  {...question, answers: answerArray}: question})}
+  //   return this.surveysData.questions
+  // }
   // get answers() {
   //   return this.answerArray;
   // }
