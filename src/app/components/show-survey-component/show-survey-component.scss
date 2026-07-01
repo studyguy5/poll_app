@@ -79,3 +79,36 @@ body.show-body{
     color:rgba(53, 39, 58, 1);
     margin:0px;
 }
+
+.questionWrapper{
+    >.answer{
+        display:flex;
+        align-items: center;
+        cursor: pointer;
+         input[type="checkbox"]{
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            background-color:transparent;
+            border-radius:3px;
+            width:15px;
+            height:15px;
+            border: 2.5px solid rgba(53, 39, 58, 1);
+            margin-right: 16px;
+        }
+        input[type="checkbox"]:hover{
+            background-color:rgba(255, 207, 161, 0.6);
+        }
+        input[type="checkbox"]:checked{
+            border: none;
+            background-image: url("/assets/icons/input_checked.svg");
+
+            // background-color:rgba(255, 207, 161, 0.6);
+        }
+    }
+}
+
+.questionAnswerWrapper{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+}

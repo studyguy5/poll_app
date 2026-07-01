@@ -5,12 +5,12 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Surveys } from '../../services/surveys';
 import { Answer, Survey } from '../../interfaces/survey-interface';
 import { Question } from '../../interfaces/survey-interface';
-import { JsonPipe } from '@angular/common';
+// import { JsonPipe } from '@angular/common';
 
 
 @Component({
   selector: 'app-show-survey-component',
-  imports: [RouterLink, JsonPipe],
+  imports: [RouterLink],
   templateUrl: './show-survey-component.html',
   styleUrl: './show-survey-component.scss',
   // providers: [Surveys]
@@ -49,10 +49,6 @@ export class ShowSurveyComponent {
 
   questionId: number[] = [];
   
-  
-  
-  
-  
   async ngOnInit() {
     this.document.body.classList.add('show-body');
     const survey = this.survey;
@@ -65,6 +61,8 @@ export class ShowSurveyComponent {
       return question.id})
       await this.getAnswers()
     }
+
+
     answerArray: Answer[]  = []
     
     async getAnswers(){
@@ -78,18 +76,9 @@ export class ShowSurveyComponent {
           question.id === id ? { ...question, answers: answerArray } : question
         )
       )
-    
-    }
-    
+    } 
   }
 
-  // updateAnswers() {
-  //   this.surveysData.questions.map((question) => {return question.id === id ?  {...question, answers: answerArray}: question})}
-  //   return this.surveysData.questions
-  // }
-  // get answers() {
-  //   return this.answerArray;
-  // }
 
   ngOnDestroy() {
     this.document.body.classList.remove('show-body');
