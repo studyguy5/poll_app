@@ -51,11 +51,16 @@ export class ShowSurveyComponent {
   
   async ngOnInit() {
     this.document.body.classList.add('show-body');
-    const survey = this.survey;
+    // const survey = 
+    const survey = this.route.snapshot.paramMap.get('id');
     if (!survey) {
       return;
     }
-    this.id = survey.id;
+    const id = Number(survey);
+    if (Number.isNaN(id)) {
+      return;
+    }
+    this.id = id;
     await this.surveysData.setRelatedQuestions(this.id) // holt sich die related questions anhand der id
     this.questionId = this.questions.map((question) => {console.log(question.id);
       return question.id})
