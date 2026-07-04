@@ -87,12 +87,33 @@ export class CreateSurveyComponent {
     if(surveyError) throw surveyError
     if(survey) console.log(survey)
 
-    const questions = this.questions.value
-    const data = await this.supabase.
+    const questions = this.questions.getRawValue().map((question: any) => ({
+      survey: survey.id,
+      question: question.question,
+      allowMultipleAnswers: question.allowMultipleAnswers,
+    }));
+    const { data: questionsData, error } = await this.supabase.
     from('questionDetail')
     .insert(questions)
     .select()
-    console.log(data)
+    console.log(questionsData)
+
+    const answers = this.questions.getRawValue().flatMap(
+      (question: any, index: number) => {
+        const questionId = questionsData ? questionsData[index].id : null;
+        console.log('index', index, 'questionId', questionId, 'question', question.question);
+        return question.answers.map((answer: string) => ({
+          question: questionId,
+          answer: answer
+        }));
+      }
+    );
+    console.log(answers)
+    const answerData = await this.supabase.
+    from('answerDetail')
+    .insert(answers)
+    .select()
+    console.log(answerData)
   }
 
   createAnswer(): FormControl<string | null> {

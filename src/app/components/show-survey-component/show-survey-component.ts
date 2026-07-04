@@ -20,7 +20,7 @@ export class ShowSurveyComponent {
   route = inject(ActivatedRoute);
   document;
   id: number = 1;
-  
+  letter: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
   
   get survey(): Survey | undefined {
     const idParam = this.route.snapshot.paramMap.get('id');
@@ -42,6 +42,8 @@ export class ShowSurveyComponent {
 
   constructor(@Inject(DOCUMENT) document: Document) {
     this.document = document;
+    // this.setInterval
+    // clearInterval(this.setInterval)
   }
   get questions() {
     return this.surveysData.questions()
@@ -88,4 +90,23 @@ export class ShowSurveyComponent {
   ngOnDestroy() {
     this.document.body.classList.remove('show-body');
   }
+
+  // setInterval = setInterval(() => {
+  //   this.preventMultipleAnswers();
+  // },  50);
+
+  preventMultipleAnswers(event?: Event, question?: Question) {
+    if(!question?.allowMultipleAnswers) {
+      const checkboxes = (event?.target as HTMLElement).closest('.questionWrapper')?.querySelectorAll('input[type="checkbox"]');
+      if (checkboxes) {
+        checkboxes.forEach((checkbox) => {
+          if (checkbox !== event?.target) {
+            (checkbox as HTMLInputElement).checked = false;
+          }
+        });
+    }
+  }else {
+    return
+  }
+}
 }

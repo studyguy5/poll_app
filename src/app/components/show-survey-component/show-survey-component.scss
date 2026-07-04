@@ -81,6 +81,11 @@ body.show-body{
 }
 
 .questionWrapper{
+    font-family: 'Mulish', sans-serif;
+    >.question{
+        font-size:18px;
+        
+    }
     >.answer{
         display:flex;
         align-items: center;
@@ -103,7 +108,12 @@ body.show-body{
             border: none;
             background-image: url("/assets/icons/input_checked.svg");
 
-            // background-color:rgba(255, 207, 161, 0.6);
+        }
+        
+        
+        >.count{
+            margin-right: 4px;
+            font-weight: bold;
         }
     }
 }

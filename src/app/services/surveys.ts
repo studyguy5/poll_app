@@ -26,7 +26,7 @@ export class Surveys {
       }
     ])
     this.getSurveys()
-    this.collectAnswerId(2)
+    // this.collectAnswerId(2)
   }
 
   
@@ -55,16 +55,16 @@ export class Surveys {
     return data
   }
 
-  async collectAnswerId(id: number) {
-    this.surveys().find((survey) => survey.id === id);
-    // const idParam = this.route.snapshot.paramMap.get('id');
-    const answer = await this.setRelatedQuestions(id)
-    console.log(answer)
-    if(answer)
-    answer.map((answer: number) => {
-      this.answerId = answer
-    })
-  }
+  // async collectAnswerId(id: number) {
+  //   this.surveys().find((survey) => survey.id === id);
+  //   // const idParam = this.route.snapshot.paramMap.get('id');
+  //   const answer = await this.setRelatedQuestions(id)
+  //   console.log(answer)
+  //   if(answer)
+  //   answer.map((answer: number) => {
+  //     this.answerId = answer
+  //   })
+  // }
 
   // async getRelatedAnswers(id: number): Promise<void> {
   //   const {data, error} = await this.supabase
