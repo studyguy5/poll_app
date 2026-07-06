@@ -41,6 +41,7 @@ body.show-body{
 
 .surveyWrapperLeftSide{
     display:flex;
+    position:relative;
     padding: 40px 40px 40px 40px;
     box-sizing: border-box;
     flex-direction: column;
@@ -122,6 +123,23 @@ body.show-body{
 .questionAnswerWrapper{
     display:grid;
     grid-template-columns: 1fr 1fr;
+}
+
+.completeSurveyButton{
+    cursor:pointer;
+    position:absolute;
+    bottom: 40px;
+    right: 40px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 183, 112, 0.3);
+    background-color:rgba(255, 183, 112, 0.3);
+     &:hover{
+         background-color: rgba(255, 183, 112, 0.6);
+     }
+    // border-color: rgba(255, 183, 112, 0.3);
+    // width:159px;
+    // height:37px;
 }
 
 .statisticsWrapperRightSide{

@@ -66,7 +66,9 @@ export class ShowSurveyComponent {
     await this.surveysData.setRelatedQuestions(this.id) // holt sich die related questions anhand der id
     this.questionId = this.questions.map((question) => {console.log(question.id);
       return question.id})
+      console.log(this.questionId)
       await this.getAnswers()
+      this.submitCompletedSurvey()
     }
 
 
@@ -91,9 +93,7 @@ export class ShowSurveyComponent {
     this.document.body.classList.remove('show-body');
   }
 
-  // setInterval = setInterval(() => {
-  //   this.preventMultipleAnswers();
-  // },  50);
+  
 
   preventMultipleAnswers(event?: Event, question?: Question) {
     if(!question?.allowMultipleAnswers) {
@@ -108,5 +108,16 @@ export class ShowSurveyComponent {
   }else {
     return
   }
+}
+
+
+submitCompletedSurvey() {
+const surveyId = this.route.snapshot.paramMap.get('id'); //survey id holen
+if (!surveyId) {
+  return;
+}
+const questionIds = this.questionId;
+console.log('Survey ID:', surveyId, 'Question IDs:', ...questionIds);
+
 }
 }
