@@ -27,7 +27,7 @@
                         </div>
                         @for (answer of question.answers; track $index) {
                         <div class="answer">
-                            <input (click)="preventMultipleAnswers($event, question)" type="checkbox"><p class="count">{{ letter[$index] }}.</p><p> {{ answer.answer }}</p>
+                            <input  (click)="preventMultipleAnswers($event, question); collectAnswerIds($event, question, answer.id);" type="checkbox"><p class="count">{{ letter[$index] }}.</p><p> {{ answer.answer }}</p>
 
                         </div>
                     }
