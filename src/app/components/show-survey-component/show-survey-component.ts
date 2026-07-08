@@ -44,7 +44,7 @@ export class ShowSurveyComponent {
 
   constructor(@Inject(DOCUMENT) document: Document) {
     this.document = document;
-    // this.setInterval
+  
     // clearInterval(this.setInterval)
   }
   get questions() {
@@ -65,6 +65,7 @@ export class ShowSurveyComponent {
       return;
     }
     this.id = id;
+    await this.surveysData.getStatisticsData(id)
     await this.surveysData.setRelatedQuestions(this.id) // holt sich die related questions anhand der id
     this.questionId = this.questions.map((question) => {
       console.log(question.id);
@@ -73,7 +74,7 @@ export class ShowSurveyComponent {
     console.log(this.questionId)
     await this.getAnswers()
   }
-  
+
 
 
   async getAnswers() {
@@ -89,13 +90,13 @@ export class ShowSurveyComponent {
       )
     }
   }
-  
+
 
   ngOnDestroy() {
     this.document.body.classList.remove('show-body');
   }
-  
-  
+
+
 
   preventMultipleAnswers(event?: Event, question?: Question) {
     if (!question?.allowMultipleAnswers) {
@@ -113,7 +114,7 @@ export class ShowSurveyComponent {
   }
 
   choosenAnswerArray: CompletedSurvey[] = []
-  
+
   collectAnswerIds(event: Event, question: Question, answerId?: Number | undefined) {
     const questionblock = (event.target as HTMLElement).closest('.questionWrapper');
     if (!questionblock) {
@@ -136,36 +137,36 @@ export class ShowSurveyComponent {
         })
       }
     } else if (questionblock?.querySelectorAll('input[type="checkbox"]:not(:checked)').length > 0) {
-      if(!question.allowMultipleAnswers) {
-      this.choosenAnswerArray.splice(this.choosenAnswerArray.findIndex((item) => item.question_id === question.id), 1);
-      console.log(this.choosenAnswerArray)
-    }else{
-      this.choosenAnswerArray.splice(this.choosenAnswerArray.findIndex((item) => item.answer_id === answerId), 1);
-      console.log(this.choosenAnswerArray)
+      if (!question.allowMultipleAnswers) {
+        this.choosenAnswerArray.splice(this.choosenAnswerArray.findIndex((item) => item.question_id === question.id), 1);
+        console.log(this.choosenAnswerArray)
+      } else {
+        this.choosenAnswerArray.splice(this.choosenAnswerArray.findIndex((item) => item.answer_id === answerId), 1);
+        console.log(this.choosenAnswerArray)
+      }
+      // this.submitCompletedSurvey()
     }
-    this.submitCompletedSurvey()
   }
-}
-  
+
   async submitCompletedSurvey() {
     const surveyId = this.route.snapshot.paramMap.get('id'); //survey id holen
     if (!surveyId) {
       return;
     }
-    const questionIds = this.choosenAnswerArray; // question und answer ids aus dem array holen
+    // const questionIds = this.choosenAnswerArray; // question und answer ids aus dem array holen
     let completedSurvey = {} as CompletedSurvey;
-    for (let i = 0; i < questionIds.length; i++) {
-    completedSurvey = {
-      
-      survey_id: questionIds[i].survey_id,
-      question_id: questionIds[i].question_id,
-      answer_id: questionIds[i].answer_id,
+    for (let i = 0; i < this.choosenAnswerArray.length; i++) {
+      completedSurvey = {
+
+        survey_id: this.choosenAnswerArray[i].survey_id,
+        question_id: this.choosenAnswerArray[i].question_id,
+        answer_id: this.choosenAnswerArray[i].answer_id,
+      }
+      const { data, error } = await this.supabase
+        .from('choosenDetail')
+        .insert(this.choosenAnswerArray[i]);
+        console.log(completedSurvey)
     }
-  }
-    console.log(completedSurvey)
-    // const { data, error } = await this.supabase
-    //   .from('choosenDetail')
-    //   .insert(completedSurvey);
-//============================================eventuell direkt über choosenAnswerArray iterieren und auf supabase pushen====================================
+    //============================================eventuell direkt über choosenAnswerArray iterieren und auf supabase pushen====================================
   }
 }

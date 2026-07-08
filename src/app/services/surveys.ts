@@ -3,6 +3,7 @@ import { signal } from '@angular/core';
 import { Survey } from '../interfaces/survey-interface';
 import { createClient } from '@supabase/supabase-js';
 import { Question } from '../interfaces/survey-interface';
+import { statistics } from '../interfaces/survey-interface';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,7 @@ export class Surveys {
 
   questions = signal<Question[]>([]);
   
+  statistics = signal<statistics[]>([]);
   
   constructor() {
     this.surveys.set([
@@ -26,7 +28,7 @@ export class Surveys {
       }
     ])
     this.getSurveys()
-    // this.collectAnswerId(2)
+    // this.getStatisticsData()
   }
 
   
@@ -55,25 +57,7 @@ export class Surveys {
     return data
   }
 
-  // async collectAnswerId(id: number) {
-  //   this.surveys().find((survey) => survey.id === id);
-  //   // const idParam = this.route.snapshot.paramMap.get('id');
-  //   const answer = await this.setRelatedQuestions(id)
-  //   console.log(answer)
-  //   if(answer)
-  //   answer.map((answer: number) => {
-  //     this.answerId = answer
-  //   })
-  // }
 
-  // async getRelatedAnswers(id: number): Promise<void> {
-  //   const {data, error} = await this.supabase
-  //   .from('answerDetail')
-  //   .select('*')
-  //   .eq('id', id)
-  //   if(error || !data) return
-  //   console.log(data)
-  // }
 
   async getRelatedAnswers(answerId: number): Promise<object[]> {
     console.log(answerId)
@@ -84,7 +68,16 @@ export class Surveys {
       console.log(data)
     return data as any | null
   }
-          
+
+ async getStatisticsData(surveyId: number) {
+ let { data, error } = await this.supabase
+   .from('choosenDetail')
+   .select('*')
+   .eq('survey_id', surveyId)
+   console.log(data)
+   data ? this.statistics.set(data) : this.statistics.set([])
+   return data as statistics[] | null         
+}
 }
 
 

@@ -36,12 +36,18 @@
                 </div>
                 }
             </div>
-            <button class="completeSurveyButton">Complete survey</button>
+            <button class="completeSurveyButton" (click)="submitCompletedSurvey()">Complete survey</button>
         </div>
         <div class="statisticsWrapperRightSide">
+            @if(surveysData.statistics().length > 0) {
+                <h2>Survey Statistics <p class="live">&nbsp; Live</p></h2>
+                @for(question of questions; track question.id) {
+                    <p>{{ $index + 1 }} {{ question.question }} </p>
+                }
+            } @else{ 
             <h2>Survey Statistics <p class="live">&nbsp; Live</p></h2>
             <p class="statisticsDescription">Results will be shown here after<br> participants complete the survey.</p>
-            <p class="noAnswers">there are no answers yet</p>
+            <p class="noAnswers">there are no answers yet</p>}
         </div>
     </div>
 </section>

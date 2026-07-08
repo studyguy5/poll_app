@@ -26,3 +26,10 @@ export interface CompletedSurvey {
   answer_id: Number | undefined;
   // session_id: string;
 }
+
+export interface statistics {
+  survey_id: number;
+  question_id: number;
+  answer_id: number;
+  session_id: number;
+}
