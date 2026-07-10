@@ -73,6 +73,7 @@ export class ShowSurveyComponent {
     })
     console.log(this.questionId)
     await this.getAnswers()
+    this.xTimesSurveyFilled = await this.filterStatistics()
   }
 
 
@@ -167,6 +168,26 @@ export class ShowSurveyComponent {
         .insert(this.choosenAnswerArray[i]);
         console.log(completedSurvey)
     }
-    //============================================eventuell direkt über choosenAnswerArray iterieren und auf supabase pushen====================================
+
   }
+
+  xTimesSurveyFilled: number = 0 
+  async filterStatistics() {
+    let question = this.surveysData.statistics()
+    let amountOfQuestions = question.map((question) => question.created_at.split('.')[0])
+    amountOfQuestions = amountOfQuestions.map(question => question.split('T')[1])
+    this.xTimesSurveyFilled = new Set(amountOfQuestions).size //wie oft hat man die Survey ausgefüllt
+    let unique = [...new Set(question.map((question) => question.answer_id))];
+    let numbers:any = unique.map((value) =>  question.filter((x) => x.answer_id === value).length);
+    
+    
+    
+    
+    console.log(this.xTimesSurveyFilled) // wie oft hat man die Survey (mit dieser id) insgesamt ausgefüllt   
+    console.log(numbers) // wie oft hat man jede antwort gewählt
+    console.log(question)
+    console.log(amountOfQuestions)
+    // console.log(questionIds)
+    return this.xTimesSurveyFilled;
+}
 }

@@ -31,5 +31,5 @@ export interface statistics {
   survey_id: number;
   question_id: number;
   answer_id: number;
-  session_id: number;
+  created_at: string;
 }

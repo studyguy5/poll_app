@@ -74,6 +74,7 @@ export class Surveys {
    .from('choosenDetail')
    .select('*')
    .eq('survey_id', surveyId)
+   .order('answer_id', { ascending: true })
    console.log(data)
    data ? this.statistics.set(data) : this.statistics.set([])
    return data as statistics[] | null         

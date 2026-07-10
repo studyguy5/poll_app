@@ -43,6 +43,9 @@
                 <h2>Survey Statistics <p class="live">&nbsp; Live</p></h2>
                 @for(question of questions; track question.id) {
                     <p>{{ $index + 1 }} {{ question.question }} </p>
+                    @for (answer of question.answers; track $index) {
+                    <p>{{ letter[$index] }}. {{ xTimesSurveyFilled }}</p>
+                    }
                 }
             } @else{ 
             <h2>Survey Statistics <p class="live">&nbsp; Live</p></h2>
