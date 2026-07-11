@@ -17,6 +17,7 @@ body.show-body{
     display:flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0px 10px;
     > img{
         width:150px;
         height:50px;
@@ -37,12 +38,14 @@ body.show-body{
     width:100%;
     height:855px;
     background-color:rgb(255, 255, 255);
+    
 }
 
 .surveyWrapperLeftSide{
     display:flex;
     position:relative;
     padding: 40px 40px 40px 40px;
+    margin-left:10px;
     box-sizing: border-box;
     flex-direction: column;
     width:100%;
@@ -144,6 +147,7 @@ body.show-body{
 
 .statisticsWrapperRightSide{
     margin-left: 42px;
+    margin-right:15px;
     h2{
         display:flex;
         font-family: 'Nerko One', sans-serif;
@@ -164,5 +168,16 @@ body.show-body{
         font-size:18px;
         color:rgba(53, 39, 58, 1);
         margin-top:146px;
+    }
+}
+
+.diagram{
+    display:flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap:15px;
+    >b{
+        font-size:18px;
+        color:rgba(215, 148, 81, 1);
     }
 }

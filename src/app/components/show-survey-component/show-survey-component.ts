@@ -44,7 +44,7 @@ export class ShowSurveyComponent {
 
   constructor(@Inject(DOCUMENT) document: Document) {
     this.document = document;
-  
+
     // clearInterval(this.setInterval)
   }
   get questions() {
@@ -73,7 +73,7 @@ export class ShowSurveyComponent {
     })
     console.log(this.questionId)
     await this.getAnswers()
-    this.xTimesSurveyFilled = await this.filterStatistics()
+    {this.amount = [], this.xTimesSurveyFilled}  await this.filterStatistics()
   }
 
 
@@ -115,6 +115,7 @@ export class ShowSurveyComponent {
   }
 
   choosenAnswerArray: CompletedSurvey[] = []
+  submission_id = crypto.randomUUID()
 
   collectAnswerIds(event: Event, question: Question, answerId?: Number | undefined) {
     const questionblock = (event.target as HTMLElement).closest('.questionWrapper');
@@ -127,14 +128,16 @@ export class ShowSurveyComponent {
         this.choosenAnswerArray.push({
           survey_id: this.id,
           question_id: question.id,
-          answer_id: answerId
+          answer_id: answerId,
+          submission_id: this.submission_id
         })
         console.log(this.choosenAnswerArray)
       } else {
         this.choosenAnswerArray.push({
           survey_id: this.id,
           question_id: question.id,
-          answer_id: answerId
+          answer_id: answerId,
+          submission_id: this.submission_id
         })
       }
     } else if (questionblock?.querySelectorAll('input[type="checkbox"]:not(:checked)').length > 0) {
@@ -149,6 +152,10 @@ export class ShowSurveyComponent {
     }
   }
 
+  drawChart() {
+    
+  }
+
   async submitCompletedSurvey() {
     const surveyId = this.route.snapshot.paramMap.get('id'); //survey id holen
     if (!surveyId) {
@@ -157,37 +164,35 @@ export class ShowSurveyComponent {
     // const questionIds = this.choosenAnswerArray; // question und answer ids aus dem array holen
     let completedSurvey = {} as CompletedSurvey;
     for (let i = 0; i < this.choosenAnswerArray.length; i++) {
-      completedSurvey = {
-
-        survey_id: this.choosenAnswerArray[i].survey_id,
-        question_id: this.choosenAnswerArray[i].question_id,
-        answer_id: this.choosenAnswerArray[i].answer_id,
-      }
       const { data, error } = await this.supabase
         .from('choosenDetail')
         .insert(this.choosenAnswerArray[i]);
-        console.log(completedSurvey)
+      console.log(this.choosenAnswerArray)
     }
 
   }
 
-  xTimesSurveyFilled: number = 0 
+  amount: number[] = []
+  xTimesSurveyFilled: number = 0
   async filterStatistics() {
     let question = this.surveysData.statistics()
-    let amountOfQuestions = question.map((question) => question.created_at.split('.')[0])
-    amountOfQuestions = amountOfQuestions.map(question => question.split('T')[1])
-    this.xTimesSurveyFilled = new Set(amountOfQuestions).size //wie oft hat man die Survey ausgefüllt
-    let unique = [...new Set(question.map((question) => question.answer_id))];
-    let numbers:any = unique.map((value) =>  question.filter((x) => x.answer_id === value).length);
+    let uniqueAnswer: number[] = []
     
+    let unique = [...new Set(question.map((question) => question.submission_id))];
+    this.xTimesSurveyFilled = unique.length
     
+      uniqueAnswer = [...new Set(question.map((answer) => answer.answer_id))];
+      for (let j = 0; j < uniqueAnswer.length; j++) {
+        let number  = (question.filter((answer) => answer.answer_id === uniqueAnswer[j]).length)
+        this.amount.push(number)
+      }
+        
     
-    
+    console.log(uniqueAnswer)
+    console.log(this.amount)
     console.log(this.xTimesSurveyFilled) // wie oft hat man die Survey (mit dieser id) insgesamt ausgefüllt   
-    console.log(numbers) // wie oft hat man jede antwort gewählt
     console.log(question)
-    console.log(amountOfQuestions)
-    // console.log(questionIds)
-    return this.xTimesSurveyFilled;
-}
+
+    return this.xTimesSurveyFilled, this.amount;
+  }
 }

@@ -24,7 +24,7 @@ export interface CompletedSurvey {
   survey_id: number;
   question_id: number;
   answer_id: Number | undefined;
-  // session_id: string;
+  submission_id: string;
 }
 
 export interface statistics {
@@ -32,4 +32,5 @@ export interface statistics {
   question_id: number;
   answer_id: number;
   created_at: string;
+  submission_id: string;
 }
