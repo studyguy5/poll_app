@@ -73,7 +73,7 @@ export class ShowSurveyComponent {
     })
     console.log(this.questionId)
     await this.getAnswers()
-    {this.amount = [], this.xTimesSurveyFilled}  await this.filterStatistics()
+    {this.xTimesSurveyFilled, this.idsOfAnswer } await this.filterStatistics()
   }
 
 
@@ -153,7 +153,7 @@ export class ShowSurveyComponent {
   }
 
   drawChart() {
-    
+
   }
 
   async submitCompletedSurvey() {
@@ -172,27 +172,23 @@ export class ShowSurveyComponent {
 
   }
 
-  amount: number[] = []
+  specificIdamount: number[] = []
+  specificId: CompletedSurvey[][] = []
   xTimesSurveyFilled: number = 0
+  idsOfAnswer: number[] = []
+  isavailable: boolean = false
   async filterStatistics() {
-    let question = this.surveysData.statistics()
-    let uniqueAnswer: number[] = []
-    
-    let unique = [...new Set(question.map((question) => question.submission_id))];
-    this.xTimesSurveyFilled = unique.length
-    
-      uniqueAnswer = [...new Set(question.map((answer) => answer.answer_id))];
-      for (let j = 0; j < uniqueAnswer.length; j++) {
-        let number  = (question.filter((answer) => answer.answer_id === uniqueAnswer[j]).length)
-        this.amount.push(number)
-      }
-        
-    
-    console.log(uniqueAnswer)
-    console.log(this.amount)
-    console.log(this.xTimesSurveyFilled) // wie oft hat man die Survey (mit dieser id) insgesamt ausgefüllt   
-    console.log(question)
+    let statsOfChoosenAnswer = this.surveysData.statistics() // ganze Statistik holen
+    //how often has the survey been filled
+    let unique = [...new Set(statsOfChoosenAnswer.map((question) => question.submission_id))];
+    this.xTimesSurveyFilled = unique.length // wie oft wurde die survey ausgefüllt
 
-    return this.xTimesSurveyFilled, this.amount;
+    // how often has an answer been choosen
+    this.idsOfAnswer = statsOfChoosenAnswer.map((question) => question.answer_id) // alle gewählten Antworten  
+    
+    console.log(this.idsOfAnswer)
+    
+    console.log(this.xTimesSurveyFilled)
+    return this.xTimesSurveyFilled;
   }
 }

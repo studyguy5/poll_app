@@ -44,19 +44,25 @@
         </div>
         <div class="statisticsWrapperRightSide">
             @if(surveysData.statistics().length > 0) {
-            <h2>Survey Statistics <p class="live">&nbsp; Live</p>
-            </h2>
+                <h2>Survey Statistics <p class="live">&nbsp; Live</p>
+                </h2>
+                <p>allready <b>{{ xTimesSurveyFilled }}</b> participants filled this survey</p>
             @for(question of questions; track question.id) {
             <p>{{ $index + 1 }} {{ question.question }} </p>
             @for (answer of question.answers; track $index) {
-            
-            <p class="diagram">{{ letter[$index] }}.<svg width="255" height="14" viewBox="0 0 255 14" xmlns="http://www.w3.org/2000/svg">
-                <!-- Hintergrund -->
-                <rect x="0" y="0" width="255" height="14" rx="10" fill="#e5e7eb" />
 
-                <!-- Fortschritt: hier z. B. 60% -->
-                <rect x="0" y="0" [attr.width]="(amount[$index] / xTimesSurveyFilled) * 100 + '%'" height="14" rx="10" fill="#ffb770" />
-            </svg> <b>{{ xTimesSurveyFilled ? (amount[$index] / xTimesSurveyFilled) * 100 : 0 }}%</b></p>
+            <p class="diagram">{{ letter[$index] }}.<svg width="255" height="14" viewBox="0 0 255 14"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <!-- Hintergrund -->
+                    <rect x="0" y="0" width="255" height="14" rx="10" fill="#e5e7eb" />
+
+                    <!-- Fortschritt: hier z. B. 60% -->
+                    <rect x="0" y="0" [attr.width]="idsOfAnswer.includes(answer.id)
+                ? (idsOfAnswer.filter(id => id === answer.id).length / xTimesSurveyFilled) * 255
+                : 0" height="14" rx="10" fill="#ffb770" />
+                </svg> <b>{{ idsOfAnswer.includes(answer.id) ?
+                    (idsOfAnswer.filter((id) => id === answer.id).length / xTimesSurveyFilled * 100).toFixed(0) :
+                    0 }}%</b></p>
             }
             }
             } @else{
