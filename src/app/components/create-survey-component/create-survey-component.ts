@@ -15,7 +15,7 @@ import { createClient } from '@supabase/supabase-js';
 export class CreateSurveyComponent {
   supabase = createClient("https://cejvxxwyidgknkfbpvgp.supabase.co", "sb_publishable_PCQYT5KWUFY1hpKYJZM1XQ_2ej6CAmT")
   categoryArray: string[] = ['health-Care', 'business', 'lifestyle', 'education', 'population', 'money', 'Environment', 'Work'];
-  
+
   document;
   surveyName: FormControl<string | null>
   endDate: FormControl<string | null>;
@@ -37,7 +37,7 @@ export class CreateSurveyComponent {
   ngOnInit() {
     this.document.body.classList.add('survey-body');
   }
-  
+
   ngOnDestroy() {
     this.document.body.classList.remove('survey-body');
   }
@@ -65,11 +65,11 @@ export class CreateSurveyComponent {
 
   isDropdownOpen = false;
 
-  
+
   toggleDropDown() {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
-  
+
   async submit() {
     const payload = {
       title: this.surveyName.value,
@@ -79,13 +79,13 @@ export class CreateSurveyComponent {
     }
 
     const { data: survey, error: surveyError } = await this.supabase.
-    from('surveyDetail')
-    .insert(payload)
-    .select()
-    .single()
-    
-    if(surveyError) throw surveyError
-    if(survey) console.log(survey)
+      from('surveyDetail')
+      .insert(payload)
+      .select()
+      .single()
+
+    if (surveyError) throw surveyError
+    if (survey) console.log(survey)
 
     const questions = this.questions.getRawValue().map((question: any) => ({
       survey: survey.id,
@@ -93,9 +93,9 @@ export class CreateSurveyComponent {
       allowMultipleAnswers: question.allowMultipleAnswers,
     }));
     const { data: questionsData, error } = await this.supabase.
-    from('questionDetail')
-    .insert(questions)
-    .select()
+      from('questionDetail')
+      .insert(questions)
+      .select()
     console.log(questionsData)
 
     const answers = this.questions.getRawValue().flatMap(
@@ -110,9 +110,9 @@ export class CreateSurveyComponent {
     );
     console.log(answers)
     const answerData = await this.supabase.
-    from('answerDetail')
-    .insert(answers)
-    .select()
+      from('answerDetail')
+      .insert(answers)
+      .select()
     console.log(answerData)
   }
 
@@ -140,6 +140,10 @@ export class CreateSurveyComponent {
 
   categorySelected(category: string) {
     this.category.setValue(category);
+    this.document.querySelectorAll('.dropdownButton')?.forEach((button: any) =>
+      button.innerHTML = `${category}<img src="assets/arrow_drop_down.svg">`
+    );
+    this.toggleDropDown();
   }
 
   prefill() {
@@ -151,5 +155,5 @@ export class CreateSurveyComponent {
     this.questions.at(0).get('answers')?.setValue(['Yes', 'No']);
   }
 
-  
+
 }

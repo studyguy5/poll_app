@@ -55,6 +55,9 @@ body.home-body {
         border: 1px solid black;
         border-radius: 10px;
         cursor: pointer;
+        &:hover{
+            background-color: rgb(255, 183, 112);
+        }
     }
 }
 

@@ -32,7 +32,7 @@
                         </div>
                     </div>
                     <div class="dropdownMenuSite">
-                        <button (click)="toggleDropDown()" class="dropdownButton">choose Category<img
+                        <button (click)="toggleDropDown()" class="dropdownButton">Select category<img
                                 src="assets/arrow_drop_down.svg"></button>
                         <div [class.open]="isDropdownOpen" class="dropDownList">
                             @for (category of categoryArray; track category; let i = $index){

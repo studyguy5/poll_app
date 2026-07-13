@@ -36,7 +36,7 @@ body.show-body{
     max-width:1280px;
     margin-top:37px;
     width:100%;
-    height:855px;
+    // height:855px;
     background-color:rgb(255, 255, 255);
     
 }
@@ -50,7 +50,7 @@ body.show-body{
     flex-direction: column;
     width:100%;
     max-width:702px;
-    height:855px;
+    // height:855px;
     border-top-right-radius: 160px;
     background-color: rgb(243,239,245);
     >.statusOfSurvey{
@@ -130,9 +130,10 @@ body.show-body{
 
 .completeSurveyButton{
     cursor:pointer;
-    position:absolute;
-    bottom: 40px;
-    right: 40px;
+    display:flex;
+    align-self:end;
+    justify-self: end;
+    width:130px;
     padding: 8px 12px;
     border-radius: 10px;
     border: 1px solid rgba(255, 183, 112, 0.3);
@@ -140,9 +141,7 @@ body.show-body{
      &:hover{
          background-color: rgba(255, 183, 112, 0.6);
      }
-    // border-color: rgba(255, 183, 112, 0.3);
-    // width:159px;
-    // height:37px;
+    
 }
 
 .statisticsWrapperRightSide{
