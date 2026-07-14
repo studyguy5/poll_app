@@ -22,7 +22,7 @@
                 @for (item of filterSurveys(); track item) {
                     <div [routerLink]="[`activeSurvey/${item.id}`]" class="survey-card">
                         <p>{{ item.title }}</p>
-                        <p>{{ item.description }}</p>
+                        <p class="surveyDescription">{{ item.description }}</p>
                         <p>{{ item.deadline }}</p>
                     </div>
                 }
@@ -32,18 +32,25 @@
         <div class="allSurveysArea">
             <div class="filterArea">
                 <div class="activePastButtonArea">
-                    <button>Active survey</button>
-                    <button>past survey</button>
+                    <button (click)="filterActiveSurveys()">Active survey</button>
+                    <button (click)="filterPastSurveys()">past survey</button>
                 </div>
                 <div class="sortArea">
-                    <button class="sortedBy">Sort by categories
+                    <button (click)="toggleFilterOption()" class="sortedBy">Sort by categories
                         <img src="assets/arrow_drop_down.svg">
                     </button>
+                    <div [class.open]="dropdownOpen" class="categorys">
+                        <div class="dropDownList">
+                        @for (category of categoryArray; track category; let i = $index){
+                                <div (click)="filterThisCategory(category)" class="dropDownItem">{{ category }}</div>
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="listingSurveys">
                 @if(surveysData){
-                @for (item of surveysData.surveys(); track item) {
+                @for (item of filteredSurveys.length ? filteredSurveys : surveysData.surveys(); track item) {
                     <div [routerLink]="[`activeSurvey/${item.id}`]" class="survey-card">
                         <p class="allTitle">{{ item.title }}</p>
                         <p class="allDescription">{{ item.description }}</p>
