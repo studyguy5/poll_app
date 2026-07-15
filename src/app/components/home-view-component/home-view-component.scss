@@ -22,11 +22,15 @@ body.home-body {
     >img {
         width: 119px;
         height: 46px;
+        position:relative;
+        right:88px;
     }
 }
 
 .textInfoImgDiv {
     display: flex;
+    position:relative;
+    right:88px;
 }
 
 .leftSideText {
@@ -75,6 +79,10 @@ body.home-body {
     >img:hover {
         animation: change 0.25s ease-in-out forwards;
     }
+}
+
+.smartphoneImgResponsive{
+    display:none;
 }
 
 @keyframes change {
@@ -134,7 +142,8 @@ body.home-body {
         padding: 40px 44px 60px 44px;
         background-color: white;
         color: black;
-        width: 321px;
+        max-width: 321px;
+        width: 100%;
         height: 310px;
         font-family: 'Mulish', sans-serif;
         font-size: 24px;
@@ -228,6 +237,7 @@ body.home-body {
     grid-template-columns: repeat(2, 1fr);
     max-height:413px;
     max-width:calc(1042px + 14px);
+    width: 100%;
     scrollbar-width: thin;
     scrollbar-color: rgb(255, 183, 112) transparent;   
     padding: 0px 5px 0px 0px;
@@ -242,7 +252,9 @@ body.home-body {
         padding: 12px 20px;
         background-color: rgb(66,52,70);
         color: white;
-        width: 513px;
+        max-width: 513px;
+        width:100%;
+        min-width: 0px;
         height: 127px;
         font-family: 'Mulish', sans-serif;
         font-size: 24px;
@@ -329,4 +341,150 @@ body.home-body {
     height:290px;
     gap: 5px;
     background-color:rgb(255,183,112);
+}
+.categorys{
+    pointer-events: none;
+}
+
+@media (max-width: 1280px) {
+    .leftSideText {
+        >h4{
+            font-size: 70px;
+        }
+    }
+    .rightSideImg{
+        >img{
+            width:346px;
+            height: 340px;
+        }
+    }
+
+}
+// .surveys{
+//     >.survey-card{
+//         width: 271px;
+//         height: 260px;
+        
+//     }
+// }
+
+@media(max-width:925px){
+    .surveys{
+        display:flex;
+        flex-direction: column;
+        >.survey-card{
+            width: 271px;
+            height: 260px;
+            padding: 25px 34px 50px 25px;
+            >p{
+                font-size:20px;
+            }
+        }
+    }
+}
+
+@media(max-width:836px){
+    .leftSideText{
+        >h4{
+            font-size:50px;
+        }
+        >p{
+            font-size:20px;
+        }
+    }
+    .rightSideImg{
+        >img{
+            width:306px;
+            height: 300px;
+        }
+    }
+    .main-section{
+        >img{
+            right:40px;
+        }
+    }
+
+    .textInfoImgDiv{
+        gap:30px;
+        right:40px;
+    }
+
+    .survey-section{
+        >.headline{
+            font-size:60px;
+        }
+    }
+    body.home-body{
+        margin: 39px 80px 92px 80px;
+    }
+}
+
+@media(max-width:710px){
+    .listingSurveys{
+        grid-template-columns: 1fr;
+        
+        
+    }
+}
+
+@media(max-width:600px){
+    body.home-body{
+        margin: 39px 40px 92px 40px;
+    }
+    .main-section{
+        >img{
+            right:20px;
+        }
+    }
+
+    .textInfoImgDiv{
+        gap:20px;
+        right:20px;
+    }
+}
+
+@media(max-width:580px){
+    .rightSideImg{
+        display:none;
+    }
+    .smartphoneImgResponsive{
+        display:flex;
+        >img{
+            width:336px;
+            height: 330px;
+        }
+    }
+    .leftSideText{
+        width:80%;
+    }
+}
+
+@media(max-width:500px){
+    body.home-body{
+        margin: 39px 30px 92px 30px;
+    }
+    .main-section{
+        >img{
+            right:10px;
+        }
+    }
+
+    .textInfoImgDiv{
+        gap:20px;
+        right:10px;
+    }
+    .filterArea {
+        display:grid;
+        height:105px;
+        margin-bottom:30px;
+        gap:48px;
+    .activePastButtonArea{
+        width: 249px;
+        gap: 14px;
+    }
+    .sortArea{
+        width: 149px;
+        gap: 14px;
+    }
+}
 }
