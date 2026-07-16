@@ -17,6 +17,9 @@ export class HomeViewComponent {
   surveysData = inject(Surveys);
   document;
   today = new Date();
+  todayInMilliseconds = new Date().getTime();
+  deadlineToday = new Date().getDay();
+  deadlineDate!: number;
   in30Days = new Date();
   deadline!: number;
   isWithinNext30Days!: boolean;
@@ -45,9 +48,10 @@ filterSurveys(){
   return this.surveysData;
 }
 
-// loadQuestions(id: number) {
-//     this.surveysData.getRelatedQuestions(id);
-//   }
+getDeadlineDate(deadline: string) {
+  this.deadlineDate = new Date(deadline).getTime();
+  return this.deadlineDate
+}
 
 answers: object[] = [];
   async getAnswers(answerId: number): Promise<object[]> {
