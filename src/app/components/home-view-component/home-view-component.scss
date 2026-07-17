@@ -422,6 +422,8 @@ body.home-body {
     .surveys{
         display:flex;
         flex-direction: column;
+        scrollbar-width: thin;
+        scrollbar-color: rgb(255, 183, 112) transparent;
         >.survey-card{
             width: 271px;
             height: 260px;
@@ -479,7 +481,7 @@ body.home-body {
 
 @media(max-width:600px){
     body.home-body{
-        margin: 39px 40px 92px 40px;
+        margin: 39px 30px 92px 30px;
     }
     .main-section{
         >img{
@@ -500,8 +502,8 @@ body.home-body {
     .smartphoneImgResponsive{
         display:flex;
         >img{
-            width:336px;
-            height: 330px;
+            width:286px;
+            height: 280px;
         }
     }
     .leftSideText{
@@ -511,17 +513,17 @@ body.home-body {
 
 @media(max-width:500px){
     body.home-body{
-        margin: 39px 30px 92px 30px;
+        margin: 39px 10px 92px 10px;
     }
     .main-section{
         >img{
-            right:10px;
+            right:0px;
         }
     }
 
     .textInfoImgDiv{
         gap:20px;
-        right:10px;
+        right:0px;
     }
     .filterArea {
         display:grid;
@@ -536,5 +538,9 @@ body.home-body {
         width: 149px;
         gap: 14px;
     }
+}
+.listingSurveys{
+    max-height:unset;
+    
 }
 }
