@@ -594,6 +594,7 @@ body.survey-body {
         width: 100%;
         justify-items: center;
         row-gap: 82px;
+        height: unset;
     }
 
     .descriptionAria {
@@ -602,6 +603,9 @@ body.survey-body {
 
     .questionArea {
         margin-left: -35px;
+    }
+    .newSurveyWrapper{
+        max-height: unset;
     }
 }
 

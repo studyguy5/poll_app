@@ -58,7 +58,7 @@
                 @for (questionGroup of questions.controls; track $index; let qIndex = $index){
             <div class="questionArea">
                 <div class="headlineAndImg">
-                    <p class="question">1. Questions</p>
+                    <p class="question">{{ $index + 1 }}. Question</p>
                     <img src="assets/icons/Delete.svg" (click)="questions.removeAt($index)">
                 </div>
                 <div class="questionInput">
