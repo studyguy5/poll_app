@@ -206,6 +206,11 @@ body.show-body {
     .surveyStatisticWrapper {
         flex-direction: column;
     }
+    .statisticsWrapperRightSide{
+    >h2{
+            margin-top:105px;
+    }
+}
 }
 
 @media(max-width:730px) {

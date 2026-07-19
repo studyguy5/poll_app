@@ -12,6 +12,7 @@ export interface Question {
   question: string;
   allowMultipleAnswers: boolean;
   answers:Answer[];
+  survey: number
 }
 
 export interface Answer {
