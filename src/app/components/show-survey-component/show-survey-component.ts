@@ -152,9 +152,7 @@ export class ShowSurveyComponent {
     }
   }
 
-  drawChart() {
-
-  }
+  
 
   async submitCompletedSurvey() {
     const surveyId = this.route.snapshot.paramMap.get('id'); //survey id holen

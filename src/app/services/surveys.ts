@@ -20,6 +20,7 @@ export class Surveys {
   statistics = signal<statistics[]>([]);
 
   channels: RealtimeChannel | undefined;
+  filterStatistics: any;
   constructor() {
     this.surveys.set([
       {
@@ -72,7 +73,7 @@ export class Surveys {
     return data as any | null
   }
 
-  async getStatisticsData(surveyId: number) {
+  async getStatisticsData(surveyId: number) {   //holt alle einträge mit der bestimmten survey id
     let { data, error } = await this.supabase
       .from('choosenDetail')
       .select('*')
@@ -113,7 +114,8 @@ export class Surveys {
         'postgres_changes',
         { event: '*', schema: 'public', table: 'answerDetail' },
         (payload: { new?: { id?: number; answer?: string, question?: number } }) => {
-          
+          console.log('table3', payload)
+          // this.getRelatedAnswers(payload.new?.question || 0)
           
           
           
@@ -123,14 +125,22 @@ export class Surveys {
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'choosenDetail' },
-        (payload) => {
+        (payload: { new?: { id?: number; answer_id?: number, question_id?: number, survey_id?: number } }) => {
           console.log('table4', payload)
-        }
-      )
+          this.getStatisticsData(payload.new?.survey_id || 0)
+          // this.statistics.update((statistics) => statistics.map(
+          //   (statistic) => statistic.answer_id === payload.new?.answer_id ? { ...statistic, answer_id: payload.new?.answer_id } : statistic)
+          
+          // ),
+          this.filterStatistics()
+          },
+        )
+        
       .subscribe()
 
 
   }
+  
 
   
 
