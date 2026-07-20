@@ -89,6 +89,13 @@ answers: object[] = [];
     this.filteredSurveys = activeSurveys
     this.isFiltered = true
     console.log(this.isFiltered)
+    document.querySelectorAll('.activeSurvey')?.forEach((button: any) =>
+      button.style.backgroundColor = 'rgba(255, 183, 112, 1)'
+    );
+
+    document.querySelectorAll('.pastSurvey')?.forEach((button: any) =>
+      button.style.backgroundColor = 'rgba(255, 207, 161, 1)'
+    );
   }
 
   filterPastSurveys(){
@@ -99,6 +106,13 @@ answers: object[] = [];
     this.filteredSurveys = pastSurveys
     this.isFiltered = true
     console.log(this.isFiltered)
+    document.querySelectorAll('.pastSurvey')?.forEach((button: any) =>
+      button.style.backgroundColor = 'rgba(255, 183, 112, 1)'
+    );
+
+    document.querySelectorAll('.activeSurvey')?.forEach((button: any) =>
+      button.style.backgroundColor = 'rgba(255, 207, 161, 1)'
+    );
   }
   
   }

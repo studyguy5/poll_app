@@ -24,8 +24,8 @@
             @if(surveysData){
                 @for (item of filterSurveys(); track item) {
                     <div [routerLink]="[`activeSurvey/${item.id}`]" class="survey-card">
-                        <p>{{ item.title }}</p>
-                        <p class="surveyDescription">{{ item.description }}</p>
+                        <p class="surveyCategory">{{ item.category }}</p>
+                        <p class="surveyDescription">{{ item.title }}</p>
                         <p class="filteredSurveysDeadline">Ends in {{ (((getDeadlineDate(item.deadline) - todayInMilliseconds)/86400000) + 0.5).toFixed(0) }}day(s)</p>
                         
                     </div>
@@ -36,8 +36,8 @@
         <div class="allSurveysArea">
             <div class="filterArea">
                 <div class="activePastButtonArea">
-                    <button (click)="filterActiveSurveys()">Active survey</button>
-                    <button (click)="filterPastSurveys()">past survey</button>
+                    <button class="activeSurvey" (click)="filterActiveSurveys()">Active survey</button>
+                    <button class="pastSurvey" (click)="filterPastSurveys()">past survey</button>
                 </div>
                 <div class="sortArea">
                     <button (click)="toggleFilterOption()" class="sortedBy">Sort by categories
@@ -56,8 +56,8 @@
                 @if(surveysData){
                 @for (item of filteredSurveys.length ? filteredSurveys : surveysData.surveys(); track item) {
                     <div [routerLink]="[`activeSurvey/${item.id}`]" class="survey-card">
+                        <p class="surveyCategoryMain">{{ item.category }}</p>
                         <p class="allTitle">{{ item.title }}</p>
-                        <p class="allDescription">{{ item.description }}</p>
                         <p class="allDeadline">{{ +(((getDeadlineDate(item.deadline) - todayInMilliseconds)/86400000) + 0.5).toFixed(0) >= 0
                          ? 'Ends in ' + (((getDeadlineDate(item.deadline) - todayInMilliseconds)/86400000) + 0.5).toFixed(0) + ' day(s)' : 'Expired' }}</p>
                     </div>

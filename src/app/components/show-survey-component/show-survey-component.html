@@ -1,11 +1,15 @@
 <section class="mainWrapper">
     <div class="headLogoButtonArea">
         <img src="assets/poll_appLogoDark.svg">
-        <button class="createButton" [routerLink]="['newSurvey']">New Survey</button>
+        <button class="createButton" [routerLink]="['newSurvey']">New Survey<img
+                src="assets/icons/plus_symbolBlack.svg"></button>
     </div>
     <div class="surveyStatisticWrapper">
         <div class="surveyWrapperLeftSide">
-            <p class="statusOfSurvey">Published</p>
+            <div class="statusCloseArea">
+                <p class="statusOfSurvey">Published</p>
+                <button routerLink="/" class="closeSurvey"><img src="assets/icons/black_closeButton.svg"></button>
+            </div>
             <div class="mainSurvey">
                 @if(survey) {
                 <div class="deadlineCategoryWrapper">
@@ -44,9 +48,9 @@
         </div>
         <div class="statisticsWrapperRightSide">
             @if(surveysData.statistics().length > 0) {
-                <h2>Survey Statistics <p class="live">&nbsp; Live</p>
-                </h2>
-                <p>allready <b>{{ xTimesSurveyFilled }}</b> participants filled this survey</p>
+            <h2>Survey Statistics <p class="live">&nbsp; Live</p>
+            </h2>
+            <p>allready <b>{{ computedStatistics().xTimesSurveyFilled }}</b> participants filled this survey</p>
             @for(question of questions; track question.id) {
             <p>{{ $index + 1 }} {{ question.question }} </p>
             @for (answer of question.answers; track $index) {
@@ -57,12 +61,13 @@
                     <rect x="0" y="0" width="255" height="14" rx="10" fill="#e5e7eb" />
 
                     <!-- Fortschritt: hier z. B. 60% -->
-                    <rect x="0" y="0" [attr.width]="idsOfAnswer.includes(answer.id)
-                ? (idsOfAnswer.filter(id => id === answer.id).length / xTimesSurveyFilled) * 255
+                    <rect x="0" y="0" [attr.width]="computedStatistics().idsOfAnswer.includes(answer.id) ? 
+                    (computedStatistics().idsOfAnswer.filter((id) => id === answer.id).length / computedStatistics().xTimesSurveyFilled ) * 255
                 : 0" height="14" rx="10" fill="#ffb770" />
-                </svg> <b>{{ idsOfAnswer.includes(answer.id) ?
-                    (idsOfAnswer.filter((id) => id === answer.id).length / xTimesSurveyFilled * 100).toFixed(0) :
-                    0 }}%</b></p>
+                </svg> <b>{{ computedStatistics().idsOfAnswer.includes(answer.id) ?
+                    ((computedStatistics().idsOfAnswer.filter((id) => id === answer.id).length /
+                    computedStatistics().xTimesSurveyFilled) * 100).toFixed(0)
+                    : 0 }}%</b></p>
             }
             }
             } @else{

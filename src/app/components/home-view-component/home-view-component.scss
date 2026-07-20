@@ -164,6 +164,13 @@ body.home-body {
     margin-bottom: 40px;
 
     >.survey-card {
+        >.surveyCategory{
+            
+            color:black;
+            font-weight:bold;
+            font-size: 16px;
+            width:80px;
+        }
         // overflow-y:scroll;
         box-sizing: border-box;
         padding: 40px 44px 60px 30px;
@@ -318,14 +325,12 @@ body.home-body {
         >p{
             margin: 0px;
         }
-
-        >.allTitle{
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 4px;
+        >.surveyCategoryMain{
             color: rgba(255, 207, 161, 1);
         }
-        >.allDescription{
+
+        
+        >.allTitle{
             white-space:nowrap;
             overflow:hidden;
             text-overflow: ellipsis;
@@ -338,8 +343,10 @@ body.home-body {
             align-self: flex-end;
             font-size: 12px;
             font-weight: 400;
+            padding: 3px 6px;
             background-color: rgb(255, 183, 112);
             border: 1px solid rgb(14, 13, 12);
+            border-radius: 0px 14px 0px 0px;
         }
     }
 }
@@ -537,6 +544,15 @@ body.home-body {
     .sortArea{
         width: 149px;
         gap: 14px;
+        >.sortedBy{
+            margin-right:-10px;
+        }
+        .categorys{
+            left:5px;
+        }
+        .categorys.open{
+            left:5px;
+        }
     }
 }
 .listingSurveys{

@@ -24,22 +24,43 @@ body.survey-body {
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
 
-    >.firstPTag {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 3px 12px 3px 8px;
-        background-color: rgb(255, 183, 112);
-        border-top-right-radius: 14px;
-        border-top-left-radius: 0px;
-        border-bottom-right-radius: 0px;
-        border-bottom-left-radius: 0px;
-        font-family: 'Mulish', sans-serif;
-        font-size: 16px;
-        font-weight: 700;
-        color: rgb(0, 0, 0);
-        width: 59px;
-        height: 26px;
+    >.statusCloseArea{
+        
+        >.firstPTag {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3px 12px 3px 8px;
+            background-color: rgb(255, 183, 112);
+            border-top-right-radius: 14px;
+            border-top-left-radius: 0px;
+            border-bottom-right-radius: 0px;
+            border-bottom-left-radius: 0px;
+            font-family: 'Mulish', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: rgb(0, 0, 0);
+            width: 59px;
+            height: 26px;
+        }
+        >.cancelButtonMobile{
+            display:none;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(113, 82, 74);
+            border: 1px solid rgb(113, 82, 74);
+            border-radius:15px;
+            cursor:pointer;
+            width:40px;
+            height:40px;
+            >img{
+                width:20px;
+                height:20px;
+            }
+            &:hover{
+                background-color: rgb(150, 117, 112);
+            }
+        }
     }
 }
 
@@ -100,6 +121,8 @@ body.survey-body {
         }
     }
 }
+
+
 
 .publishButton {
     display: flex;
@@ -265,6 +288,7 @@ body.survey-body {
     }
 
     .dropDownList.open {
+        // position:absolute;
         >.dropDownItem {
 
             pointer-events: all;
@@ -300,10 +324,10 @@ body.survey-body {
         opacity: 0;
         background-color: rgb(180, 145, 69);
         transition: all 0.3s ease-in-out;
-
+        position: absolute;
         // cursor: pointer;
         &.open {
-            position: relative;
+            position: absolute;
             height: 300px;
 
             z-index: 2;
@@ -615,6 +639,17 @@ body.survey-body {
         >.headline {
             font-size: 40px;
         }
+        .cancelButton{
+            display:none;
+        }
+    }
+    .newSurveyWrapper{
+        >.statusCloseArea{
+            
+            .cancelButtonMobile{
+                display:flex;
+            }
+        }
     }
 }
 
@@ -625,7 +660,7 @@ body.survey-body {
 
     .descriptionAria {
         width: unset;
-        //  margin-left:0px;
+       
         gap: 5px;
 
         >.textareaAndImg {
@@ -660,11 +695,12 @@ body.survey-body {
 
     .descriptionAria {
         width: 95%;
+        margin-left: 0px;
     }
 
     .questionArea {
         width: 95%;
-        margin-left: 5px;
+        margin-left: -5px;
 
         >.headlineAndImg {
             width: 95%;
@@ -710,5 +746,8 @@ body.survey-body {
         }
 
         row-gap:95px;
+    }
+    .descriptionAria{
+        margin-left:0px;
     }
 }

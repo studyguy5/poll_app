@@ -1,13 +1,15 @@
-import { Component, OnDestroy, OnInit, WritableSignal } from '@angular/core';
+import { Component, OnDestroy, OnInit, Signal } from '@angular/core';
 import { Inject, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Surveys } from '../../services/surveys';
-import { Answer, Survey } from '../../interfaces/survey-interface';
+import { Answer, statistics, Survey } from '../../interfaces/survey-interface';
 import { Question } from '../../interfaces/survey-interface';
+import { computedStatistics } from '../../interfaces/survey-interface';
 import { CompletedSurvey } from '../../interfaces/survey-interface';
 import { createClient } from '@supabase/supabase-js';
-
+import { computed } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-show-survey-component',
@@ -23,6 +25,7 @@ export class ShowSurveyComponent {
   id: number = 1;
   letter: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
   supabase = createClient("https://cejvxxwyidgknkfbpvgp.supabase.co", "sb_publishable_PCQYT5KWUFY1hpKYJZM1XQ_2ej6CAmT")
+  router: any;
 
   get survey(): Survey | undefined {
     const idParam = this.route.snapshot.paramMap.get('id');
@@ -39,23 +42,23 @@ export class ShowSurveyComponent {
   }
 
 
-
   idForQuestions: number = 1
-
-  constructor(@Inject(DOCUMENT) document: Document) {
+  
+  constructor(@Inject(DOCUMENT) document: Document, router: Router) {
     this.document = document;
-
+    this.router = router
     // clearInterval(this.setInterval)
   }
   get questions() {
     return this.surveysData.questions()
   }
+  
 
   questionId: number[] = [];
-
+  
   async ngOnInit() {
     this.document.body.classList.add('show-body');
-    // const survey = 
+    console.log(this.computedStatistics)      
     const survey = this.route.snapshot.paramMap.get('id');
     if (!survey) {
       return;
@@ -65,7 +68,7 @@ export class ShowSurveyComponent {
       return;
     }
     this.id = id;
-    await this.surveysData.getStatisticsData(id)
+    await this.surveysData.getStatisticsData(id) // alle Einträge zu einer survey id
     await this.surveysData.setRelatedQuestions(this.id) // holt sich die related questions anhand der id
     this.questionId = this.questions.map((question) => {
       console.log(question.id);
@@ -73,7 +76,7 @@ export class ShowSurveyComponent {
     })
     console.log(this.questionId)
     await this.getAnswers()
-    {this.xTimesSurveyFilled, this.idsOfAnswer } await this.filterStatistics()
+    
   }
 
 
@@ -167,26 +170,31 @@ export class ShowSurveyComponent {
         .insert(this.choosenAnswerArray[i]);
       console.log(this.choosenAnswerArray)
     }
-
+    setTimeout(() => {
+      
+      this.router.navigate(['/']);
+    }, 4000)
+    
+    
   }
 
-  specificIdamount: number[] = []
-  specificId: CompletedSurvey[][] = []
   xTimesSurveyFilled: number = 0
-  idsOfAnswer: number[] = []
-  isavailable: boolean = false
-  async filterStatistics() {
-    let statsOfChoosenAnswer = this.surveysData.statistics() // ganze Statistik holen
-    //how often has the survey been filled
-    let unique = [...new Set(statsOfChoosenAnswer.map((question) => question.submission_id))];
-    this.xTimesSurveyFilled = unique.length // wie oft wurde die survey ausgefüllt
-
-    // how often has an answer been choosen
-    this.idsOfAnswer = statsOfChoosenAnswer.map((question) => question.answer_id) // alle gewählten Antworten  
+  // idsOfAnswer: number[] = []
+  
+  computedStatistics: Signal<computedStatistics> = computed(() => {
+    const statisticsData = this.surveysData.statistics()
+    const uniqueSubmissionIds = new Set(statisticsData.map((item) => item.submission_id)).size
+    console.log('submission', uniqueSubmissionIds)
     
-    console.log(this.idsOfAnswer)
-    
-    console.log(this.xTimesSurveyFilled)
-    return this.xTimesSurveyFilled;
+    return {
+      xTimesSurveyFilled: uniqueSubmissionIds,
+      idsOfAnswer: statisticsData.map((item) => item.answer_id)
+      
+    }
   }
+  
+)
+
+
+  
 }

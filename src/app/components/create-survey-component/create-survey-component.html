@@ -1,8 +1,11 @@
 <div class="newSurveyWrapper">
-    <p class="firstPTag">Draft</p>
+    <div class="statusCloseArea">
+        <p class="firstPTag">Draft</p>
+        <button routerLink="/" class="cancelButtonMobile"><img src="assets/icons/close.svg"></button>
+    </div>
     <div class="headlineButtonAria">
         <p class="headline">Create new survey</p>
-        <button class="cancelButton">Cancel<img src="assets/icons/close.svg"></button>
+        <button routerLink="/" class="cancelButton">Cancel<img src="assets/icons/close.svg"></button>
     </div>
     <div class="newSurveyForm">
         <div class="mainDataOfSurvey">
@@ -16,9 +19,9 @@
                         <img src="assets/icons/Delete.svg" (click)="surveyName.setValue('')">
                     </div>
                     @if(surveyName.invalid && surveyName.touched){
-                        <p class="surveyNameError">Survey name is required</p>
+                    <p class="surveyNameError">Survey name is required</p>
                     }@else {
-                        <p class="surveyNameError"></p>
+                    <p class="surveyNameError"></p>
                     }
                 </div>
                 <div class="setEndDateArea">
@@ -36,7 +39,7 @@
                                 src="assets/arrow_drop_down.svg"></button>
                         <div [class.open]="isDropdownOpen" class="dropDownList">
                             @for (category of categoryArray; track category; let i = $index){
-                                <div class="dropDownItem" (click)="categorySelected(category)">{{ category }}</div>
+                            <div class="dropDownItem" (click)="categorySelected(category)">{{ category }}</div>
                             }
                         </div>
                     </div>
@@ -48,14 +51,14 @@
                     <div class="descriptionInput">
                         <textarea type="text" id="description" [formControl]="description"></textarea>
                         @if(description.invalid && description.touched){
-                            <p class="descriptionError">Description is required</p>
+                        <p class="descriptionError">Description is required</p>
                         }
                     </div>
                     <img src="assets/icons/Delete.svg" (click)="description.setValue('')">
                 </div>
             </div>
             @if (questions.length > 0) {
-                @for (questionGroup of questions.controls; track $index; let qIndex = $index){
+            @for (questionGroup of questions.controls; track $index; let qIndex = $index){
             <div class="questionArea">
                 <div class="headlineAndImg">
                     <p class="question">{{ $index + 1 }}. Question</p>
@@ -65,41 +68,45 @@
                     <input type="text" id="question" [formControl]="asFormControl(questionGroup.get('question'))">
                 </div>
                 @if(questionGroup.get('question')?.invalid && questionGroup.get('question')?.touched){
-                    <p class="questionError">Question is required</p>
+                <p class="questionError">Question is required</p>
                 }@else {
-                    <p class="questionError"></p>
+                <p class="questionError"></p>
                 }
                 <div class="answerHeadlineAndSetting">
                     <p>Answers</p>
                     <div class="checkboxAndPtag">
-                        <input [formControl]="asFormControl(questionGroup.get('allowMultipleAnswers'))" type="checkbox" name="setting" id="checkbox">
+                        <input [formControl]="asFormControl(questionGroup.get('allowMultipleAnswers'))" type="checkbox"
+                            name="setting" id="checkbox">
                         <p class="settingDetail">allow multiple answers</p>
                     </div>
                 </div>
-                
-                    @for(answer of getAnswers(qIndex).controls; track answer; let aIndex = $index){
-                        <div class="answerBox">
-                            <div class="count">{{ letter[aIndex] }}.</div>
-                            <div class="answerInput">
-                                <input type="text" id="answer" [formControl]="answer">
-                            </div>
-                            <img src="assets/icons/Delete.svg" (click)="deleteAnswer(qIndex, aIndex)">
-                        </div>
-                        @if(answer.invalid && answer.touched){
-                            <p class="answerError">Answer is required</p>
-                        }@else{
-                            <p class="answerError"></p>
-                        }
-                    }
-                
-            
-                
-                <button (click)="addAnswer($index)" class="addLink" type="button">Add answer <img src="assets/icons/add_circle.svg"></button>
-                <button (click)="prefill()" class="addLink" type="button" >prefill</button>
+
+                @for(answer of getAnswers(qIndex).controls; track answer; let aIndex = $index){
+                <div class="answerBox">
+                    <div class="count">{{ letter[aIndex] }}.</div>
+                    <div class="answerInput">
+                        <input type="text" id="answer" [formControl]="answer">
+                    </div>
+                    <img src="assets/icons/Delete.svg" (click)="deleteAnswer(qIndex, aIndex)">
+                </div>
+                @if(answer.invalid && answer.touched){
+                <p class="answerError">Answer is required</p>
+                }@else{
+                <p class="answerError"></p>
+                }
+                }
+
+
+
+                <button (click)="addAnswer($index)" class="addLink" type="button">Add answer <img
+                        src="assets/icons/add_circle.svg"></button>
+                <button (click)="prefill()" class="addLink" type="button">prefill</button>
             </div>
-        }}
-        <button (click)="addQuestion()" type="button" class="addQuestionButton">Add question <img src="assets/icons/add_circle.svg"></button>
+            }}
+            <button (click)="addQuestion()" type="button" class="addQuestionButton">Add question <img
+                    src="assets/icons/add_circle.svg"></button>
         </div>
     </div>
-    <button class="publishButton" type="submit" (click)="submit()">Publish<img src="assets/icons/publish_check.svg"></button>
+    <button class="publishButton" type="submit" (click)="submit()">Publish<img
+            src="assets/icons/publish_check.svg"></button>
 </div>

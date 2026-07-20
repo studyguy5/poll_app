@@ -1,3 +1,5 @@
+import { computed } from "@angular/core";
+
 export interface Survey {
   id: number;
   title: string;
@@ -34,4 +36,11 @@ export interface statistics {
   answer_id: number;
   created_at: string;
   submission_id: string;
+  xTimesSurveyFilled: number
+  idsOfAnswer: number[]
+}
+
+export interface computedStatistics {
+  xTimesSurveyFilled: number
+  idsOfAnswer: number[]
 }

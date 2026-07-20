@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
-import { signal } from '@angular/core';
+import { signal, computed, Signal } from '@angular/core';
 import { Survey } from '../interfaces/survey-interface';
 import { createClient, RealtimeChannel, RealtimePostgresChangesPayload } from '@supabase/supabase-js';
 import { Question } from '../interfaces/survey-interface';
 import { statistics } from '../interfaces/survey-interface';
+import { computedStatistics } from '../interfaces/survey-interface';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class Surveys {
+  [x: string]: any;
 
   supabase = createClient("https://cejvxxwyidgknkfbpvgp.supabase.co", "sb_publishable_PCQYT5KWUFY1hpKYJZM1XQ_2ej6CAmT")
 
@@ -18,9 +21,11 @@ export class Surveys {
   questions = signal<Question[]>([]);
 
   statistics = signal<statistics[]>([]);
+  
 
   channels: RealtimeChannel | undefined;
-  filterStatistics: any;
+  // reference to a component or handler that may implement filterStatistics
+
   constructor() {
     this.surveys.set([
       {
@@ -32,8 +37,10 @@ export class Surveys {
       }
     ])
     this.getSurveys()
-    this.subscribeToTables()
+    this["subscribeToTables"]()
   }
+  
+  
 
 
 
@@ -84,55 +91,19 @@ export class Surveys {
     return data as statistics[] | null
   }
 
+  
+
+  
+
+
   async subscribeToTables() {
     this.channels = this.supabase.channel('custom-all-channels')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'surveyDetail' },
-        (payload) => {
-          console.log('table1', payload)
-          this.getSurveys()
-        }
-      )
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'questionDetail' },
-        (payload: { new?: { id?: number; question?: string, allowMultipleAnswers?: boolean, survey?: number } }) => {
-
-          console.log('table2', payload)
-          this.setRelatedQuestions(payload.new?.survey || 0)
-
-          //Fragen selber werden aktualisiert aber antworten verschwinden leider
-          
-
-
-
-
-        }
-      )
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'answerDetail' },
-        (payload: { new?: { id?: number; answer?: string, question?: number } }) => {
-          console.log('table3', payload)
-          // this.getRelatedAnswers(payload.new?.question || 0)
-          
-          
-          
-        }
-        
-      )
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'choosenDetail' },
         (payload: { new?: { id?: number; answer_id?: number, question_id?: number, survey_id?: number } }) => {
           console.log('table4', payload)
-          this.getStatisticsData(payload.new?.survey_id || 0)
-          // this.statistics.update((statistics) => statistics.map(
-          //   (statistic) => statistic.answer_id === payload.new?.answer_id ? { ...statistic, answer_id: payload.new?.answer_id } : statistic)
-          
-          // ),
-          this.filterStatistics()
+          this.getStatisticsData(payload.new?.survey_id || 0) // holt alle Einträge zu einer survey_id       
           },
         )
         
@@ -140,6 +111,7 @@ export class Surveys {
 
 
   }
+  
   
 
   

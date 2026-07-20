@@ -8,7 +8,7 @@ import { createClient } from '@supabase/supabase-js';
 @Component({
   selector: 'app-create-survey-component',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './create-survey-component.html',
   styleUrls: ['./create-survey-component.scss'],
 })
