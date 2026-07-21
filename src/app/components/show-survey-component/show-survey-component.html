@@ -48,8 +48,7 @@
         </div>
         <div class="statisticsWrapperRightSide">
             @if(surveysData.statistics().length > 0) {
-            <h2>Survey Statistics <p class="live">&nbsp; Live</p>
-            </h2>
+            <h2>Survey Statistics <p class="live">&nbsp; Live </p>&nbsp;<p class="point">.</p> </h2>
             <p>allready <b>{{ computedStatistics().xTimesSurveyFilled }}</b> participants filled this survey</p>
             @for(question of questions; track question.id) {
             <p>{{ $index + 1 }} {{ question.question }} </p>

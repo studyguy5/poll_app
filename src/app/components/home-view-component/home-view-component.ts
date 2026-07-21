@@ -10,7 +10,7 @@ import { Survey } from '../../interfaces/survey-interface';
   imports: [RouterLink],
   templateUrl: './home-view-component.html',
   styleUrl: './home-view-component.scss',
-  // providers: [Surveys]
+
 })
 export class HomeViewComponent {
   categoryArray: string[] = ['all surveys', 'health-Care', 'business', 'lifestyle', 'education', 'population', 'money', 'Environment', 'Work'];
@@ -101,19 +101,16 @@ answers: object[] = [];
   filterPastSurveys(){
     let pastSurveys = this.surveysData.surveys().filter((survey) => {
       const deadline = new Date(survey.deadline);
-      return deadline < this.today;
-    })
+      return deadline < this.today;})
     this.filteredSurveys = pastSurveys
     this.isFiltered = true
     console.log(this.isFiltered)
     document.querySelectorAll('.pastSurvey')?.forEach((button: any) =>
       button.style.backgroundColor = 'rgba(255, 183, 112, 1)'
     );
-
     document.querySelectorAll('.activeSurvey')?.forEach((button: any) =>
       button.style.backgroundColor = 'rgba(255, 207, 161, 1)'
-    );
-  }
+    );}
   
   }
 

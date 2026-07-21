@@ -155,15 +155,21 @@ body.home-body {
 
 .surveys {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 32px;
+    // flex-direction: row;
+    // flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 12px;
+    width: 100%;
+    max-width: 987px;
     max-height:310px;
+    overflow-x: scroll;
     overflow-y: hidden;
     margin-bottom: 40px;
-
+    font-family: 'Mulish', sans-serif;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(255, 183, 112) transparent;
     >.survey-card {
+        min-width:321px;
         >.surveyCategory{
             
             color:black;
@@ -179,7 +185,6 @@ body.home-body {
         max-width: 321px;
         width: 100%;
         height: 310px;
-        font-family: 'Mulish', sans-serif;
         font-size: 24px;
         cursor: pointer;
         border: 1px solid black;
@@ -195,6 +200,9 @@ body.home-body {
             white-space:nowrap;
             overflow:hidden;
             text-overflow: ellipsis;
+            margin-top:5px;
+            margin-bottom:55px;
+            font-size: 26px;
         }
         >.filteredSurveysDeadline{
             background-color:rgba(255, 207, 161, 1);
@@ -402,6 +410,11 @@ body.home-body {
 .categorys{
     pointer-events: none;
 }
+@media (min-width: 1280px) {
+    .surveys{
+     overflow-x: hidden;   
+    }
+}
 
 @media (max-width: 1280px) {
     .leftSideText {
@@ -415,20 +428,22 @@ body.home-body {
             height: 340px;
         }
     }
+    .surveys{
+     overflow-x: hidden;   
+    }
 
 }
-// .surveys{
-//     >.survey-card{
-//         width: 271px;
-//         height: 260px;
-        
-//     }
-// }
+
+@media(max-width:1225px){
+    .surveys{
+     overflow-x: scroll;   
+    }
+}
 
 @media(max-width:925px){
     .surveys{
         display:flex;
-        flex-direction: column;
+        // flex-direction: column;
         scrollbar-width: thin;
         scrollbar-color: rgb(255, 183, 112) transparent;
         >.survey-card{
@@ -555,6 +570,15 @@ body.home-body {
         }
     }
 }
+    .survey-card{
+        min-width:250px !important;
+        >.surveyCategoryMain{
+            font-size:16px;
+        }
+        >.allTitle{
+        font-size:20px !important;
+        }
+    }
 .listingSurveys{
     max-height:unset;
     

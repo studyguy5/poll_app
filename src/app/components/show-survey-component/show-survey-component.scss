@@ -186,7 +186,7 @@ body.show-body {
 .statisticsWrapperRightSide {
     margin-left: 42px;
     margin-right: 15px;
-
+    position:relative;
     h2 {
         display: flex;
         font-family: 'Nerko One', sans-serif;
@@ -200,6 +200,20 @@ body.show-body {
         color: rgb(255, 183, 112);
         font-size: 32px;
         margin: 0px;
+    }
+    .point{
+        animation: scale 1s ease-in-out infinite;
+        color: rgb(255, 183, 112);
+        font-size: 32px;
+        margin: 0px;
+        max-height:30px;
+        display:flex;
+        justify-self: center;
+        align-items: center;
+        position:static;
+        right:30px;
+        border-radius: 100%;
+        
     }
 
     .statisticsDescription {
@@ -217,6 +231,25 @@ body.show-body {
             font-size: 18px;
             color: rgba(215, 148, 81, 1);
         }
+    }
+}
+
+@keyframes scale {
+    0% {
+        color: rgb(255, 183, 112);
+        
+        
+    }
+
+    50% {
+        color:black;
+        transform:scale(1.2);
+        margin-top:-5px;
+    }
+
+    100% {
+        color: rgb(255, 183, 112);
+        
     }
 }
 
