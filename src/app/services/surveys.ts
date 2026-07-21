@@ -98,24 +98,24 @@ export class Surveys {
 
   async subscribeToTables() {
     this.channels = this.supabase.channel('custom-all-channels')
-      .on(
+    .on(
+      'postgres_changes',
+      {event: '*', schema: 'public', table: 'surveyDetail' },
+      (payload: RealtimePostgresChangesPayload<Survey>) => {
+        console.log('table1', payload)
+        this.getSurveys()
+      }
+    ).on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'choosenDetail' },
         (payload: { new?: { id?: number; answer_id?: number, question_id?: number, survey_id?: number } }) => {
           console.log('table4', payload)
           this.getStatisticsData(payload.new?.survey_id || 0) // holt alle Einträge zu einer survey_id       
           },
-        )
-        
+        ) 
       .subscribe()
-
-
   }
   
-  
-
-  
-
   ngOnDestroy() {
     this.supabase.removeChannel(this.channels as RealtimeChannel);
 

@@ -4,6 +4,14 @@ import { AbstractControl } from '@angular/forms';
 import { DOCUMENT, CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { createClient } from '@supabase/supabase-js';
+import { Question, Answer } from '../../interfaces/survey-interface';
+import { Router } from '@angular/router';
+export type FormQuestion = {
+  question: string;
+  allowMultipleAnswers: boolean;
+  answers: string[];
+  id: number;
+}
 
 @Component({
   selector: 'app-create-survey-component',
@@ -16,20 +24,21 @@ export class CreateSurveyComponent {
   supabase = createClient("https://cejvxxwyidgknkfbpvgp.supabase.co", "sb_publishable_PCQYT5KWUFY1hpKYJZM1XQ_2ej6CAmT")
   categoryArray: string[] = ['health-Care', 'business', 'lifestyle', 'education', 'population', 'money', 'Environment', 'Work'];
 
-  document;
-  surveyName: FormControl<string | null>
+  document: Document;
+  surveyName: FormControl<string | null>;
   endDate: FormControl<string | null>;
   category: FormControl<string | null>;
   description: FormControl<string | null>;
   questions: FormArray<FormGroup>;
   letter: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-
-  constructor(@Inject(DOCUMENT) document: Document) {
-    this.document = document
-    this.surveyName = new FormControl<string>('', { validators: [Validators.required, Validators.minLength(3)] });
-    this.endDate = new FormControl('', Validators.required);
-    this.category = new FormControl('');
-    this.description = new FormControl<string>('', { validators: [Validators.required, Validators.minLength(3)] });
+  router: Router
+  constructor(@Inject(DOCUMENT) document: Document, router: Router) {
+    this.router = router
+    this.document = document;
+    this.surveyName = new FormControl<string | null>('', { validators: [Validators.required, Validators.minLength(3)] });
+    this.endDate = new FormControl<string | null>('', { validators: [Validators.required] });
+    this.category = new FormControl<string | null>('');
+    this.description = new FormControl<string | null>('', { validators: [Validators.required, Validators.minLength(3)] });
     this.questions = new FormArray([this.createQuestion()],) as FormArray<FormGroup>;
 
   }
@@ -57,7 +66,6 @@ export class CreateSurveyComponent {
   deleteAnswer(questionIndex: number, answerIndex: number) {
     const answers = this.getAnswers(questionIndex);
     if (answerIndex >= 0 && answerIndex < answers.length) {
-      // answers.removeAt(answerIndex);
       answers.reset();
     }
   }
@@ -65,61 +73,73 @@ export class CreateSurveyComponent {
 
   isDropdownOpen = false;
 
-
+  
   toggleDropDown() {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
-
+  
   async submit() {
+    const survey = await this.uploadMainSurveyData()
+    const formQuestions = this.questions.getRawValue() as FormQuestion[]; 
+    const questionsData = await this.uploadQuestionsData(survey, formQuestions)  
+    let data = questionsData as FormQuestion[]
+    await this.uploadAnswersData(data, formQuestions)
+    setTimeout(() => {
+      this.router.navigate(['/']);
+    }, 2000)
+}
+
+async uploadMainSurveyData(){
     const payload = {
       title: this.surveyName.value,
       deadline: this.endDate.value,
       category: this.category.value,
       description: this.description.value,
     }
-
     const { data: survey, error: surveyError } = await this.supabase.
-      from('surveyDetail')
+    from('surveyDetail')
       .insert(payload)
       .select()
       .single()
-
+    
     if (surveyError) throw surveyError
-    if (survey) console.log(survey)
+    return survey
+  }
 
-    const questions = this.questions.getRawValue().map((question: any) => ({
-      survey: survey.id,
-      question: question.question,
-      allowMultipleAnswers: question.allowMultipleAnswers,
-    }));
-    const { data: questionsData, error } = await this.supabase.
-      from('questionDetail')
-      .insert(questions)
-      .select()
-    console.log(questionsData)
+  async uploadQuestionsData(survey: { id: number; }, formQuestions: FormQuestion[]){ 
+      const questions = formQuestions.map(questions => ({
+        survey: survey.id,
+        question: questions.question,
+        allowMultipleAnswers: questions.allowMultipleAnswers,
+      }));
+      const { data: questionsData, error } = await this.supabase.
+        from('questionDetail')
+        .insert(questions)
+        .select()
+      console.log(questionsData)
+      if (error) throw error
+      return questionsData;
+  }
 
-    const answers = this.questions.getRawValue().flatMap(
-      (question: any, index: number) => {
-        const questionId = questionsData ? questionsData[index].id : null;
-        console.log('index', index, 'questionId', questionId, 'question', question.question);
+  async uploadAnswersData(data: FormQuestion[], formQuestions: FormQuestion[]) {
+      const answers = formQuestions.flatMap((question, index: number) => {
+        const questionId = data ? data[index].id : null;
         return question.answers.map((answer: string) => ({
           question: questionId,
           answer: answer
         }));
-      }
-    );
-    console.log(answers)
-    const answerData = await this.supabase.
-      from('answerDetail')
-      .insert(answers)
-      .select()
-    console.log(answerData)
+      });
+      const answerData = await this.supabase.
+        from('answerDetail')
+        .insert(answers)
+        .select()
+        console.log(answerData)
   }
 
   createAnswer(): FormControl<string | null> {
-    return new FormControl<string>('', { validators: [Validators.required, Validators.minLength(3)] });
+    return new FormControl<string | null>('', { validators: [Validators.required, Validators.minLength(3)] });
   }
-
+  
   createQuestion(): FormGroup {
     return new FormGroup({
       question: new FormControl<string>('', { validators: [Validators.required, Validators.minLength(3)] }),
@@ -131,17 +151,15 @@ export class CreateSurveyComponent {
     });
   }
 
-
   asFormControl(control: AbstractControl | null): FormControl {
     return control as FormControl;
   }
 
-
-
   categorySelected(category: string) {
     this.category.setValue(category);
-    this.document.querySelectorAll('.dropdownButton')?.forEach((button: any) =>
-      button.innerHTML = `${category}<img src="assets/arrow_drop_down.svg">`
+    this.document.querySelectorAll('.dropdownButton')?.forEach((button: Element) =>
+      button.innerHTML = `${category}<img src=\"assets/arrow_drop_down.svg\">`
+
     );
     this.toggleDropDown();
   }
@@ -154,6 +172,5 @@ export class CreateSurveyComponent {
     this.questions.at(0).get('question')?.setValue('Health Care Survey Question');
     this.questions.at(0).get('answers')?.setValue(['Yes', 'No']);
   }
-
 
 }

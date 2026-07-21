@@ -1,4 +1,4 @@
-import { Component, Inject, inject, computed, signal} from '@angular/core';
+import { Component, Inject, inject, computed, signal } from '@angular/core';
 import { Surveys } from '../../services/surveys';
 import { RouterLink } from '@angular/router';
 import { DOCUMENT } from '@angular/common'
@@ -24,93 +24,91 @@ export class HomeViewComponent {
   deadline!: number;
   isWithinNext30Days!: boolean;
   dropdownOpen = false
-constructor(@Inject(DOCUMENT) document: Document) {
-  this.document = document
-  // this.filterThisCategory('')
-  console.log(this.filteredSurveys)
-}
-ngOnInit() {
-  this.document.body.classList.add('home-body');
-}
-
-ngOnDestroy() {
-  this.document.body.classList.remove('home-body');
-}
-
-filterSurveys(){
-  this.in30Days.setDate(this.today.getDate() + 30);
-  if(this.surveysData){
-    return this.surveysData.surveys().filter((survey) => {
-      const deadline = new Date(survey.deadline);
-      return deadline >= this.today && deadline <= this.in30Days;
-    });
+  constructor(@Inject(DOCUMENT) document: Document) {
+    this.document = document
+    // this.filterThisCategory('')
+    console.log(this.filteredSurveys)
   }
-  return this.surveysData;
-}
+  ngOnInit() {
+    this.document.body.classList.add('home-body');
+  }
 
-getDeadlineDate(deadline: string) {
-  this.deadlineDate = new Date(deadline).getTime();
-  return this.deadlineDate
-}
+  ngOnDestroy() {
+    this.document.body.classList.remove('home-body');
+  }
 
-answers: object[] = [];
+  filterSurveys() {
+    this.in30Days.setDate(this.today.getDate() + 30);
+    if (this.surveysData) {
+      return this.surveysData.surveys().filter((survey) => {
+        const deadline = new Date(survey.deadline);
+        return deadline >= this.today && deadline <= this.in30Days;
+      });
+    }
+    return this.surveysData;
+  }
+
+  getDeadlineDate(deadline: string) {
+    this.deadlineDate = new Date(deadline).getTime();
+    return this.deadlineDate
+  }
+
+  answers: object[] = [];
   async getAnswers(answerId: number): Promise<object[]> {
     this.answers = await this.surveysData.getRelatedAnswers(answerId);
     console.log(this.answers)
     return this.answers
   }
 
-  toggleFilterOption(){
+  toggleFilterOption() {
     this.dropdownOpen = !this.dropdownOpen
   }
 
   filteredSurveys: Survey[] = [];
-  isFiltered = false
-  filterThisCategory(category: string){
-    if(category === 'all surveys'){
+  
+  filterThisCategory(category: string) {
+    if (category === 'all surveys') {
       this.dropdownOpen = false;
       this.filteredSurveys = this.surveysData.surveys()
-      this.isFiltered = false
-      console.log(this.isFiltered)
-    }else{
-    this.dropdownOpen = false;
-    this.isFiltered = true
-   this.filteredSurveys =  this.surveysData.surveys().filter((survey) => survey.category === category)
-  console.log(this.filteredSurveys)
-  console.log(this.isFiltered)
+    } else {
+      this.dropdownOpen = false;
+      this.filteredSurveys = this.surveysData.surveys().filter((survey) => survey.category === category)
+      console.log(this.filteredSurveys)
     }
   };
 
-  filterActiveSurveys(){
+  filterActiveSurveys() {
     let activeSurveys = this.surveysData.surveys().filter((survey) => {
       const deadline = new Date(survey.deadline);
       return deadline >= this.today;
     })
     this.filteredSurveys = activeSurveys
-    this.isFiltered = true
-    console.log(this.isFiltered)
-    document.querySelectorAll('.activeSurvey')?.forEach((button: any) =>
-      button.style.backgroundColor = 'rgba(255, 183, 112, 1)'
-    );
-
-    document.querySelectorAll('.pastSurvey')?.forEach((button: any) =>
-      button.style.backgroundColor = 'rgba(255, 207, 161, 1)'
-    );
+    document.querySelectorAll('.activeSurvey')?.forEach((button: Element) => {
+      let btn = button as HTMLButtonElement
+      btn.style.backgroundColor = 'rgba(255, 183, 112, 1)'
+    });
+    document.querySelectorAll('.pastSurvey')?.forEach((button: Element) => {
+      let btn = button as HTMLButtonElement
+      btn.style.backgroundColor = 'rgba(255, 207, 161, 1)'
+    });
   }
 
-  filterPastSurveys(){
+  filterPastSurveys() {
     let pastSurveys = this.surveysData.surveys().filter((survey) => {
       const deadline = new Date(survey.deadline);
-      return deadline < this.today;})
+      return deadline < this.today;
+    })
     this.filteredSurveys = pastSurveys
-    this.isFiltered = true
-    console.log(this.isFiltered)
-    document.querySelectorAll('.pastSurvey')?.forEach((button: any) =>
-      button.style.backgroundColor = 'rgba(255, 183, 112, 1)'
+    document.querySelectorAll('.pastSurvey')?.forEach((button: Element) => {
+      let btn = button as HTMLButtonElement
+      btn.style.backgroundColor = 'rgba(255, 183, 112, 1)'
+    }
     );
-    document.querySelectorAll('.activeSurvey')?.forEach((button: any) =>
-      button.style.backgroundColor = 'rgba(255, 207, 161, 1)'
-    );}
-  
+    document.querySelectorAll('.activeSurvey')?.forEach((button: Element) => {
+      let btn = button as HTMLButtonElement
+      btn.style.backgroundColor = 'rgba(255, 207, 161, 1)'
+    }
+    );
   }
+}
 

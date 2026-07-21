@@ -16,7 +16,6 @@ import { Router } from '@angular/router';
   imports: [RouterLink],
   templateUrl: './show-survey-component.html',
   styleUrl: './show-survey-component.scss',
-  // providers: [Surveys]
 })
 export class ShowSurveyComponent {
   surveysData = inject(Surveys);
@@ -25,7 +24,7 @@ export class ShowSurveyComponent {
   id: number = 1;
   letter: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
   supabase = createClient("https://cejvxxwyidgknkfbpvgp.supabase.co", "sb_publishable_PCQYT5KWUFY1hpKYJZM1XQ_2ej6CAmT")
-  router: any;
+  router: Router;
 
   get survey(): Survey | undefined {
     const idParam = this.route.snapshot.paramMap.get('id');
@@ -36,7 +35,6 @@ export class ShowSurveyComponent {
     if (Number.isNaN(id)) {
       return undefined;
     }
-    this.surveysData.surveys().find((survey) => survey.id === id);
     this.idForQuestions = id
     return this.surveysData.surveys().find((survey) => survey.id === id);
   }
@@ -57,26 +55,20 @@ export class ShowSurveyComponent {
   questionId: number[] = [];
   
   async ngOnInit() {
-    this.document.body.classList.add('show-body');
-    console.log(this.computedStatistics)      
+    this.document.body.classList.add('show-body');      
     const survey = this.route.snapshot.paramMap.get('id');
     if (!survey) {
-      return;
-    }
+      return;}
     const id = Number(survey);
     if (Number.isNaN(id)) {
-      return;
-    }
+      return;}
     this.id = id;
     await this.surveysData.getStatisticsData(id) // alle Einträge zu einer survey id
     await this.surveysData.setRelatedQuestions(this.id) // holt sich die related questions anhand der id
     this.questionId = this.questions.map((question) => {
-      console.log(question.id);
       return question.id
     })
-    console.log(this.questionId)
     await this.getAnswers()
-    
   }
 
 
@@ -85,7 +77,6 @@ export class ShowSurveyComponent {
     let answerArray: Answer[] = []
     console.log(this.questionId)
     for (let id of this.questionId) {
-
       answerArray = await this.surveysData.getRelatedAnswers(id) as Answer[]
       this.surveysData.questions.update((questions) =>
         questions.map((question) =>
@@ -112,9 +103,7 @@ export class ShowSurveyComponent {
           }
         });
       }
-    } else {
-      return
-    }
+    } else {return}
   }
 
   choosenAnswerArray: CompletedSurvey[] = []
@@ -123,38 +112,42 @@ export class ShowSurveyComponent {
   collectAnswerIds(event: Event, question: Question, answerId?: Number | undefined) {
     const questionblock = (event.target as HTMLElement).closest('.questionWrapper');
     if (!questionblock) {
-      return;
-    }
+      return;}
     if (questionblock?.querySelectorAll('input[type="checkbox"]:checked').length > 0) {
-      if (!question.allowMultipleAnswers) {
-        this.choosenAnswerArray = this.choosenAnswerArray.filter((item) => (item.question_id !== question.id));
-        this.choosenAnswerArray.push({
-          survey_id: this.id,
-          question_id: question.id,
-          answer_id: answerId,
-          submission_id: this.submission_id
-        })
-        console.log(this.choosenAnswerArray)
-      } else {
-        this.choosenAnswerArray.push({
-          survey_id: this.id,
-          question_id: question.id,
-          answer_id: answerId,
-          submission_id: this.submission_id
-        })
-      }
+      this.handleclickedAnswers( question, answerId)
     } else if (questionblock?.querySelectorAll('input[type="checkbox"]:not(:checked)').length > 0) {
-      if (!question.allowMultipleAnswers) {
-        this.choosenAnswerArray.splice(this.choosenAnswerArray.findIndex((item) => item.question_id === question.id), 1);
-        console.log(this.choosenAnswerArray)
-      } else {
-        this.choosenAnswerArray.splice(this.choosenAnswerArray.findIndex((item) => item.answer_id === answerId), 1);
-        console.log(this.choosenAnswerArray)
-      }
-      // this.submitCompletedSurvey()
+      this.handleunChoosenAnswers(question, answerId)
+    }
+  }
+  
+  handleclickedAnswers( question: Question, answerId?: Number | undefined) {
+    if (!question.allowMultipleAnswers) {
+      this.choosenAnswerArray = this.choosenAnswerArray.filter((item) => (item.question_id !== question.id));
+      this.choosenAnswerArray.push({
+        survey_id: this.id,
+        question_id: question.id,
+        answer_id: answerId,
+        submission_id: this.submission_id})
+    } else {
+      this.choosenAnswerArray.push({
+        survey_id: this.id,
+        question_id: question.id,
+        answer_id: answerId,
+        submission_id: this.submission_id
+      })
     }
   }
 
+  handleunChoosenAnswers(question: Question, answerId?: Number | undefined) {
+    if (!question.allowMultipleAnswers) {
+      this.choosenAnswerArray.splice(this.choosenAnswerArray.findIndex((item) => item.question_id === question.id), 1);
+      console.log(this.choosenAnswerArray)
+    } else {
+      this.choosenAnswerArray.splice(this.choosenAnswerArray.findIndex((item) => item.answer_id === answerId), 1);
+      console.log(this.choosenAnswerArray)
+    }
+    
+  }
   
 
   async submitCompletedSurvey() {
@@ -162,7 +155,6 @@ export class ShowSurveyComponent {
     if (!surveyId) {
       return;
     }
-    // const questionIds = this.choosenAnswerArray; // question und answer ids aus dem array holen
     let completedSurvey = {} as CompletedSurvey;
     for (let i = 0; i < this.choosenAnswerArray.length; i++) {
       const { data, error } = await this.supabase
@@ -171,15 +163,11 @@ export class ShowSurveyComponent {
       console.log(this.choosenAnswerArray)
     }
     setTimeout(() => {
-      
       this.router.navigate(['/']);
     }, 4000)
-    
-    
   }
 
   xTimesSurveyFilled: number = 0
-  // idsOfAnswer: number[] = []
   
   computedStatistics: Signal<computedStatistics> = computed(() => {
     const statisticsData = this.surveysData.statistics()
@@ -194,7 +182,5 @@ export class ShowSurveyComponent {
   }
   
 )
-
-
-  
+ 
 }
