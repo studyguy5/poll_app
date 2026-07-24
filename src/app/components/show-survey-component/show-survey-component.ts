@@ -1,9 +1,31 @@
-import { Component, OnDestroy, OnInit, Signal } from '@angular/core';
+/**
+ * @fileoverview Shows a survey
+ * @module show-survey
+ * @imports Component, signal is used for the decorator and the signal
+ * @imports Inject, inject is used to inject the services
+ * @imports DOCUMENT is used to access the document
+ * @imports RouterLink, ActivatedRoute is used to navigate to the home view or to create view
+ * @imports Surveys is used to import the surveys service
+ * @imports Answer, Survey is used to import the survey interface
+ * @imports Question is used to import the question interface
+ * @imports computedStatistics is used to import the computed statistics interface
+ * @imports CompletedSurvey is used to import the completed survey interface
+ * @imports createClient is used to create a new client and use api URL
+ * @imports computed is used to create a new computed property
+ * @imports Router is used to navigate to the home view
+ * 
+ * @decorator This is a decorator and is used to give the class some extra functions without changing the class
+ * @selector This selector is used in the main component to start the connection between the main component and the show survey component
+ * @imports This imports the router link
+ * @templateUrl This is the url of the template, which is the html file
+ * @styleUrls This is the url of the style, which is the css file
+ */
+import { Component, Signal } from '@angular/core';
 import { Inject, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Surveys } from '../../services/surveys';
-import { Answer, statistics, Survey } from '../../interfaces/survey-interface';
+import { Answer , Survey } from '../../interfaces/survey-interface';
 import { Question } from '../../interfaces/survey-interface';
 import { computedStatistics } from '../../interfaces/survey-interface';
 import { CompletedSurvey } from '../../interfaces/survey-interface';
@@ -18,6 +40,15 @@ import { Router } from '@angular/router';
   styleUrl: './show-survey-component.scss',
 })
 export class ShowSurveyComponent {
+  /**
+   * @param surveysData is used to inject the surveys service
+   * @param route is used to inject the Router
+   * @param document is used to access the document
+   * @param id is used to get the id of the survey
+   * @param letter is used to give each question a letter
+   * @param supabase is used to create a new client and use api URL
+   * @param router is used to navigate to the home view
+   */
   surveysData = inject(Surveys);
   route = inject(ActivatedRoute);
   document;
@@ -26,6 +57,12 @@ export class ShowSurveyComponent {
   supabase = createClient("https://cejvxxwyidgknkfbpvgp.supabase.co", "sb_publishable_PCQYT5KWUFY1hpKYJZM1XQ_2ej6CAmT")
   router: Router;
 
+
+  /**
+   * @function survey here we use the getter Method to get the survey, and we look for the id in the url
+   * with the paramMap we look in get Question function, which is also a getter Method, about the right questions
+   * @returns the survey with the matched id from the url
+   */
   get survey(): Survey | undefined {
     const idParam = this.route.snapshot.paramMap.get('id');
     if (idParam === null) {
@@ -40,6 +77,10 @@ export class ShowSurveyComponent {
   }
 
 
+  /**
+   * @constructor sets the connection to the document and the router
+   * @param idForQuestions is used to get the id of the survey
+   */
   idForQuestions: number = 1
   
   constructor(@Inject(DOCUMENT) document: Document, router: Router) {
@@ -47,13 +88,29 @@ export class ShowSurveyComponent {
     this.router = router
     // clearInterval(this.setInterval)
   }
+
+  /**
+   * @function questions here we use the getter Method to get the questions
+   * @returns the questions
+   */
   get questions() {
     return this.surveysData.questions()
   }
   
-
+/**
+ * @param questionId is used to collect the id of the question
+ */
   questionId: number[] = [];
   
+  /**
+   * @function ngOnInit is executed when the component is initialized, this secures the live statistics, questions and the right survey itself
+   * @param survey we catch the id from the url, check the value, form it to a number
+   * @function getStatisticsData is used to get the statistics from the database, with the survey id out of the url
+   * @function setRelatedQuestions is used to get the questions from the database, with the survey id out of the url
+   * @param questionId is used to get the id of the question, done by iterating over the questions signal and catch the id
+   * @function getAnswers is used to get the answers from the database
+   * @returns 
+   */
   async ngOnInit() {
     this.document.body.classList.add('show-body');      
     const survey = this.route.snapshot.paramMap.get('id');
@@ -63,6 +120,7 @@ export class ShowSurveyComponent {
     if (Number.isNaN(id)) {
       return;}
     this.id = id;
+    // this.collectLocalAndDatabaseStatistic()
     await this.surveysData.getStatisticsData(id) // alle Einträge zu einer survey id
     await this.surveysData.setRelatedQuestions(this.id) // holt sich die related questions anhand der id
     this.questionId = this.questions.map((question) => {
@@ -70,12 +128,16 @@ export class ShowSurveyComponent {
     })
     await this.getAnswers()
   }
+  
 
-
-
+  /**
+   * @function getAnswers is used to get the answers from the database
+   * by calling service method, iterating over the question id, compare, with the list
+   * and using the destructuring to get the answers, then paste them into the question box
+   * @returns void
+   */
   async getAnswers() {
     let answerArray: Answer[] = []
-    console.log(this.questionId)
     for (let id of this.questionId) {
       answerArray = await this.surveysData.getRelatedAnswers(id) as Answer[]
       this.surveysData.questions.update((questions) =>
@@ -85,14 +147,24 @@ export class ShowSurveyComponent {
       )
     }
   }
-
-
+  
+  /**
+   * @function ngOnDestroy is executed when the component is destroyed, this secures the live statistics
+   * when the user leaves this component/site, it removes the class from the body and clears the choosenAnswerArray
+   * @returns void
+   */
   ngOnDestroy() {
     this.document.body.classList.remove('show-body');
+    this.choosenAnswerArray = []
   }
 
 
-
+/**
+ * @function preventMultipleAnswers is used to prevent the user to choose multiple answers, if not allowed
+ * @param event catches the click event from the user
+ * @param question provides the right question for the function to work with
+ * @returns void
+ */
   preventMultipleAnswers(event?: Event, question?: Question) {
     if (!question?.allowMultipleAnswers) {
       const checkboxes = (event?.target as HTMLElement).closest('.questionWrapper')?.querySelectorAll('input[type="checkbox"]');
@@ -106,6 +178,14 @@ export class ShowSurveyComponent {
     } else {return}
   }
 
+  /**
+   * @param collectAnswerIds is used to collect the choosen answers from the user as the name says
+   * @param event catches the click event from the user, by selecting an answer
+   * @param question provides the right question for the function to work with
+   * @param answerId provides the right answer id for the function to work with
+   * @param target tracks the event itself, if choosen or unchoosen, not the amount(of type :checked) to prevent error message with multiple answers
+   * @returns void
+   */
   choosenAnswerArray: CompletedSurvey[] = []
   submission_id = crypto.randomUUID()
 
@@ -113,13 +193,21 @@ export class ShowSurveyComponent {
     const questionblock = (event.target as HTMLElement).closest('.questionWrapper');
     if (!questionblock) {
       return;}
-    if (questionblock?.querySelectorAll('input[type="checkbox"]:checked').length > 0) {
+      const target = event.target as HTMLInputElement;
+    if (target.checked) {
       this.handleclickedAnswers( question, answerId)
-    } else if (questionblock?.querySelectorAll('input[type="checkbox"]:not(:checked)').length > 0) {
-      this.handleunChoosenAnswers(question, answerId)
+    } else  {
+      this.handleUnchoosenAnswers(question, answerId)
     }
   }
-  
+
+
+  /**
+   * @function handleclickedAnswers is used to collect the choosen answers from the user
+   * @param question provides the right question for the function to work with
+   * @param answerId provides the right answer id for the function to work with
+   * @returns void
+   */
   handleclickedAnswers( question: Question, answerId?: Number | undefined) {
     if (!question.allowMultipleAnswers) {
       this.choosenAnswerArray = this.choosenAnswerArray.filter((item) => (item.question_id !== question.id));
@@ -128,6 +216,7 @@ export class ShowSurveyComponent {
         question_id: question.id,
         answer_id: answerId,
         submission_id: this.submission_id})
+        console.log(this.choosenAnswerArray)
     } else {
       this.choosenAnswerArray.push({
         survey_id: this.id,
@@ -135,52 +224,66 @@ export class ShowSurveyComponent {
         answer_id: answerId,
         submission_id: this.submission_id
       })
+      console.log(this.choosenAnswerArray)
     }
   }
 
-  handleunChoosenAnswers(question: Question, answerId?: Number | undefined) {
+  /**
+   * @function handleunChoosenAnswers is used to remove the choosen answers from the choosenAnswerArray
+   * in order to handle the unchoosen answers
+   * @param question provides the right question for the function to work with
+   * @param answerId provides the right answer id for the function to work with
+   */
+  handleUnchoosenAnswers(question: Question, answerId?: Number | undefined) {
     if (!question.allowMultipleAnswers) {
       this.choosenAnswerArray.splice(this.choosenAnswerArray.findIndex((item) => item.question_id === question.id), 1);
-      console.log(this.choosenAnswerArray)
     } else {
       this.choosenAnswerArray.splice(this.choosenAnswerArray.findIndex((item) => item.answer_id === answerId), 1);
-      console.log(this.choosenAnswerArray)
     }
     
   }
   
-
+/**
+ * @function submitCompletedSurvey is used to submit the completed survey to the database
+ * it checks the id, iterates over the choosenAnswerArray and inserts the data into the database with the help of supabase and a for loop
+ * after 4000ms it navigates the user to the home page
+ * @returns void
+ */
   async submitCompletedSurvey() {
     const surveyId = this.route.snapshot.paramMap.get('id'); //survey id holen
     if (!surveyId) {
       return;
     }
-    let completedSurvey = {} as CompletedSurvey;
+    
     for (let i = 0; i < this.choosenAnswerArray.length; i++) {
       const { data, error } = await this.supabase
         .from('choosenDetail')
         .insert(this.choosenAnswerArray[i]);
-      console.log(this.choosenAnswerArray)
     }
     setTimeout(() => {
       this.router.navigate(['/']);
     }, 4000)
   }
 
+  /**
+   * @param computedStatistics is used to compute the statistics of the survey
+   * @param xTimesSurveyFilled is used to compute the amount of times the survey was filled
+   * @param idsOfAnswer is used to compute the ids of the answers, in the html file we ask the length of each id, in order to know how often has the answer been choosen
+   * @param statisticsData is used to get the data from the database
+   * @param uniqueSubmissionIds is used to compute the unique submission ids, which is the amount of times the survey was filled
+   * @returns void
+   */
   xTimesSurveyFilled: number = 0
-  
   computedStatistics: Signal<computedStatistics> = computed(() => {
     const statisticsData = this.surveysData.statistics()
     const uniqueSubmissionIds = new Set(statisticsData.map((item) => item.submission_id)).size
-    console.log('submission', uniqueSubmissionIds)
-    
     return {
-      xTimesSurveyFilled: uniqueSubmissionIds,
+      xTimesSurveyFilled: this.choosenAnswerArray.length > 0 ? (uniqueSubmissionIds + 1) : uniqueSubmissionIds,
       idsOfAnswer: statisticsData.map((item) => item.answer_id)
       
     }
   }
   
 )
- 
+
 }

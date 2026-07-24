@@ -1,3 +1,16 @@
+/**
+ * @imports Component, Inject, inject, computed, signal is used to import the necessary modules
+ * @module home-view
+ * @imports Surveys is used to import the surveys service
+ * @imports RouterLink is used to import the router link
+ * @imports DOCUMENT is used to import the document and use it
+ * @imports Survey is used to import the survey interface
+ * @component is a decorator and is used to give the class some extra functions without changing the class
+ * @selector this selector is used in the main component to start the connection between the main component and the home view component
+ * @imports this imports the router link
+ * @templateUrl this is the url of the template, which is the html file
+ * @styleUrls this is the url of the style, which is the css file
+ */
 import { Component, Inject, inject, computed, signal } from '@angular/core';
 import { Surveys } from '../../services/surveys';
 import { RouterLink } from '@angular/router';
@@ -13,6 +26,22 @@ import { Survey } from '../../interfaces/survey-interface';
 
 })
 export class HomeViewComponent {
+  /**
+   * @categoryArray is an array of strings that contains the categories of the surveys
+   * @surveysData is a signal that contains the surveys
+   * @document is to access the document
+   * @today is the current date
+   * @todayInMilliseconds is the current date in milliseconds
+   * @deadlineToday is the deadline today
+   * @deadlineDate is the deadline date
+   * @in30Days is the deadline in 30 days
+   * @deadline is only a variable to hold the deadline and is type number
+   * @isWithinNext30Days is a boolean that is true if the deadline is within the next 30 days
+   * @dropdownOpen is a boolean that is true if the dropdown is open
+   * 
+   * @constructor it is used to initialize the class
+   * @param document it is used to access the document
+   */
   categoryArray: string[] = ['all surveys', 'health-Care', 'business', 'lifestyle', 'education', 'population', 'money', 'Environment', 'Work'];
   surveysData = inject(Surveys);
   document;
@@ -26,44 +55,63 @@ export class HomeViewComponent {
   dropdownOpen = false
   constructor(@Inject(DOCUMENT) document: Document) {
     this.document = document
-    // this.filterThisCategory('')
-    console.log(this.filteredSurveys)
   }
+
+  /**
+   * @function ngOnInit is executed when the component is initialized/opened
+   * @returns void
+   */
   ngOnInit() {
     this.document.body.classList.add('home-body');
   }
 
+  /**
+   * @function ngOnDestroy is executed when the component is destroyed/when the user leaves this component
+   * @returns void
+   */
   ngOnDestroy() {
     this.document.body.classList.remove('home-body');
   }
 
+  /**
+   * @function filterSurveys is used to filter all survey, their deadline is within the next 30 days
+   * @returns surveysData
+   */
   filterSurveys() {
     this.in30Days.setDate(this.today.getDate() + 30);
     if (this.surveysData) {
       return this.surveysData.surveys().filter((survey) => {
         const deadline = new Date(survey.deadline);
         return deadline >= this.today && deadline <= this.in30Days;
-      });
+      }).sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime());
     }
     return this.surveysData;
   }
 
+  /**
+   * @function getDeadlineDate is used to get the deadline date in milliseconds in order to sort and filter the surveys
+   * @param deadline is the actual deadline as a date
+   * @returns deadlineDate
+   */
   getDeadlineDate(deadline: string) {
     this.deadlineDate = new Date(deadline).getTime();
     return this.deadlineDate
   }
 
-  answers: object[] = [];
-  async getAnswers(answerId: number): Promise<object[]> {
-    this.answers = await this.surveysData.getRelatedAnswers(answerId);
-    console.log(this.answers)
-    return this.answers
-  }
 
+  /**
+   * @function toggleFilterOption is used to toggle the dropdown (open or close it)
+   * @returns void
+   */
   toggleFilterOption() {
     this.dropdownOpen = !this.dropdownOpen
   }
 
+  /**
+   * @function filterThisCategory is used to filter the surveys by category
+   * @param category is the category of the survey
+   * @returns filteredSurveys (not the returned value, but the filtered surveys)
+   */
   filteredSurveys: Survey[] = [];
   
   filterThisCategory(category: string) {
@@ -73,15 +121,19 @@ export class HomeViewComponent {
     } else {
       this.dropdownOpen = false;
       this.filteredSurveys = this.surveysData.surveys().filter((survey) => survey.category === category)
-      console.log(this.filteredSurveys)
     }
   };
 
+  /**
+   * @function filterActiveSurveys is used to filter the active surveys, survey deadline is within the next 30 days
+   * @returns filteredSurveys
+   */
   filterActiveSurveys() {
     let activeSurveys = this.surveysData.surveys().filter((survey) => {
       const deadline = new Date(survey.deadline);
       return deadline >= this.today;
     })
+    this.isDisabled = false;
     this.filteredSurveys = activeSurveys
     document.querySelectorAll('.activeSurvey')?.forEach((button: Element) => {
       let btn = button as HTMLButtonElement
@@ -93,11 +145,18 @@ export class HomeViewComponent {
     });
   }
 
+  /**
+   * @function filterPastSurveys is used to filter the past surveys, the deadline is in the past
+   * @param isDisabled is a boolean that is true if the button is disabled, this blocks the user from view this survey
+   * @returns filteredSurveys
+   */
+isDisabled = false
   filterPastSurveys() {
     let pastSurveys = this.surveysData.surveys().filter((survey) => {
       const deadline = new Date(survey.deadline);
       return deadline < this.today;
     })
+    this.isDisabled = true;
     this.filteredSurveys = pastSurveys
     document.querySelectorAll('.pastSurvey')?.forEach((button: Element) => {
       let btn = button as HTMLButtonElement
