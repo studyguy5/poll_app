@@ -1,4 +1,11 @@
 <section class="mainWrapper">
+    <div class="successMessageSubmitt">
+        <div class="text">
+            Successfully submitted
+    
+        </div>
+        <div (click)="hideSuccessMessageSubmitt()" class="closeButton"><img src="assets/icons/close_black.svg"></div>
+    </div>
     <div class="headLogoButtonArea">
         <img src="assets/poll_appLogoDark.svg">
         <button  class="createButton" [routerLink]="['/newSurvey']">New Survey<img
@@ -45,6 +52,7 @@
                 }
             </div>
             <button class="completeSurveyButton" (click)="submitCompletedSurvey()">Complete survey</button>
+            <div class="errorMessageSubmitt">Please fill out all questions</div>
         </div>
         <div class="statisticsWrapperRightSide">
             @if(surveysData.statistics().length > 0) {

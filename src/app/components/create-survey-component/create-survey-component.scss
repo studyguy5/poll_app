@@ -9,6 +9,8 @@ body.survey-body {
 
 .newSurveyWrapper {
     display: grid;
+    position:relative;
+    overflow: hidden;
     flex-direction: column;
     margin: 0 auto;
     padding: 40px 54px;
@@ -200,7 +202,7 @@ body.survey-body {
 
         >img:hover {
             cursor: pointer;
-            content: url('/assets/icons/deleteIcon_hover.svg');
+            content: url('/angular-projects/poll_app/assets/icons/deleteIcon_hover.svg');
         }
 
         >.surveyNameInput {
@@ -280,7 +282,7 @@ body.survey-body {
             background-color: rgba(73, 59, 77, 1);
 
             >img {
-                content: url('/assets/arrow_drop_downYellow.svg');
+                content: url('/angular-projects/poll_app/assets/arrow_drop_downYellow.svg');
             }
         }
 
@@ -367,7 +369,7 @@ body.survey-body {
 
         >img:hover {
             cursor: pointer;
-            content: url('/assets/icons/deleteIcon_hover.svg');
+            content: url('/angular-projects/poll_app/assets/icons/deleteIcon_hover.svg');
         }
 
         >.setEndDateInput {
@@ -412,7 +414,7 @@ body.survey-body {
 
         >img:hover {
             cursor: pointer;
-            content: url('/assets/icons/deleteIcon_hover.svg');
+            content: url('/angular-projects/poll_app/assets/icons/deleteIcon_hover.svg');
         }
 
         >.descriptionInput {
@@ -448,7 +450,7 @@ body.survey-body {
 
     >img:hover {
         cursor: pointer;
-        content: url('/assets/icons/deleteIcon_hover.svg');
+        content: url('/angular-projects/poll_app/assets/icons/deleteIcon_hover.svg');
     }
 
     >.question {
@@ -522,7 +524,7 @@ body.survey-body {
 
     >img:hover {
         cursor: pointer;
-        content: url('/assets/icons/deleteIcon_hover.svg');
+        content: url('/angular-projects/poll_app/assets/icons/deleteIcon_hover.svg');
     }
 
     >.count {
@@ -616,6 +618,52 @@ body.survey-body {
     }
 }
 
+.successMessage{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position:absolute;
+    top:40%;
+    right:-100%;
+    // transform: translateX(-100%);
+    gap: 38px;
+    width: 357px;
+    height: 86px;
+    z-index: 3;
+    border-radius: 5px 50px 5px 5px;
+    background-color: rgba(254, 233, 212, 1);
+    border: 1px solid rgb(123, 90, 84);
+    color:black;
+    font-family: 'Nerkane', sans-serif;
+    padding: 8px 32px;
+    box-sizing: border-box;
+    >.text{
+        font-size: 24px;
+        
+    }
+    >.closeButton{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top:10px;
+        cursor: pointer;
+        align-self: start;
+        padding:5px;
+        background-color: rgba(254, 233, 212, 1);
+        &:hover{
+            border-radius:10px;
+            background-color:rgb(177, 174, 173);
+        }
+}
+}
+.successMessage.visible{
+    transform: translateX(0%);
+    right:30%;
+    display:flex;
+    transition: right 1.5s  ease-in-out;
+}
+
+
 @media(max-width:1126px) {
     .mainDataOfSurvey {
         display: grid;
@@ -694,6 +742,15 @@ body.survey-body {
         padding: 33px 20px;
     }
 
+    .successMessage{
+        width: 300px;
+        padding: 8px 20px;
+        // font-size: 20px;
+        >.text{
+            font-size: 20px;
+        }
+    }
+
 }
 
 @media(max-width:536px) {
@@ -740,6 +797,17 @@ body.survey-body {
 
             }
         }
+    }
+    .successMessage{
+        width: 250px;
+        padding: 8px 20px;
+        gap:10px;
+        >.text{
+            font-size: 18px;
+        }
+    }
+    .successMessage.visible{
+        right:12%;
     }
 
     .newSurveyForm {

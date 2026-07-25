@@ -195,7 +195,7 @@ export class ShowSurveyComponent {
       return;}
       const target = event.target as HTMLInputElement;
     if (target.checked) {
-      this.handleclickedAnswers( question, answerId)
+      this.handleclickedAnswers(question, answerId)
     } else  {
       this.handleUnchoosenAnswers(question, answerId)
     }
@@ -216,7 +216,6 @@ export class ShowSurveyComponent {
         question_id: question.id,
         answer_id: answerId,
         submission_id: this.submission_id})
-        console.log(this.choosenAnswerArray)
     } else {
       this.choosenAnswerArray.push({
         survey_id: this.id,
@@ -224,7 +223,6 @@ export class ShowSurveyComponent {
         answer_id: answerId,
         submission_id: this.submission_id
       })
-      console.log(this.choosenAnswerArray)
     }
   }
 
@@ -254,12 +252,25 @@ export class ShowSurveyComponent {
     if (!surveyId) {
       return;
     }
-    
+    const answeredQuestionIds = new Set(
+  this.choosenAnswerArray.map(answer => answer.question_id)
+);
+    let questionamount = this.questions.length
+    let choosen = answeredQuestionIds.size
+    Number(questionamount);
+    if(choosen < questionamount){
+      this.document.querySelector('.errorMessageSubmitt')?.classList.add('active')
+      setTimeout(() => {
+        this.document.querySelector('.errorMessageSubmitt')?.classList.remove('active')
+      }, 4000)
+      return
+    }
     for (let i = 0; i < this.choosenAnswerArray.length; i++) {
       const { data, error } = await this.supabase
-        .from('choosenDetail')
-        .insert(this.choosenAnswerArray[i]);
+      .from('choosenDetail')
+      .insert(this.choosenAnswerArray[i]);
     }
+    this.document.querySelector('.successMessageSubmitt')?.classList.add('active')
     setTimeout(() => {
       this.router.navigate(['/']);
     }, 4000)
@@ -285,5 +296,13 @@ export class ShowSurveyComponent {
   }
   
 )
+
+/**
+ * @function hideSuccessMessageSubmitt is used to hide the success message
+ * @returns void
+ */
+hideSuccessMessageSubmitt(){
+  this.document.querySelector('.successMessageSubmitt')?.classList.remove('active');
+}
 
 }

@@ -163,6 +163,7 @@ export class CreateSurveyComponent {
     const questionsData = await this.uploadQuestionsData(survey, formQuestions)  
     let data = questionsData as FormQuestion[]
     await this.uploadAnswersData(data, formQuestions)
+    this.document.querySelector('.successMessage')?.classList.add('visible');
     setTimeout(() => {
       this.router.navigate(['/']);
     }, 2000)
@@ -316,13 +317,12 @@ async uploadMainSurveyData(){
     this.toggleDropDown();
   }
 
-  prefill() {
-    this.surveyName.setValue('Health Care');
-    this.category.setValue('health-Care');
-    this.description.setValue('Health Care Survey');
-    this.endDate.setValue('2023-12-31');
-    this.questions.at(0).get('question')?.setValue('Health Care Survey Question');
-    this.questions.at(0).get('answers')?.setValue(['Yes', 'No']);
+  /**
+   * @function hideSuccessMessage is executed when the user wants to close the success message
+   * @returns void
+   */
+  hideSuccessMessage(){
+    this.document.querySelector('.successMessage')?.classList.remove('visible');
   }
 
 }

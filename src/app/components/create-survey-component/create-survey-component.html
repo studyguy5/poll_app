@@ -1,4 +1,11 @@
 <div class="newSurveyWrapper">
+    <div class="successMessage">
+        <div class="text">
+            Your Survey is now<br> published
+    
+        </div>
+        <div (click)="hideSuccessMessage()" class="closeButton"><img src="assets/icons/close_black.svg"></div>
+    </div>
     <div class="statusCloseArea">
         <p class="firstPTag">Draft</p>
         <button routerLink="/" class="cancelButtonMobile"><img src="assets/icons/close.svg"></button>
@@ -98,9 +105,9 @@
 
 
 
-                <button (click)="addAnswer($index)" class="addLink" type="button">Add answer <img
-                     class="addLinkImg"   src="assets/icons/add_circle.svg"></button>
-                <button (click)="prefill()" class="addLink" type="button">prefill</button>
+                <button (click)="addAnswer($index)" class="addLink" type="button">Add answer <img class="addLinkImg"
+                        src="assets/icons/add_circle.svg"></button>
+                
             </div>
             }}
             <button (click)="addQuestion()" type="button" class="addQuestionButton">Add question <img
