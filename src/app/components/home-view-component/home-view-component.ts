@@ -78,6 +78,9 @@ export class HomeViewComponent {
    * @returns surveysData
    */
   filterSurveys() {
+    this.allreadyFilled = this.surveysData.surveys().filter((survey) => {
+      return localStorage.getItem('surveyId') === survey.id.toString();      
+    })
     this.in30Days.setDate(this.today.getDate() + 30);
     if (this.surveysData) {
       return this.surveysData.surveys().filter((survey) => {
@@ -123,17 +126,24 @@ export class HomeViewComponent {
       this.filteredSurveys = this.surveysData.surveys().filter((survey) => survey.category === category)
     }
   };
-
+  
+  allreadyFilled: Survey[] = []
   /**
    * @function filterActiveSurveys is used to filter the active surveys, survey deadline is within the next 30 days
    * @returns filteredSurveys
    */
   filterActiveSurveys() {
+    this.allreadyFilled = this.surveysData.surveys()
+    .filter((survey) => localStorage.getItem('surveyId') === survey.id.toString());
+    console.log(this.allreadyFilled.length);
+    
     let activeSurveys = this.surveysData.surveys().filter((survey) => {
       const deadline = new Date(survey.deadline);
       return deadline >= this.today;
     })
-    this.isDisabled = false;
+    
+      
+    
     this.filteredSurveys = activeSurveys
     document.querySelectorAll('.activeSurvey')?.forEach((button: Element) => {
       let btn = button as HTMLButtonElement
@@ -153,8 +163,9 @@ export class HomeViewComponent {
 isDisabled = false
   filterPastSurveys() {
     let pastSurveys = this.surveysData.surveys().filter((survey) => {
-      const deadline = new Date(survey.deadline);
-      return deadline < this.today;
+      let exatToday = this.today.setHours(0, 0, 0, 0);
+      const deadline = new Date(survey.deadline).getTime();
+      return deadline < exatToday;
     })
     this.isDisabled = true;
     this.filteredSurveys = pastSurveys
@@ -169,5 +180,12 @@ isDisabled = false
     }
     );
   }
+  abs(value: number) {
+  return Math.abs(value);
+}
+checkIfAlreadyFilled(id: number):boolean{ 
+  return localStorage.getItem('surveyId') === id.toString() ? this.isDisabled = true : this.isDisabled = false; 
+}
+  
 }
 

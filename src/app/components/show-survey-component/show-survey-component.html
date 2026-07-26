@@ -51,13 +51,13 @@
                 </div>
                 }
             </div>
-            <button class="completeSurveyButton" (click)="submitCompletedSurvey()">Complete survey</button>
+            <button class="completeSurveyButton" (click)="submittDelay()">Complete survey</button>
             <div class="errorMessageSubmitt">Please fill out all questions</div>
         </div>
         <div class="statisticsWrapperRightSide">
-            @if(surveysData.statistics().length > 0) {
+            @if(surveysData.statistics().length > 0 || this.choosenAnswerArray.length > 0) {
             <h2>Survey Statistics <p class="live">&nbsp; Live </p>&nbsp;<p class="point">.</p> </h2>
-            <p>allready <b>{{ this.choosenAnswerArray.length > 0 ? computedStatistics().xTimesSurveyFilled + 1 : computedStatistics().xTimesSurveyFilled }}</b> participants filled this survey</p>
+            <p>allready <b>{{ this.choosenAnswerArray.length > 0 ? computedStatistics().xTimesSurveyFilled + 1  : computedStatistics().xTimesSurveyFilled }}</b> participants filled this survey</p>
             @for(question of questions; track question.id) {
             <p>{{ $index + 1 }} {{ question.question }} </p>
             @for (answer of question.answers; track $index) {
@@ -69,7 +69,8 @@
 
                     <!-- Fortschritt: hier z. B. 60% -->
                     <rect x="0" y="0" style="transition: width 0.4s ease-in-out;" [attr.width]="(computedStatistics().idsOfAnswer.includes(answer.id) || this.choosenAnswerArray.some(a => a.answer_id === answer.id))
-      ? (((computedStatistics().idsOfAnswer.filter((id) => id === answer.id).length + this.choosenAnswerArray.filter((item) => item.answer_id === answer.id).length) / (this.choosenAnswerArray.length > 0 ? computedStatistics().xTimesSurveyFilled + 1 : computedStatistics().xTimesSurveyFilled)) * 255)
+      ? (((computedStatistics().idsOfAnswer.filter((id) => id === answer.id).length + this.choosenAnswerArray.filter((item) => item.answer_id === answer.id).length)
+       / (this.choosenAnswerArray.length > 0 ? computedStatistics().xTimesSurveyFilled + 1 : computedStatistics().xTimesSurveyFilled)) * 255)
       : 0" height="14" rx="10" fill="#ffb770" />
                 </svg> <b>{{ computedStatistics().idsOfAnswer.includes(answer.id) || this.choosenAnswerArray.some(a => a.answer_id === answer.id) ?
                     (((computedStatistics().idsOfAnswer.filter((id) => id === answer.id).length + this.choosenAnswerArray.filter((item) => item.answer_id === answer.id).length) /

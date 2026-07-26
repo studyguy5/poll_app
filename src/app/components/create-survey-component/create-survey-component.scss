@@ -251,10 +251,9 @@ body.survey-body {
     }
 }
 
-// .dropdownMenuSite:has(.closed) {
-//     pointer-events: none;
-//     cursor: default;
-// }
+.allowMultiple{
+
+}
 
 .dropdownMenuSite {
     display: block;
@@ -514,6 +513,17 @@ body.survey-body {
         color: white;
         font-family: 'Mulish', sans-serif;
         font-size: 12px;
+    }
+    input[type="checkbox"]:checked {
+        appearance: none;
+        --webkit-appearance: none;
+        
+        content: url('/assets/icons/input_checked.svg');
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 15px;
+        height: 15px;
+        
     }
 }
 

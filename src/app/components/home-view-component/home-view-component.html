@@ -25,7 +25,7 @@
         <div class="surveys">
             @if(surveysData){
                 @for (item of filterSurveys(); track item) {
-                    <div [routerLink]="[`activeSurvey/${item.id}`]" class="survey-card">
+                    <div [routerLink]="allreadyFilled.some(a => a.id === item.id) ? null : [`activeSurvey/${item.id}`]" class="survey-card">
                         <p class="surveyCategory">{{ item.category }}</p>
                         <p class="surveyDescription">{{ item.title }}</p>
                         <p class="filteredSurveysDeadline">Ends in {{ (((getDeadlineDate(item.deadline) - todayInMilliseconds)/86400000) + 0.5).toFixed(0) }}day(s)</p>
@@ -57,11 +57,12 @@
             <div class="listingSurveys">
                 @if(surveysData){
                 @for (item of filteredSurveys.length ? filteredSurveys : surveysData.surveys(); track item) {
-                    <div [routerLink]=" +(((getDeadlineDate(item.deadline) - todayInMilliseconds)/86400000) + 0.5).toFixed(0) <= 0 || isDisabled ? '' : [`activeSurvey/${item.id}`]" class="survey-card">
+                    <div  [routerLink]=" +(((getDeadlineDate(item.deadline) - todayInMilliseconds)/86400000) + 0.5)
+                    .toFixed(0) < 0 || isDisabled || allreadyFilled.some(a => a.id === item.id) ? null : [`activeSurvey/${item.id}`]" class="survey-card">
                         <p class="surveyCategoryMain">{{ item.category }}</p>
                         <p class="allTitle">{{ item.title }}</p>
                         <p class="allDeadline">{{ +(((getDeadlineDate(item.deadline) - todayInMilliseconds)/86400000) + 0.5).toFixed(0) >= 0
-                         ? 'Ends in ' + (((getDeadlineDate(item.deadline) - todayInMilliseconds)/86400000) + 0.5).toFixed(0) + ' day(s)' : 'Expired' }}</p>
+                         ? 'Ends in '+ abs(+(((getDeadlineDate(item.deadline) - todayInMilliseconds)/86400000) + 0.5).toFixed(0)) + ' day(s)' : 'Expired' }}</p>
                     </div>
                 }
             }

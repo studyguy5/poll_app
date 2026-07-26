@@ -155,7 +155,6 @@ export class ShowSurveyComponent {
    */
   ngOnDestroy() {
     this.document.body.classList.remove('show-body');
-    this.choosenAnswerArray = []
   }
 
 
@@ -240,7 +239,18 @@ export class ShowSurveyComponent {
     }
     
   }
+
+  submittDelay(){
+    this.document.querySelector('.successMessageSubmitt')?.classList.add('active')
+    setTimeout(() => {
+      this.submitCompletedSurvey()
+    }, 4000)
+    setTimeout(() => {
+      this.router.navigate(['/']);
+    }, 4500)
+  }
   
+  submittConfirmed = false
 /**
  * @function submitCompletedSurvey is used to submit the completed survey to the database
  * it checks the id, iterates over the choosenAnswerArray and inserts the data into the database with the help of supabase and a for loop
@@ -252,6 +262,7 @@ export class ShowSurveyComponent {
     if (!surveyId) {
       return;
     }
+    localStorage.setItem('surveyId', surveyId);
     const answeredQuestionIds = new Set(
   this.choosenAnswerArray.map(answer => answer.question_id)
 );
@@ -270,10 +281,6 @@ export class ShowSurveyComponent {
       .from('choosenDetail')
       .insert(this.choosenAnswerArray[i]);
     }
-    this.document.querySelector('.successMessageSubmitt')?.classList.add('active')
-    setTimeout(() => {
-      this.router.navigate(['/']);
-    }, 4000)
   }
 
   /**
@@ -289,7 +296,7 @@ export class ShowSurveyComponent {
     const statisticsData = this.surveysData.statistics()
     const uniqueSubmissionIds = new Set(statisticsData.map((item) => item.submission_id)).size
     return {
-      xTimesSurveyFilled: this.choosenAnswerArray.length > 0 ? (uniqueSubmissionIds + 1) : uniqueSubmissionIds,
+      xTimesSurveyFilled: this.choosenAnswerArray.length > 0 ? uniqueSubmissionIds : uniqueSubmissionIds,
       idsOfAnswer: statisticsData.map((item) => item.answer_id)
       
     }

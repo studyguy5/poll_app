@@ -36,7 +36,7 @@
                         <p class="setEndDate">Set end date (optional)</p>
                         <div class="setEndDateInputAndImg">
                             <div class="setEndDateInput">
-                                <input type="date" id="date" [formControl]="endDate">
+                                <input type="date" min="{{ today | date: 'yyyy-MM-dd'}}" id="date" [formControl]="endDate">
                             </div>
                             <img src="assets/icons/Delete.svg" (click)="endDate.setValue('tt/mm/jjjj')">
                         </div>
@@ -82,7 +82,7 @@
                 <div class="answerHeadlineAndSetting">
                     <p>Answers</p>
                     <div class="checkboxAndPtag">
-                        <input [formControl]="asFormControl(questionGroup.get('allowMultipleAnswers'))" type="checkbox"
+                        <input class="allowMultiple" [formControl]="asFormControl(questionGroup.get('allowMultipleAnswers'))" type="checkbox"
                             name="setting" id="checkbox">
                         <p class="settingDetail">allow multiple answers</p>
                     </div>

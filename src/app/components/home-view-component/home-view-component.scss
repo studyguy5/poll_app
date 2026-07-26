@@ -393,24 +393,30 @@ body.home-body {
     align-items:center;
     height:300px;
     position:absolute;
+    border-radius:6px;
+    color:black;
+    background-color:white;
     top:35px;
     transition:0.3s opacity ease-in-out;
+    pointer-events: all;
 }
 
 .dropDownItem{
     cursor: pointer;
     align-items:center;
-    padding: 2px 30px;
-    min-width:170px;
+    display:flex;
+    justify-content: start;
+    padding: 2px 5px 2px 5px;
+    min-width:100px;
     box-sizing:border-box;
-    border-radius: 20px;
-    color: white;
+    border-radius: 5px;
+    color:black;
     font-family: 'Mulish', sans-serif;
     font-size: 18px;
-    font-family: 'Mulish', sans-serif;
+    
     // gap:3px;
     &:hover{
-        background-color: rgb(75, 71, 67);
+        background-color: rgba(244, 233, 251, 1)
     }
 }
 
@@ -418,10 +424,12 @@ body.home-body {
     display:flex;
     flex-direction:column;
     justify-content: center;
-    align-items:center;
+    align-items:flex-start;
     height:290px;
+    width:140px;
     gap: 5px;
-    background-color:rgb(255,183,112);
+    background-color:white;
+    border-radius:6px;
 }
 .categorys{
     pointer-events: none;

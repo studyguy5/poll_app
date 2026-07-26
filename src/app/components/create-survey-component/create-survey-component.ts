@@ -68,6 +68,7 @@ export class CreateSurveyComponent {
   questions: FormArray<FormGroup>;
   letter: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
   router: Router
+  today = new Date();
   constructor(@Inject(DOCUMENT) document: Document, router: Router) {
     this.router = router
     this.document = document;
