@@ -56,8 +56,8 @@ export class ShowSurveyComponent {
   letter: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
   supabase = createClient("https://cejvxxwyidgknkfbpvgp.supabase.co", "sb_publishable_PCQYT5KWUFY1hpKYJZM1XQ_2ej6CAmT")
   router: Router;
-
-
+  deadlineDate!: number;
+  todayInMilliseconds = new Date().getTime();
   /**
    * @function survey here we use the getter Method to get the survey, and we look for the id in the url
    * with the paramMap we look in get Question function, which is also a getter Method, about the right questions
@@ -76,19 +76,35 @@ export class ShowSurveyComponent {
     return this.surveysData.surveys().find((survey) => survey.id === id);
   }
 
+  getDeadlineDate(deadline: string) {
+    this.deadlineDate = new Date(deadline).getTime();
+    return this.deadlineDate
+  }
+
 
   /**
    * @constructor sets the connection to the document and the router
    * @param idForQuestions is used to get the id of the survey
    */
   idForQuestions: number = 1
-  
+  allreadyFilled: Survey[] = []
+  alreadyFilledSurveyIds: number[] = []
+
   constructor(@Inject(DOCUMENT) document: Document, router: Router) {
     this.document = document;
     this.router = router
-    // clearInterval(this.setInterval)
+    this.checkIfEndedOrAlreadyFilled()
   }
 
+  checkIfEndedOrAlreadyFilled() {
+    const storedIdsRaw = JSON.parse(localStorage.getItem('surveyId') || '[]') as Array<number | string>;
+    this.alreadyFilledSurveyIds = Array.isArray(storedIdsRaw)
+      ? storedIdsRaw.map(Number).filter((id): id is number => !Number.isNaN(id))
+      : [];
+
+    this.allreadyFilled = this.surveysData.surveys()
+      .filter((survey) => this.alreadyFilledSurveyIds.includes(survey.id));
+  }
   /**
    * @function questions here we use the getter Method to get the questions
    * @returns the questions
@@ -251,18 +267,24 @@ export class ShowSurveyComponent {
   }
   
   submittConfirmed = false
-/**
- * @function submitCompletedSurvey is used to submit the completed survey to the database
- * it checks the id, iterates over the choosenAnswerArray and inserts the data into the database with the help of supabase and a for loop
- * after 4000ms it navigates the user to the home page
+  /**
+   * @function submitCompletedSurvey is used to submit the completed survey to the database
+   * it checks the id, iterates over the choosenAnswerArray and inserts the data into the database with the help of supabase and a for loop
+   * after 4000ms it navigates the user to the home page
  * @returns void
  */
-  async submitCompletedSurvey() {
-    const surveyId = this.route.snapshot.paramMap.get('id'); //survey id holen
+async submitCompletedSurvey() {
+  const surveyId = this.route.snapshot.paramMap.get('id'); //survey id holen
     if (!surveyId) {
       return;
     }
-    localStorage.setItem('surveyId', surveyId);
+    // localStorage.removeItem('surveyId')
+    let id = surveyId as never
+    let localstorageArr: string[] = JSON.parse(localStorage.getItem('surveyId') || '[]');
+    if (!Array.isArray(localstorageArr)) {
+    localstorageArr = [];}
+    localstorageArr.push(id)
+    localStorage.setItem('surveyId', JSON.stringify(localstorageArr));
     const answeredQuestionIds = new Set(
   this.choosenAnswerArray.map(answer => answer.question_id)
 );

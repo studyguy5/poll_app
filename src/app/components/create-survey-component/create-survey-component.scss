@@ -288,9 +288,9 @@ body.survey-body {
     }
 
     .dropDownList.open {
-        // position:absolute;
+        background-color: white;
         >.dropDownItem {
-
+            color:black;
             pointer-events: all;
             cursor: pointer;
         }
@@ -298,10 +298,8 @@ body.survey-body {
 
     .dropDownItem {
         display: flex;
-        // position:relative;
-        // z-index:1;
         pointer-events: none;
-        justify-content: space-evenly;
+        justify-content: start;
         align-items: center;
         padding: 4px 6px 4px 6px;
         border-radius: 6px;
@@ -313,7 +311,7 @@ body.survey-body {
         cursor: pointer;
 
         &:hover {
-            background-color: rgba(73, 59, 77, 1);
+            background-color:rgba(244, 233, 251, 1);
         }
     }
 
@@ -644,7 +642,7 @@ body.survey-body {
     background-color: rgba(254, 233, 212, 1);
     border: 1px solid rgb(123, 90, 84);
     color:black;
-    font-family: 'Nerkane', sans-serif;
+    font-family: 'Nerko One', sans-serif;
     padding: 8px 32px;
     box-sizing: border-box;
     >.text{

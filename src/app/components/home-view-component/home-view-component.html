@@ -1,6 +1,6 @@
 <!-- <p>home-view-component works!</p>
 <h2>Hello world</h2> -->
-<section class="main-section">
+<section (click)="toggleOnlyClose()" class="main-section">
     <img src="assets/poll_appLogo.svg">
     <div class="textInfoImgDiv">
         <div class="leftSideText">
@@ -25,7 +25,7 @@
         <div class="surveys">
             @if(surveysData){
                 @for (item of filterSurveys(); track item) {
-                    <div [routerLink]="allreadyFilled.some(a => a.id === item.id) ? null : [`activeSurvey/${item.id}`]" class="survey-card">
+                    <div [routerLink]="[`activeSurvey/${item.id}`]" class="survey-card">
                         <p class="surveyCategory">{{ item.category }}</p>
                         <p class="surveyDescription">{{ item.title }}</p>
                         <p class="filteredSurveysDeadline">Ends in {{ (((getDeadlineDate(item.deadline) - todayInMilliseconds)/86400000) + 0.5).toFixed(0) }}day(s)</p>
@@ -39,10 +39,10 @@
             <div class="filterArea">
                 <div class="activePastButtonArea">
                     <button class="activeSurvey" (click)="filterActiveSurveys()">Active survey</button>
-                    <button class="pastSurvey" (click)="filterPastSurveys()">past survey</button>
+                    <button class="pastSurvey" (click)="filterPastSurveys()">Past survey</button>
                 </div>
-                <div class="sortArea">
-                    <button (click)="toggleFilterOption()" class="sortedBy">Sort by categories
+                <div (click)="stopThePropagation($event)"class="sortArea">
+                    <button (click)="toggleFilterOption(); " class="sortedBy">Sort by categories
                         <img src="assets/arrow_drop_down.svg">
                     </button>
                     <div [class.open]="dropdownOpen" class="categorys">
@@ -55,14 +55,22 @@
                 </div>
             </div>
             <div class="listingSurveys">
-                @if(surveysData){
-                @for (item of filteredSurveys.length ? filteredSurveys : surveysData.surveys(); track item) {
-                    <div  [routerLink]=" +(((getDeadlineDate(item.deadline) - todayInMilliseconds)/86400000) + 0.5)
-                    .toFixed(0) < 0 || isDisabled || allreadyFilled.some(a => a.id === item.id) ? null : [`activeSurvey/${item.id}`]" class="survey-card">
+                @if(filteredSurveys.length === 0 && noSurveyFound === true){
+                    <div class="survey-card">
+                        <p class="surveyCategoryMain">category we know everything</p>
+                        <p class="allTitle">No Survey found with this category</p>
+                        <p class="allDeadline">No dealine at all :)</p>
+                    </div>`;
+                }
+                @if(surveysData && noSurveyFound === false){
+                @for (item of filteredSurveys.length ? filteredSurveys : filterSurveyForBottomView(); track item) {
+                    <div  [routerLink]="[`activeSurvey/${item.id}`]" class="survey-card">
                         <p class="surveyCategoryMain">{{ item.category }}</p>
                         <p class="allTitle">{{ item.title }}</p>
-                        <p class="allDeadline">{{ +(((getDeadlineDate(item.deadline) - todayInMilliseconds)/86400000) + 0.5).toFixed(0) >= 0
-                         ? 'Ends in '+ abs(+(((getDeadlineDate(item.deadline) - todayInMilliseconds)/86400000) + 0.5).toFixed(0)) + ' day(s)' : 'Expired' }}</p>
+                        <p class="allDeadline">{{ +(((getDeadlineDate(item.deadline) - todayInMilliseconds)/86400000) +0.5).toFixed(0) > 0
+                         ? 'Ends in '+ abs(+(((getDeadlineDate(item.deadline) - todayInMilliseconds)/86400000) +0.5).toFixed(0)) + ' day(s)' : 
+                         +(((getDeadlineDate(item.deadline) - todayInMilliseconds)/86400000) +0.5).toFixed(0) === 0 
+                         ? 'Today' : 'Ended'  }}</p>
                     </div>
                 }
             }

@@ -10,6 +10,7 @@ body.home-body {
 }
 
 .main-section {
+    align-items: center;
     margin-top: 92px;
     // width:100%;
     max-width: 1440px;
@@ -20,17 +21,18 @@ body.home-body {
     margin: 0 auto;
 
     >img {
+        align-self: flex-start;
         width: 119px;
         height: 46px;
-        position:relative;
-        right:88px;
+        // position:relative;
+        // right:88px;
     }
 }
 
 .textInfoImgDiv {
     display: flex;
-    position:relative;
-    right:88px;
+    // position:relative;
+    // right:88px;
 }
 
 .leftSideText {
@@ -248,6 +250,7 @@ body.home-body {
             cursor: pointer;
             padding: 2px 10px;
             border-radius: 20px;
+            border: transparent;
         }
 
         >button:first-child {
@@ -287,7 +290,7 @@ body.home-body {
                 border-radius: 6px;
             }
             &:hover img {
-                content: url('/angular-projects/poll_app/assets/arrow_drop_downYellow.svg');
+                content: url('/assets/arrow_drop_downYellow.svg');
             }
         }
     }
@@ -313,6 +316,7 @@ body.home-body {
     display: grid;
     justify-content: space-between;
     grid-template-columns: repeat(2, 1fr);
+    min-height:413px;
     max-height:413px;
     max-width:calc(1042px + 14px);
     width: 100%;
@@ -425,7 +429,7 @@ body.home-body {
     flex-direction:column;
     justify-content: center;
     align-items:flex-start;
-    height:290px;
+    height:300px;
     width:140px;
     gap: 5px;
     background-color:white;

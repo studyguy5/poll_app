@@ -63,6 +63,7 @@ export class HomeViewComponent {
    */
   ngOnInit() {
     this.document.body.classList.add('home-body');
+
   }
 
   /**
@@ -78,9 +79,6 @@ export class HomeViewComponent {
    * @returns surveysData
    */
   filterSurveys() {
-    this.allreadyFilled = this.surveysData.surveys().filter((survey) => {
-      return localStorage.getItem('surveyId') === survey.id.toString();      
-    })
     this.in30Days.setDate(this.today.getDate() + 30);
     if (this.surveysData) {
       return this.surveysData.surveys().filter((survey) => {
@@ -89,6 +87,21 @@ export class HomeViewComponent {
       }).sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime());
     }
     return this.surveysData;
+  }
+
+  filterSurveyForBottomView() {
+    const todayStart = new Date(this.today);
+    todayStart.setHours(0, 0, 0, 0);
+    if (this.surveysData) {
+      return this.surveysData.surveys().filter((survey) => {
+        const [year, month, day] = survey.deadline.split('-').map(Number);
+        const deadlineright = new Date(year, month - 1, day);
+        const deadline = new Date(survey.deadline).getTime() >= todayStart.getTime();
+        console.log(deadline);
+        return deadlineright.getTime() >= todayStart.getTime();
+      }).sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime());
+    }
+    return [];
   }
 
   /**
@@ -109,6 +122,9 @@ export class HomeViewComponent {
   toggleFilterOption() {
     this.dropdownOpen = !this.dropdownOpen
   }
+  toggleOnlyClose() {
+    this.dropdownOpen = false
+  }
 
   /**
    * @function filterThisCategory is used to filter the surveys by category
@@ -116,34 +132,38 @@ export class HomeViewComponent {
    * @returns filteredSurveys (not the returned value, but the filtered surveys)
    */
   filteredSurveys: Survey[] = [];
-  
+  noSurveyFound: boolean = false
   filterThisCategory(category: string) {
     if (category === 'all surveys') {
       this.dropdownOpen = false;
-      this.filteredSurveys = this.surveysData.surveys()
-    } else {
+      this.noSurveyFound = false;
+      this.filteredSurveys = this.filterSurveyForBottomView()
+    } else if (this.surveysData.surveys().filter((survey) => survey.category === category).length > 0) {
       this.dropdownOpen = false;
-      this.filteredSurveys = this.surveysData.surveys().filter((survey) => survey.category === category)
+      this.noSurveyFound = false;
+      this.filteredSurveys = this.surveysData.surveys().filter((survey) => survey.category === category);
+    } else if(this.surveysData.surveys().filter((survey) => survey.category === category).length === 0) {
+      this.dropdownOpen = false;
+      this.filteredSurveys = []
+      this.noSurveyFound = true
+      
     }
   };
+
   
-  allreadyFilled: Survey[] = []
+  
   /**
    * @function filterActiveSurveys is used to filter the active surveys, survey deadline is within the next 30 days
    * @returns filteredSurveys
    */
-  filterActiveSurveys() {
-    this.allreadyFilled = this.surveysData.surveys()
-    .filter((survey) => localStorage.getItem('surveyId') === survey.id.toString());
-    console.log(this.allreadyFilled.length);
-    
-    let activeSurveys = this.surveysData.surveys().filter((survey) => {
+  filterActiveSurveys(): Survey[] {
+    let activeSurveys: Survey[] = this.surveysData.surveys().filter((survey) => {
       const deadline = new Date(survey.deadline);
       return deadline >= this.today;
     })
-    
-      
-    
+
+
+
     this.filteredSurveys = activeSurveys
     document.querySelectorAll('.activeSurvey')?.forEach((button: Element) => {
       let btn = button as HTMLButtonElement
@@ -153,6 +173,7 @@ export class HomeViewComponent {
       let btn = button as HTMLButtonElement
       btn.style.backgroundColor = 'rgba(255, 207, 161, 1)'
     });
+    return this.filteredSurveys
   }
 
   /**
@@ -160,7 +181,7 @@ export class HomeViewComponent {
    * @param isDisabled is a boolean that is true if the button is disabled, this blocks the user from view this survey
    * @returns filteredSurveys
    */
-isDisabled = false
+  isDisabled = false
   filterPastSurveys() {
     let pastSurveys = this.surveysData.surveys().filter((survey) => {
       let exatToday = this.today.setHours(0, 0, 0, 0);
@@ -181,11 +202,13 @@ isDisabled = false
     );
   }
   abs(value: number) {
-  return Math.abs(value);
-}
-checkIfAlreadyFilled(id: number):boolean{ 
-  return localStorage.getItem('surveyId') === id.toString() ? this.isDisabled = true : this.isDisabled = false; 
-}
-  
+    return Math.abs(value);
+  }
+
+  stopThePropagation(event: Event) {
+    event.stopPropagation();
+  }
+ 
+
 }
 

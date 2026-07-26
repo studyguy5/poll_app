@@ -31,7 +31,7 @@ body.show-body {
     background-color: rgba(254, 233, 212, 1);
     border: 1px solid rgb(123, 90, 84);
     color:black;
-    font-family: 'Nerkane', sans-serif;
+    font-family: 'Nerko One', sans-serif;
     padding: 8px 32px;
     box-sizing: border-box;
     >.text{
@@ -51,6 +51,20 @@ body.show-body {
             border-radius:10px;
             background-color:rgb(177, 174, 173);
         }
+    }
+}
+
+.allreadyFilledClass{
+    font-family: 'Mulish', sans-serif;
+    align-self:center;
+    color:red;
+    font-size:20px;
+    font-weight:bold;
+    margin:0px;
+    padding:0px;
+    height:25px;
+    >p{
+        margin: 0px;
     }
 }
 .successMessageSubmitt.active{
@@ -73,7 +87,7 @@ body.show-body {
         cursor: pointer;
         padding: 10px 25px;
         border-radius: 10px;
-        border: 1px solid rgb(255, 183, 112);
+        border: transparent;
         background-color: rgba(255, 207, 161, 1);
         width: 115px;
         display: flex;
@@ -132,6 +146,7 @@ body.show-body {
 
         >.statusOfSurvey {
             display: flex;
+            font-family: 'Mulish', sans-serif;
             justify-content: center;
             align-items: center;
             width: 94px;
@@ -147,12 +162,13 @@ body.show-body {
 .deadlineCategoryWrapper {
     display: flex;
     justify-content: space-between;
+    font-family: 'Mulish', sans-serif;
 }
 
 .mainSurveyHeadline {
     font-size: 56px;
     font-family: 'Nerko One', sans-serif;
-    color: rgb(196, 177, 6);
+    color: rgba(238, 146, 54, 1);
     margin: 0px;
 }
 
@@ -258,17 +274,19 @@ body.show-body {
         position:static;
         right:30px;
         border-radius: 100%;
-        
+        margin-bottom:10px;
     }
 
     .statisticsDescription {
         font-size: 18px;
+        font-family: 'Mulish', sans-serif;
     }
 
     .noAnswers {
         font-size: 18px;
         color: rgba(53, 39, 58, 1);
         margin-top: 146px;
+        font-family: 'Mulish', sans-serif;
     }
 
     >p {
