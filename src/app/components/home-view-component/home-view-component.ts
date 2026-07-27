@@ -97,7 +97,6 @@ export class HomeViewComponent {
         const [year, month, day] = survey.deadline.split('-').map(Number);
         const deadlineright = new Date(year, month - 1, day);
         const deadline = new Date(survey.deadline).getTime() >= todayStart.getTime();
-        console.log(deadline);
         return deadlineright.getTime() >= todayStart.getTime();
       }).sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime());
     }
@@ -138,11 +137,11 @@ export class HomeViewComponent {
       this.dropdownOpen = false;
       this.noSurveyFound = false;
       this.filteredSurveys = this.filterSurveyForBottomView()
-    } else if (this.surveysData.surveys().filter((survey) => survey.category === category).length > 0) {
+    } else if (this.surveysData.surveys().filter((survey) => survey.category === category && this.getDeadlineDate(survey.deadline) >= this.todayInMilliseconds).length !== 0) {
       this.dropdownOpen = false;
       this.noSurveyFound = false;
-      this.filteredSurveys = this.surveysData.surveys().filter((survey) => survey.category === category);
-    } else if(this.surveysData.surveys().filter((survey) => survey.category === category).length === 0) {
+      this.filteredSurveys = this.surveysData.surveys().filter((survey) => survey.category === category && this.getDeadlineDate(survey.deadline) >= this.todayInMilliseconds);
+    } else if(this.surveysData.surveys().filter((survey) => survey.category === category && this.getDeadlineDate(survey.deadline) >= this.todayInMilliseconds).length === 0) {
       this.dropdownOpen = false;
       this.filteredSurveys = []
       this.noSurveyFound = true
@@ -160,7 +159,7 @@ export class HomeViewComponent {
     let activeSurveys: Survey[] = this.surveysData.surveys().filter((survey) => {
       const deadline = new Date(survey.deadline);
       return deadline >= this.today;
-    })
+    }).sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime())
 
 
 

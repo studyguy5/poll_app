@@ -20,18 +20,19 @@
  * @templateUrl This is the url of the template, which is the html file
  * @styleUrls This is the url of the style, which is the css file
  */
-import { Component, Signal } from '@angular/core';
+import { Component, Host, Signal } from '@angular/core';
 import { Inject, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Surveys } from '../../services/surveys';
-import { Answer , Survey } from '../../interfaces/survey-interface';
+import { Answer, Survey } from '../../interfaces/survey-interface';
 import { Question } from '../../interfaces/survey-interface';
 import { computedStatistics } from '../../interfaces/survey-interface';
 import { CompletedSurvey } from '../../interfaces/survey-interface';
 import { createClient } from '@supabase/supabase-js';
 import { computed } from '@angular/core';
 import { Router } from '@angular/router';
+import { HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-show-survey-component',
@@ -82,6 +83,7 @@ export class ShowSurveyComponent {
   }
 
 
+
   /**
    * @constructor sets the connection to the document and the router
    * @param idForQuestions is used to get the id of the survey
@@ -94,7 +96,15 @@ export class ShowSurveyComponent {
     this.document = document;
     this.router = router
     this.checkIfEndedOrAlreadyFilled()
+
   }
+  public innerWidth: number = window.innerWidth;
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.innerWidth = window.innerWidth;
+  }
+
+
 
   checkIfEndedOrAlreadyFilled() {
     const storedIdsRaw = JSON.parse(localStorage.getItem('surveyId') || '[]') as Array<number | string>;
@@ -105,6 +115,52 @@ export class ShowSurveyComponent {
     this.allreadyFilled = this.surveysData.surveys()
       .filter((survey) => this.alreadyFilledSurveyIds.includes(survey.id));
   }
+
+  toggleStatistics() {
+    let statisticsButton = this.document.querySelector('.statisticsButton')
+    let statisticsButtonLabel = this.document.querySelector('.statisticsButton label')
+    let statisticsWrapper = this.document.querySelector('.statisticsWrapperRightSide')
+    let wrapper = statisticsWrapper as HTMLElement
+    const beforeTop = this.switchStates(statisticsButton, statisticsButtonLabel, statisticsWrapper, wrapper)
+    requestAnimationFrame(() => {
+      const afterTop = statisticsButton?.getBoundingClientRect().top;
+      if(afterTop === undefined || beforeTop === undefined) return
+      const delta = afterTop - beforeTop;
+      window.scrollBy({
+        top: delta + 100,
+        behavior: 'instant'
+      });
+    }
+  );
+}
+switchStates(statisticsButton: Element | null, statisticsButtonLabel: Element | null, statisticsWrapper: Element | null, wrapper: HTMLElement) {
+  if (!statisticsButton || !statisticsButtonLabel || !statisticsWrapper) {
+    return}
+  const beforeTop = statisticsButton.getBoundingClientRect().top;
+  if (statisticsButtonLabel.innerHTML === 'See results') {
+     this.openResults(statisticsButton, statisticsButtonLabel, wrapper);
+  } else {
+    this.closeResults(statisticsButton, statisticsButtonLabel, wrapper);
+  }
+return beforeTop
+}
+
+openResults(statisticsButton: Element, statisticsButtonLabel: Element, wrapper: HTMLElement) {
+    statisticsButtonLabel.innerHTML = 'Close results';
+    statisticsButton.classList.add('statisticsButtonRotate');
+    wrapper.style.display = 'block';
+  return statisticsButton
+  }
+  
+  closeResults(statisticsButton: Element, statisticsButtonLabel: Element, wrapper: HTMLElement) {
+    statisticsButtonLabel.innerHTML = 'See results';
+    statisticsButton.classList.remove('statisticsButtonRotate');
+    wrapper.style.display = 'none';
+    return statisticsButton
+  }
+
+
+
   /**
    * @function questions here we use the getter Method to get the questions
    * @returns the questions
@@ -112,12 +168,12 @@ export class ShowSurveyComponent {
   get questions() {
     return this.surveysData.questions()
   }
-  
-/**
- * @param questionId is used to collect the id of the question
- */
+
+  /**
+   * @param questionId is used to collect the id of the question
+   */
   questionId: number[] = [];
-  
+
   /**
    * @function ngOnInit is executed when the component is initialized, this secures the live statistics, questions and the right survey itself
    * @param survey we catch the id from the url, check the value, form it to a number
@@ -128,13 +184,16 @@ export class ShowSurveyComponent {
    * @returns 
    */
   async ngOnInit() {
-    this.document.body.classList.add('show-body');      
+    this.innerWidth = window.innerWidth;
+    this.document.body.classList.add('show-body');
     const survey = this.route.snapshot.paramMap.get('id');
     if (!survey) {
-      return;}
+      return;
+    }
     const id = Number(survey);
     if (Number.isNaN(id)) {
-      return;}
+      return;
+    }
     this.id = id;
     // this.collectLocalAndDatabaseStatistic()
     await this.surveysData.getStatisticsData(id) // alle Einträge zu einer survey id
@@ -144,7 +203,7 @@ export class ShowSurveyComponent {
     })
     await this.getAnswers()
   }
-  
+
 
   /**
    * @function getAnswers is used to get the answers from the database
@@ -163,7 +222,7 @@ export class ShowSurveyComponent {
       )
     }
   }
-  
+
   /**
    * @function ngOnDestroy is executed when the component is destroyed, this secures the live statistics
    * when the user leaves this component/site, it removes the class from the body and clears the choosenAnswerArray
@@ -174,12 +233,12 @@ export class ShowSurveyComponent {
   }
 
 
-/**
- * @function preventMultipleAnswers is used to prevent the user to choose multiple answers, if not allowed
- * @param event catches the click event from the user
- * @param question provides the right question for the function to work with
- * @returns void
- */
+  /**
+   * @function preventMultipleAnswers is used to prevent the user to choose multiple answers, if not allowed
+   * @param event catches the click event from the user
+   * @param question provides the right question for the function to work with
+   * @returns void
+   */
   preventMultipleAnswers(event?: Event, question?: Question) {
     if (!question?.allowMultipleAnswers) {
       const checkboxes = (event?.target as HTMLElement).closest('.questionWrapper')?.querySelectorAll('input[type="checkbox"]');
@@ -190,7 +249,7 @@ export class ShowSurveyComponent {
           }
         });
       }
-    } else {return}
+    } else { return }
   }
 
   /**
@@ -207,11 +266,12 @@ export class ShowSurveyComponent {
   collectAnswerIds(event: Event, question: Question, answerId?: Number | undefined) {
     const questionblock = (event.target as HTMLElement).closest('.questionWrapper');
     if (!questionblock) {
-      return;}
-      const target = event.target as HTMLInputElement;
+      return;
+    }
+    const target = event.target as HTMLInputElement;
     if (target.checked) {
       this.handleclickedAnswers(question, answerId)
-    } else  {
+    } else {
       this.handleUnchoosenAnswers(question, answerId)
     }
   }
@@ -223,14 +283,15 @@ export class ShowSurveyComponent {
    * @param answerId provides the right answer id for the function to work with
    * @returns void
    */
-  handleclickedAnswers( question: Question, answerId?: Number | undefined) {
+  handleclickedAnswers(question: Question, answerId?: Number | undefined) {
     if (!question.allowMultipleAnswers) {
       this.choosenAnswerArray = this.choosenAnswerArray.filter((item) => (item.question_id !== question.id));
       this.choosenAnswerArray.push({
         survey_id: this.id,
         question_id: question.id,
         answer_id: answerId,
-        submission_id: this.submission_id})
+        submission_id: this.submission_id
+      })
     } else {
       this.choosenAnswerArray.push({
         survey_id: this.id,
@@ -253,10 +314,10 @@ export class ShowSurveyComponent {
     } else {
       this.choosenAnswerArray.splice(this.choosenAnswerArray.findIndex((item) => item.answer_id === answerId), 1);
     }
-    
+
   }
 
-  submittDelay(){
+  submittDelay() {
     this.document.querySelector('.successMessageSubmitt')?.classList.add('active')
     setTimeout(() => {
       this.submitCompletedSurvey()
@@ -265,7 +326,7 @@ export class ShowSurveyComponent {
       this.router.navigate(['/']);
     }, 4500)
   }
-  
+
   submittConfirmed = false
   /**
    * @function submitCompletedSurvey is used to submit the completed survey to the database
@@ -273,8 +334,8 @@ export class ShowSurveyComponent {
    * after 4000ms it navigates the user to the home page
  * @returns void
  */
-async submitCompletedSurvey() {
-  const surveyId = this.route.snapshot.paramMap.get('id'); //survey id holen
+  async submitCompletedSurvey() {
+    const surveyId = this.route.snapshot.paramMap.get('id'); //survey id holen
     if (!surveyId) {
       return;
     }
@@ -282,16 +343,17 @@ async submitCompletedSurvey() {
     let id = surveyId as never
     let localstorageArr: string[] = JSON.parse(localStorage.getItem('surveyId') || '[]');
     if (!Array.isArray(localstorageArr)) {
-    localstorageArr = [];}
+      localstorageArr = [];
+    }
     localstorageArr.push(id)
     localStorage.setItem('surveyId', JSON.stringify(localstorageArr));
     const answeredQuestionIds = new Set(
-  this.choosenAnswerArray.map(answer => answer.question_id)
-);
+      this.choosenAnswerArray.map(answer => answer.question_id)
+    );
     let questionamount = this.questions.length
     let choosen = answeredQuestionIds.size
     Number(questionamount);
-    if(choosen < questionamount){
+    if (choosen < questionamount) {
       this.document.querySelector('.errorMessageSubmitt')?.classList.add('active')
       setTimeout(() => {
         this.document.querySelector('.errorMessageSubmitt')?.classList.remove('active')
@@ -300,8 +362,8 @@ async submitCompletedSurvey() {
     }
     for (let i = 0; i < this.choosenAnswerArray.length; i++) {
       const { data, error } = await this.supabase
-      .from('choosenDetail')
-      .insert(this.choosenAnswerArray[i]);
+        .from('choosenDetail')
+        .insert(this.choosenAnswerArray[i]);
     }
   }
 
@@ -320,18 +382,18 @@ async submitCompletedSurvey() {
     return {
       xTimesSurveyFilled: this.choosenAnswerArray.length > 0 ? uniqueSubmissionIds : uniqueSubmissionIds,
       idsOfAnswer: statisticsData.map((item) => item.answer_id)
-      
+
     }
   }
-  
-)
 
-/**
- * @function hideSuccessMessageSubmitt is used to hide the success message
- * @returns void
- */
-hideSuccessMessageSubmitt(){
-  this.document.querySelector('.successMessageSubmitt')?.classList.remove('active');
-}
+  )
+
+  /**
+   * @function hideSuccessMessageSubmitt is used to hide the success message
+   * @returns void
+   */
+  hideSuccessMessageSubmitt() {
+    this.document.querySelector('.successMessageSubmitt')?.classList.remove('active');
+  }
 
 }

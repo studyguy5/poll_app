@@ -326,4 +326,11 @@ async uploadMainSurveyData(){
     this.document.querySelector('.successMessage')?.classList.remove('visible');
   }
 
+  stopThePropagation(event: Event) {
+    event.stopPropagation();
+  }
+  toggleOnlyClose() {
+    this.isDropdownOpen = false;
+  }
+
 }

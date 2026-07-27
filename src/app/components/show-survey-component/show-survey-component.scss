@@ -229,6 +229,7 @@ body.show-body {
 
 .completeSurveyButton {
     cursor: pointer;
+    font-family: 'Mulish', sans-serif;
     display: flex;
     align-self: end;
     justify-self: end;
@@ -242,6 +243,58 @@ body.show-body {
         background-color: rgba(255, 183, 112, 0.6);
     }
 
+}
+
+.statisticsButton{
+    cursor: pointer;
+    display: flex;
+    align-self: start;
+    justify-self: space-between;
+    align-items: center;
+    gap:8px;
+    width: 133px;
+    height:32px;
+    margin-top:56px;
+    margin-left:50px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: transparent;
+    background-color: rgba(255, 255, 255, 0.356);
+    img:nth-child(2){ 
+        width: 15px;
+        height: 8px;
+        transform: rotate(0deg);
+        transition: 0.3s ease-in-out;
+    }
+    img:nth-child(3){
+        display:none; 
+        width: 15px;
+        height: 8px;
+        transform: rotate(0deg);
+        transition: 0.3s ease-in-out;
+    }
+
+    &:hover {
+        >img:nth-child(2){
+            display:none;
+        }
+        >img:nth-child(3){
+            display:block;
+            
+        }
+        background-color: rgba(250, 245, 254, 1);
+    }
+}
+.statisticsButtonRotate{
+    
+    >img:nth-child(2){
+        transition: 0.3s ease-in-out;
+        transform: rotate(180deg);
+    }
+    >img:nth-child(3){
+        transition: 0.3s ease-in-out;
+        transform: rotate(180deg);
+    }
 }
 
 .statisticsWrapperRightSide {
@@ -366,7 +419,7 @@ body.show-body {
 
     .statisticsWrapperRightSide {
         >h2 {
-            margin-top: 105px;
+            margin-top: 65px;
         }
     }
 

@@ -202,7 +202,7 @@ body.survey-body {
 
         >img:hover {
             cursor: pointer;
-            content: url('/angular-projects/poll_app/assets/icons/deleteIcon_hover.svg');
+            content: url('/assets/icons/deleteIcon_hover.svg');
         }
 
         >.surveyNameInput {
@@ -251,9 +251,6 @@ body.survey-body {
     }
 }
 
-.allowMultiple{
-
-}
 
 .dropdownMenuSite {
     display: block;
@@ -281,7 +278,7 @@ body.survey-body {
             background-color: rgba(73, 59, 77, 1);
 
             >img {
-                content: url('/angular-projects/poll_app/assets/arrow_drop_downYellow.svg');
+                content: url('/assets/arrow_drop_downYellow.svg');
             }
         }
 
@@ -366,7 +363,7 @@ body.survey-body {
 
         >img:hover {
             cursor: pointer;
-            content: url('/angular-projects/poll_app/assets/icons/deleteIcon_hover.svg');
+            content: url('/assets/icons/deleteIcon_hover.svg');
         }
 
         >.setEndDateInput {
@@ -411,7 +408,7 @@ body.survey-body {
 
         >img:hover {
             cursor: pointer;
-            content: url('/angular-projects/poll_app/assets/icons/deleteIcon_hover.svg');
+            content: url('/assets/icons/deleteIcon_hover.svg');
         }
 
         >.descriptionInput {
@@ -447,7 +444,7 @@ body.survey-body {
 
     >img:hover {
         cursor: pointer;
-        content: url('/angular-projects/poll_app/assets/icons/deleteIcon_hover.svg');
+        content: url('/assets/icons/deleteIcon_hover.svg');
     }
 
     >.question {
@@ -532,7 +529,7 @@ body.survey-body {
 
     >img:hover {
         cursor: pointer;
-        content: url('/angular-projects/poll_app/assets/icons/deleteIcon_hover.svg');
+        content: url('/assets/icons/deleteIcon_hover.svg');
     }
 
     >.count {
