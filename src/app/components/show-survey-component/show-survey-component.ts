@@ -317,7 +317,12 @@ openResults(statisticsButton: Element, statisticsButtonLabel: Element, wrapper: 
 
   }
 
+  nothingFilledOutyet = false
   submittDelay() {
+    if(this.choosenAnswerArray.length === 0) {
+      this.nothingFilledOutyet = true
+      return
+    }
     this.document.querySelector('.successMessageSubmitt')?.classList.add('active')
     setTimeout(() => {
       this.submitCompletedSurvey()

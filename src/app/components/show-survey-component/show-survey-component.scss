@@ -210,7 +210,7 @@ body.show-body {
 
         input[type="checkbox"]:checked {
             border: none;
-            background-image: url("/angular-projects/poll_app/assets/icons/input_checked.svg");
+            background-image: url("/assets/icons/input_checked.svg");
 
         }
 
@@ -442,6 +442,13 @@ body.show-body {
         display:flex;
     }
 }
+@media(max-width:700px) {
+    .mainSurvey {
+        >.deadlineCategoryWrapper {
+            flex-direction: column;
+        }
+    }
+}
 
 @media(max-width:640px) {
     .mainSurvey {
@@ -468,11 +475,3 @@ body.show-body {
     }
 }
 
-
-@media(max-width:400px) {
-    .mainSurvey {
-        >.deadlineCategoryWrapper {
-            flex-direction: column;
-        }
-    }
-}

@@ -22,12 +22,15 @@
                 <div class="deadlineCategoryWrapper">
                     <p class="deadlineOfSurvey">Deadline: {{ survey.deadline }}</p>
                     <p class="allreadyFilledClass" [style]="allreadyFilled.some(a => a.id === survey?.id) ||
-                        +(((getDeadlineDate(survey.deadline) - todayInMilliseconds)/86400000) +0.5).toFixed(0) < 0
+                        +(((getDeadlineDate(survey.deadline) - todayInMilliseconds)/86400000) +0.5).toFixed(0) < 0 || nothingFilledOutyet
                      ? 'opacity: 1' : 'opacity: 0' ">
                     @if(allreadyFilled.some(a => a.id === survey?.id)) {
                     <p class="allreadyFilled">-- allready filled out --</p>
-                    }@else {
+                    }@else if(+(((getDeadlineDate(survey.deadline) - todayInMilliseconds)/86400000) +0.5).toFixed(0) < 0) {
                     <p class="allreadyFilled">Survey has allready ended</p>
+                    }
+                    @if(nothingFilledOutyet === true) {
+                    <p class="allreadyFilled">-- nothing filled out yet --</p>
                     }
                     </p>
                     <p class="categoryOfSurvey">Category: {{ survey.category }}</p>
