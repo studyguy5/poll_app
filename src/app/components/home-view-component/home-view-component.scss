@@ -3,16 +3,13 @@ body.home-body {
     flex-direction: column;
     box-sizing: border-box;
     margin: 0 auto;
-    // height: 100vh;
     margin: 39px 111px 92px 111px;
-
-
 }
 
 .main-section {
     align-items: center;
     margin-top: 92px;
-    // max-width: 1440px;
+    max-width: 1440px;
     height: 100%;
     min-height: 1032px;
     display: flex;
@@ -26,8 +23,9 @@ body.home-body {
         
     }
     >.logoDivv{
-        max-width:1440px;
+        max-width:1218px;
         width:100%;
+        // padding-left:25px;
         display:flex;
         justify-content: start;
         align-self:flex-start;
@@ -38,7 +36,8 @@ body.home-body {
 
 .textInfoImgDiv {
     display: flex;
-    max-width:1440px;
+    max-width:1218px;
+    // justify-content:center;
 }
 
 .leftSideText {
@@ -226,7 +225,7 @@ body.home-body {
             overflow:hidden;
             text-overflow: ellipsis;
             margin-top:5px;
-            margin-bottom:55px;
+            margin-bottom:70px;
             font-size: 26px;
         }
         >.filteredSurveysDeadline{
@@ -349,7 +348,7 @@ body.home-body {
         display: flex;
         flex-direction: column;
         box-sizing: border-box;
-        padding: 12px 20px;
+        padding: 10px 20px;
         background-color:rgba(217, 217, 217, 0.08);
         color: black;
         max-width: 513px;
@@ -373,7 +372,8 @@ body.home-body {
         }
         >.surveyCategoryMain{
             color: rgba(255, 207, 161, 1);
-            font-size:20px;
+            font-size:18px;
+            margin-bottom: 8px;
         }
 
         
@@ -383,11 +383,12 @@ body.home-body {
             text-overflow: ellipsis;
             font-size: 24px;
             font-weight: 400;
-            margin-bottom: 4px;
+            margin-bottom: 22px;
             color:white;
         }
         >.allDeadline{
             align-self: flex-end;
+            max-height:21px;
             font-size: 13px;
             font-weight: 400;
             padding: 3px 6px;
@@ -457,6 +458,7 @@ body.home-body {
 .categorys{
     pointer-events: none;
 }
+
 @media (min-width: 1280px) {
     .surveys{
      overflow-x: hidden;   
@@ -478,6 +480,8 @@ body.home-body {
     .surveys{
      overflow-x: hidden;   
     }
+    
+    
 
 }
 
@@ -537,17 +541,17 @@ body.home-body {
         }
         
         .textInfoImgDiv{
-        gap:30px;
+        gap:20px;
         right:40px;
     }
     
     .survey-section{
-        width:98%;
+        width:100%;
         >.headline{
             font-size:60px;
         }
         >.surveys{
-            width:98%;
+            width:100%;
         }
     }
 }
@@ -606,13 +610,24 @@ body.home-body {
     }
     .smartphoneImgResponsive{
         display:flex;
+        width:100%;
+        
         >img{
             width:286px;
             height: 280px;
+            margin:0 auto;
         }
     }
+    .textInfoImgDiv{
+        gap:0px;
+        right:0px;
+        width:100%;
+    }
     .leftSideText{
-        width:80%;
+        width:98%;
+        >button{
+            margin:0 auto;
+        }
     }
     
 }
@@ -690,7 +705,7 @@ body.home-body {
         margin: 39px 20px 92px 20px;
     }
     .textInfoImgDiv{
-        width:95%;
+        width:102%;
     }
     .leftSideText{
         >h4{
@@ -699,11 +714,38 @@ body.home-body {
         >p{
             font-size:16px;
         
-    }   
+    }
+    
+        
 }
+        .survey-section{
+    
+            >.headline{
+                font-size:50px;
+            }
+            >.middle{
+                font-size:25px;
+            }   
+        }
+    
 .smartphoneImgResponsive{
     >img{
         width:276px;
+        height: 270px;
+    }
+}
+
+}
+
+@media(max-width:340px){
+    .leftSideText{
+        >h4{
+            font-size:45px;
+        }
+    }
+    .smartphoneImgResponsive{
+    >img{
+        width:256px;
         height: 270px;
     }
 }

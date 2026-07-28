@@ -1,10 +1,10 @@
 body.survey-body {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     box-sizing: border-box;
     margin: 0px;
-    height: unset;
-    // margin: 39px 111px 92px 111px;
+    min-height: 100vh
 }
 
 .newSurveyWrapper {
@@ -17,6 +17,7 @@ body.survey-body {
     max-width: 1135px;
     min-width: 0px;
     height: 100%;
+    align-self: center;
     border: 1px solid rgb(238, 238, 238);
     background-color: rgb(53, 38, 58);
     border-top-right-radius: 100px;
@@ -67,12 +68,12 @@ body.survey-body {
 .newSurveyForm {
     display: flex;
     max-width: 1052px;
-    // height: 558px;
+    // height: 100%;
     background-color: rgb(67, 50, 73);
     border-top-right-radius: 100px;
     padding: 33px 40px;
     gap: 64px;
-    overflow-y: auto;
+    overflow-y: unset;
 }
 
 .newSurveyForm::-webkit-scrollbar {
@@ -141,7 +142,7 @@ body.survey-body {
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     font-family: 'Nokora', sans-serif;
-    font-size:16px;
+    font-size:18px;
     >img {
         transition: all 0.3s ease-in-out;
         opacity: 0;
@@ -154,7 +155,7 @@ body.survey-body {
 
     &:hover {
         transition: all 0.3s ease-in-out;
-        width: 99px;
+        width: 105px;
         padding: 12px 16px 12px 20px;
     }
 }
@@ -168,7 +169,7 @@ body.survey-body {
 
     >.nameDateAria {
         display: block;
-        height: 134px;
+        height: 100%;
         width: 463px;
     }
 
@@ -406,6 +407,7 @@ body.survey-body {
         font-family: 'Mulish', sans-serif;
         margin: 10px;
         color: white;
+        font-size: 18px;
     }
 
     >.textareaAndImg {
@@ -542,7 +544,7 @@ body.survey-body {
     >.count {
         display: flex;
         align-items: center;
-        font-size: 18px;
+        font-size: 20px;
         font-family: 'Mulish', sans-serif;
         color: white;
         margin-right: 3.5px;
@@ -680,9 +682,10 @@ body.survey-body {
     .mainDataOfSurvey {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        column-gap: 34px;
-        row-gap: 32px;
-        height: 545px;
+        height: 100%;
+    }
+    .newSurveyWrapper{
+        max-height: 100%;
     }
 }
 
@@ -691,8 +694,9 @@ body.survey-body {
         grid-template-columns: repeat(1, minmax(0, 1fr));
         width: 100%;
         justify-items: center;
-        row-gap: 82px;
-        height: unset;
+        row-gap: 16px;
+        scrollbar-width: thin;
+        scrollbar-color: rgb(255, 183, 112) transparent;
     }
 
     .descriptionAria {
@@ -702,9 +706,7 @@ body.survey-body {
     .questionArea {
         margin-left: -35px;
     }
-    .newSurveyWrapper{
-        max-height: unset;
-    }
+    
 }
 
 @media(max-width:680px) {
@@ -718,6 +720,7 @@ body.survey-body {
         }
     }
     .newSurveyWrapper{
+        height:100%;
         >.statusCloseArea{
             
             .cancelButtonMobile{
@@ -725,9 +728,11 @@ body.survey-body {
             }
         }
     }
+    
+    
 }
 
-@media(max-width:625px) {
+@media(max-width:666px) {
     .surveyNameAria {
         width: 97%;
     }
@@ -748,10 +753,12 @@ body.survey-body {
 
     .newSurveyWrapper {
         padding: 40px 20px;
+        height:100%;
     }
 
     .newSurveyForm {
         padding: 33px 20px;
+        // height:100%;
     }
 
     .successMessage{
@@ -765,14 +772,24 @@ body.survey-body {
 
 }
 
-@media(max-width:536px) {
+@media(max-width:560px) {
     .surveyNameAria {
-        width: 95%;
+        width: 100%;
+    }
+    .newSurveyWrapper{
+        padding: 40px 10px;
+        border-top-right-radius: 50px;
+        // height:calc(100% - 90px);
+    }
+    .newSurveyForm{
+        padding: 33px 10px;
+        border-top-right-radius: 40px;
     }
 
     .mainDataOfSurvey {
         >.nameDateAria {
             width: 95%;
+            height:100%;
         }
     }
 
@@ -839,11 +856,17 @@ body.survey-body {
             grid-row: span 3;
         }
 
-        row-gap:95px;
+        row-gap:23px;
     }
     .descriptionAria{
         margin-left:0px;
     }
+    .headlineButtonAria{
+        >.headline{
+            font-size: 30px;
+        }
+    }
+    
 }
 
 @media(max-width:380px){
@@ -858,4 +881,7 @@ body.survey-body {
     .setEndDateInputAndImg{
         margin-left:1px;
     } 
+    // .newSurveyWrapper{
+    //     max-height: calc(100% - 90px);
+    // }
 }
