@@ -7,7 +7,7 @@
         <div (click)="hideSuccessMessageSubmitt()" class="closeButton"><img src="assets/icons/close_black.svg"></div>
     </div>
     <div class="headLogoButtonArea">
-        <img src="assets/poll_appLogoDark.svg">
+        <img [routerLink]="['/']" src="assets/pollAppLogo_dark.svg">
         <button class="createButton" [routerLink]="['/newSurvey']">New Survey<img
                 src="assets/icons/plus_symbolBlack.svg"></button>
     </div>
@@ -22,11 +22,11 @@
                 <div class="deadlineCategoryWrapper">
                     <p class="deadlineOfSurvey">Deadline: {{ survey.deadline }}</p>
                     <p class="allreadyFilledClass" [style]="allreadyFilled.some(a => a.id === survey?.id) ||
-                        +(((getDeadlineDate(survey.deadline) - todayInMilliseconds)/86400000) +0.5).toFixed(0) < 0 || nothingFilledOutyet
+                        expired || nothingFilledOutyet
                      ? 'opacity: 1' : 'opacity: 0' ">
                     @if(allreadyFilled.some(a => a.id === survey?.id)) {
                     <p class="allreadyFilled">-- allready filled out --</p>
-                    }@else if(+(((getDeadlineDate(survey.deadline) - todayInMilliseconds)/86400000) +0.5).toFixed(0) < 0) {
+                    }@else if(expired) {
                     <p class="allreadyFilled">Survey has allready ended</p>
                     }
                     @if(nothingFilledOutyet === true) {
@@ -54,7 +54,7 @@
                                 (click)="preventMultipleAnswers($event, question); collectAnswerIds($event, question, answer.id);"
                                 type="checkbox"
                                 [disabled]="allreadyFilled.some(a => a.id === survey?.id) || 
-                                +(((getDeadlineDate(survey.deadline) - todayInMilliseconds)/86400000) +0.5).toFixed(0) < 0">
+                                expired">
                             <p class="count"  >{{ letter[$index] }}.</p>
                             <p> {{ answer.answer }}</p>
 
@@ -65,7 +65,7 @@
                 </div>
                 }
             </div>
-            <button class="completeSurveyButton" (click)="submittDelay()">Complete survey</button>
+            <button [disabled]="allreadyFilled.some(a => a.id === survey?.id) || expired" class="completeSurveyButton" (click)="submittDelay()">Complete survey</button>
             <div class="errorMessageSubmitt">Please fill out all questions</div>
         </div>
         @if(innerWidth < 1080) {

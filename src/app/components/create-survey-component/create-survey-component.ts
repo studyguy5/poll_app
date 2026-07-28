@@ -326,9 +326,19 @@ async uploadMainSurveyData(){
     this.document.querySelector('.successMessage')?.classList.remove('visible');
   }
 
+  /**
+   * @function stopThePropagation is used to stop the propagation of the click event
+   * @param event click Event
+   * @returns void
+   */
   stopThePropagation(event: Event) {
     event.stopPropagation();
   }
+
+  /**
+   * @function toggleOnlyClose is executed when the user wants to close the dropdown, near the button or further away
+   * @returns void
+   */
   toggleOnlyClose() {
     this.isDropdownOpen = false;
   }

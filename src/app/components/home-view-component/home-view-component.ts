@@ -89,6 +89,11 @@ export class HomeViewComponent {
     return this.surveysData;
   }
 
+  /**
+   * @function filterSurveyForBottomView is used to filter the surveys for the bottom view, only active surveys, sorted by deadline
+   * uses variables to filter the surveys, by deadline, today, sets the hours to 0 and calculates the time difference
+   * @returns []
+   */
   filterSurveyForBottomView() {
     const todayStart = new Date(this.today);
     todayStart.setHours(0, 0, 0, 0);
@@ -120,9 +125,16 @@ export class HomeViewComponent {
    */
   toggleFilterOption() {
     this.dropdownOpen = !this.dropdownOpen
+    document.querySelector('.sortedBy img')?.classList.toggle('rotate');
   }
+  /**
+   * @function toggleOnlyClose is used to close the dropdown, but not open it
+   * @returns void
+   */
   toggleOnlyClose() {
-    this.dropdownOpen = false
+      if(!this.dropdownOpen) return
+      this.dropdownOpen = false
+      document.querySelector('.sortedBy img')?.classList.toggle('rotate');
   }
 
   /**
@@ -161,8 +173,6 @@ export class HomeViewComponent {
       return deadline >= this.today;
     }).sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime())
 
-
-
     this.filteredSurveys = activeSurveys
     document.querySelectorAll('.activeSurvey')?.forEach((button: Element) => {
       let btn = button as HTMLButtonElement
@@ -200,10 +210,21 @@ export class HomeViewComponent {
     }
     );
   }
+
+  /**
+   * 
+   * @param value number of deadline
+   * @returns value
+   */
   abs(value: number) {
     return Math.abs(value);
   }
 
+  /**
+   * @function stopThePropagation is used to stop the propagation of the click event
+   * @param event click Event
+   * @returns void
+   */
   stopThePropagation(event: Event) {
     event.stopPropagation();
   }

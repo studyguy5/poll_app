@@ -91,6 +91,7 @@ export class ShowSurveyComponent {
   idForQuestions: number = 1
   allreadyFilled: Survey[] = []
   alreadyFilledSurveyIds: number[] = []
+  expired = false
 
   constructor(@Inject(DOCUMENT) document: Document, router: Router) {
     this.document = document;
@@ -114,6 +115,11 @@ export class ShowSurveyComponent {
 
     this.allreadyFilled = this.surveysData.surveys()
       .filter((survey) => this.alreadyFilledSurveyIds.includes(survey.id));
+      
+
+    if (this.id && +(((this.getDeadlineDate(this.survey!.deadline) - this.todayInMilliseconds)/86400000) +0.5).toFixed(0) < 0) {
+      this.expired = true
+    }
   }
 
   toggleStatistics() {
@@ -340,18 +346,52 @@ openResults(statisticsButton: Element, statisticsButtonLabel: Element, wrapper: 
  * @returns void
  */
   async submitCompletedSurvey() {
+    const surveyId = this.getCurrentId()
+    let id = surveyId as never
+    this.checkLocalStorageAndSetCurrentId(id)
+    this.checkIfAllQuestionsAnsweredAndShowErrorInCase();
+    for (let i = 0; i < this.choosenAnswerArray.length; i++) {
+      const { data, error } = await this.supabase
+      .from('choosenDetail')
+        .insert(this.choosenAnswerArray[i]);
+    }
+  }
+
+  /**
+   * @function getCurrentId is used to get the survey id from the url
+   * translates the string to a number
+   * @returns surveyId
+   */
+  getCurrentId(){
     const surveyId = this.route.snapshot.paramMap.get('id'); //survey id holen
     if (!surveyId) {
-      return;
+      return undefined;
     }
-    // localStorage.removeItem('surveyId')
-    let id = surveyId as never
+    return Number(surveyId);
+  }
+
+  /**
+   * @function checkLocalStorageAndSetCurrentId is used to check if the localstorage is empty and set the current id as
+   * "this user has already filled out this survey"
+   * @param id 
+   * @returns void
+   */
+  checkLocalStorageAndSetCurrentId(id: string) {
     let localstorageArr: string[] = JSON.parse(localStorage.getItem('surveyId') || '[]');
     if (!Array.isArray(localstorageArr)) {
       localstorageArr = [];
     }
     localstorageArr.push(id)
     localStorage.setItem('surveyId', JSON.stringify(localstorageArr));
+    
+  }
+  
+  /**
+   * @function checkIfAllQuestionsAnsweredAndShowErrorInCase is used to check if all questions have been answered and show an error message if not
+   * and hide the error message after 4000ms
+   * @returns void
+   */
+  checkIfAllQuestionsAnsweredAndShowErrorInCase(){
     const answeredQuestionIds = new Set(
       this.choosenAnswerArray.map(answer => answer.question_id)
     );
@@ -364,11 +404,6 @@ openResults(statisticsButton: Element, statisticsButtonLabel: Element, wrapper: 
         this.document.querySelector('.errorMessageSubmitt')?.classList.remove('active')
       }, 4000)
       return
-    }
-    for (let i = 0; i < this.choosenAnswerArray.length; i++) {
-      const { data, error } = await this.supabase
-        .from('choosenDetail')
-        .insert(this.choosenAnswerArray[i]);
     }
   }
 

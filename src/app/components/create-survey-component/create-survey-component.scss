@@ -115,7 +115,8 @@ body.survey-body {
         border-radius: 10px;
         color: white;
         cursor: pointer;
-
+        font-family:'Nokora', sans-serif;
+        font-size: 16px;
         &:hover {
             background-color: rgb(150, 117, 112);
         }
@@ -139,7 +140,8 @@ body.survey-body {
     background-color: rgb(255, 183, 112);
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-
+    font-family: 'Nokora', sans-serif;
+    font-size:16px;
     >img {
         transition: all 0.3s ease-in-out;
         opacity: 0;
@@ -182,8 +184,10 @@ body.survey-body {
 
 .surveyNameAria {
     >p {
+        font-family: 'Mulish', sans-serif;
         font-size:18px;
         color: white;
+        height:23px;
     }
 
     margin-bottom: 5px;
@@ -265,10 +269,11 @@ body.survey-body {
         border-color: transparent;
         height: 32px;
         width: 206px;
+        font-size:16px;
         color: white;
         background-color: transparent;
         cursor: pointer;
-
+        font-family: 'Mulish', sans-serif;
         >img {
             transition: all 0.5s ease-in-out;
             transform: rotateZ(0deg);
@@ -344,6 +349,7 @@ body.survey-body {
 
 .inputFieldSite {
     >p {
+        font-family: 'Mulish', sans-serif;
         color: white;
         align-self: center;
         margin-top: 2px;
@@ -397,6 +403,7 @@ body.survey-body {
     height: 178px;
 
     >p {
+        font-family: 'Mulish', sans-serif;
         margin: 10px;
         color: white;
     }
@@ -507,7 +514,7 @@ body.survey-body {
     >p {
         color: white;
         font-family: 'Mulish', sans-serif;
-        font-size: 12px;
+        font-size: 16px;
     }
     input[type="checkbox"]:checked {
         appearance: none;
@@ -586,7 +593,7 @@ body.survey-body {
     text-decoration-thickness: 1px;
     text-underline-offset: 5px;
     color: white;
-    font-family: 'Mulish', sans-serif;
+    font-family: 'Nokora', sans-serif;
     font-size: 16px;
     // border-bottom: 2px solid white;
     padding: 5px 5px;
@@ -613,7 +620,7 @@ body.survey-body {
     background-color: rgb(123, 90, 84);
     border: 1px solid rgb(123, 90, 84);
     color: white;
-    font-family: 'Mulish', sans-serif;
+    font-family: 'Nokora', sans-serif;
     font-size: 16px;
     padding: 8px 12px;
     cursor: pointer;
@@ -837,4 +844,18 @@ body.survey-body {
     .descriptionAria{
         margin-left:0px;
     }
+}
+
+@media(max-width:380px){
+    .checkboxAndPtag{
+        >p{
+            font-size:14px;
+            width:120px;
+            text-wrap:balance;
+            margin-right:-10px;
+        }
+    }
+    .setEndDateInputAndImg{
+        margin-left:1px;
+    } 
 }

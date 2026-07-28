@@ -76,21 +76,23 @@ body.show-body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0px 10px;
+    padding: 0px 15px 0px 0px;
 
     >img {
         width: 150px;
         height: 50px;
+        cursor: pointer;
     }
 
     >button {
         cursor: pointer;
         font-family: 'Nokora', sans-serif;
-        padding: 10px 25px;
+        font-size: 18px;
+        padding: 10px 25px 10px 15px;
         border-radius: 10px;
         border: transparent;
         background-color: rgba(255, 207, 161, 1);
-        width: 115px;
+        width: 125px;
         display: flex;
         align-items: center;
         transition: all 0.3s ease-in-out;
@@ -107,7 +109,7 @@ body.show-body {
 
         &:hover {
             transition: all 0.3s ease-in-out;
-            width: 150px;
+            width: 170px;
             background-color: rgb(255, 183, 112);
 
         }
@@ -135,7 +137,7 @@ body.show-body {
     display: flex;
     position: relative;
     padding: 40px 40px 40px 40px;
-    margin: 0px 20px 0px 10px;
+    margin: 0px 20px 0px 15px;
     box-sizing: border-box;
     flex-direction: column;
     width: 100%;
@@ -185,6 +187,9 @@ body.show-body {
 
     >.question {
         font-size: 18px;
+        >.multipleAnswers {
+            font-size:16px;
+        }
 
     }
 
@@ -231,10 +236,11 @@ body.show-body {
 .completeSurveyButton {
     cursor: pointer;
     font-family: 'Mulish', sans-serif;
+    font-size: 16px;
     display: flex;
     align-self: end;
     justify-self: end;
-    width: 130px;
+    width: 150px;
     padding: 8px 12px;
     border-radius: 10px;
     border: 1px solid rgba(255, 183, 112, 0.3);
@@ -250,16 +256,18 @@ body.show-body {
     cursor: pointer;
     display: flex;
     align-self: start;
-    justify-self: space-between;
+    justify-content: space-between;
     align-items: center;
     gap:8px;
-    width: 133px;
+    width: 143px;
     height:32px;
     margin-top:56px;
     margin-left:50px;
     padding: 8px 12px;
     border-radius: 10px;
     border: transparent;
+    font-size:16px;
+    font-family: 'Mulish', sans-serif;
     background-color: rgba(255, 255, 255, 0.356);
     img:nth-child(2){ 
         width: 15px;
@@ -316,6 +324,7 @@ body.show-body {
 
     .live {
         color: rgb(255, 183, 112);
+        font-family: 'Nerko One', sans-serif;
         font-size: 32px;
         margin: 0px;
     }
@@ -330,6 +339,7 @@ body.show-body {
         align-items: center;
         position:static;
         right:30px;
+        border: transparent;
         border-radius: 100%;
         margin-bottom:10px;
     }
@@ -430,7 +440,7 @@ body.show-body {
 
 }
 
-@media(max-width:730px) {
+@media(max-width:750px) {
     .surveyWrapperLeftSide {
         width: unset;
     }
@@ -452,6 +462,10 @@ body.show-body {
             flex-direction: column;
         }
     }
+     .surveyWrapperLeftSide {
+        padding: 40px 20px 40px 20px;
+        border-top-right-radius:80px;
+    }
 }
 
 @media(max-width:640px) {
@@ -469,12 +483,30 @@ body.show-body {
 
 @media(max-width:440px) {
     .surveyWrapperLeftSide {
-        padding: 40px 40px 40px 20px;
+        padding: 30px 10px 30px 10px;
+        border-top-right-radius:80px;
+        margin:0px 15px;
     }
 
     .mainSurvey {
         >.mainSurveyHeadline {
-            font-size: 25px;
+            font-size: 30px;
+            text-wrap:balance;
+        }
+    }
+    .statisticsWrapperRightSide{
+        margin-left:25px;
+        h2{
+            font-size:27px;
+        }
+        .live{
+            font-size:25px;
+        }
+        .point{
+            font-size:25px;
+            margin-bottom:10px;
+            height:20px;
+            border-radius:25px;
         }
     }
 }
